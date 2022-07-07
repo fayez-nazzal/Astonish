@@ -1,7 +1,7 @@
 {
-  "name": "react-rollup-component-library",
-  "version": "1.0.0",
-  "description": "A boilerplate for a component library using rollup, typescript, storybook, sass, jest, eslint, prettier and stylelint.",
+  "name": "astonish",
+  "version": "0.0.1",
+  "description": "Create astonishing presentations using ReactJS and your creative mind.",
   "license": "MIT",
   "main": "build/index.js",
   "module": "build/index.esm.js",
@@ -17,8 +17,8 @@
     "prepublishOnly": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prettier": "prettier --write src/**/*.{js,tsx,scss}",
-    "eslint": "eslint ./**/*.{js,tsx,scss}",
+    "prettier": "prettier --write src/**/*.{tsx,scss}",
+    "eslint": "eslint ./**/*.tsx",
     "stylelint": "stylelint \"**/*.{css,scss}\"",
     "lint": "npm run test && npm run prettier && npm run eslint && npm run stylelint"
   },
