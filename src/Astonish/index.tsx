@@ -10,6 +10,7 @@ const Astonish: React.FC<AstonishProps> = ({ children }) => {
   const [childrenToRender, setChildrenToRender] = React.useState<
     typeof children
   >([]);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const childrenToRender = [];
@@ -33,6 +34,8 @@ const Astonish: React.FC<AstonishProps> = ({ children }) => {
 
     setNumberOfSlides(currentLoopedSlideIndex);
     setChildrenToRender(childrenToRender);
+
+    ref.current!.focus();
   }, [children, currentSlide]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -53,6 +56,7 @@ const Astonish: React.FC<AstonishProps> = ({ children }) => {
       data-testid="astonish"
       tabIndex={0}
       onKeyDown={onKeyDown}
+      ref={ref}
     >
       {childrenToRender}
     </div>
