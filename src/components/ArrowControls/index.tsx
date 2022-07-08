@@ -1,5 +1,5 @@
 import React from "react";
-import SVGButton from "../ui/SVGButton";
+import SVGButton from "../../ui/SVGButton";
 import Chevron from "./chevron";
 import { IArrowControlsProps } from "./index.types";
 import { getWrongParentErrorMessage } from "./index.utils";
