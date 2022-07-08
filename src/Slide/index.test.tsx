@@ -6,13 +6,15 @@ import { getWrongParentErrorMessage } from "./index.utils";
 
 describe("Testing Slide Component", () => {
   it("Throws error when not child of Astonish", () => {
+    console.error = () => {};
+
     expect(() => render(<Slide>test</Slide>)).toThrow(
       getWrongParentErrorMessage()
     );
   });
 
   it("renders correctly when child of astonish", () => {
-    const { getByText } = render(
+    const { queryByText } = render(
       <Astonish>
         <Slide>
           <div>test</div>
@@ -20,6 +22,6 @@ describe("Testing Slide Component", () => {
       </Astonish>
     );
 
-    expect(getByText("test")).toBeInTheDocument();
+    expect(queryByText("test")).toBeInTheDocument();
   });
 });

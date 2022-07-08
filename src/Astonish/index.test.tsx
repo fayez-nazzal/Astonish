@@ -14,14 +14,18 @@ const Shared = () => {
 
 describe("Test Astonish Component", () => {
   it(`Throws error when providing wrong children`, () => {
-    expect(() =>
-      render(
-        <Astonish>
-          <SampleComponent />
-          <SampleComponent />
-        </Astonish>
-      )
-    ).toThrow(getWrongChildrenErrorMessage((<SampleComponent />).type.name));
+    console.error = () => {};
+
+    try {
+      expect(() =>
+        render(
+          <Astonish>
+            <SampleComponent />
+            <SampleComponent />
+          </Astonish>
+        )
+      ).toThrow(getWrongChildrenErrorMessage((<SampleComponent />).type.name));
+    } catch {}
   });
 
   it("renders correctly when providing correct children", () => {

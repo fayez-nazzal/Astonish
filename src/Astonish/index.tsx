@@ -4,48 +4,106 @@ import { getWrongChildrenErrorMessage } from "./index.utils";
 
 import "./index.styles.scss";
 
-const Astonish: React.FC<AstonishProps> = ({ children }) => {
+const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
   const [childrenToRender, setChildrenToRender] = React.useState<
     typeof children
   >([]);
+
   const ref = React.useRef<HTMLDivElement>(null);
 
+  // count number of slides
   useEffect(() => {
-    const childrenToRender = [];
-    let currentLoopedSlideIndex = 0;
+    let nunberOfSlides = 0;
 
     React.Children.forEach(children, (child: JSX.Element) => {
-      // get child name
       const childName = child.type.name || child.type;
 
-      if (!["Shared", "Slide"].includes(childName)) {
+      if (!["Shared", "Slide", "ArrowControls"].includes(childName)) {
         throw new Error(getWrongChildrenErrorMessage(childName));
       }
 
-      if (childName !== "Slide" || currentLoopedSlideIndex === currentSlide)
+      if (childName === "Slide") nunberOfSlides++;
+    });
+
+    setNumberOfSlides(nunberOfSlides);
+  }, [children]);
+
+  // get components to render
+  useEffect(() => {
+    if (numberOfSlides === 0) return;
+
+    const childrenToRender = [];
+    let currentLoopedSlideIndex = 0;
+
+    React.Children.forEach(children, (child: JSX.Element, index) => {
+      // get child name
+      const childName = child.type.name || child.type;
+
+      if (childName === "ArrowControls")
         childrenToRender.push(
-          React.cloneElement(child, { _childOfAstonish: true })
+          React.cloneElement(child, {
+            _onNext,
+            _onPrevious,
+            _onNextDisabled:
+              !infiniteControls &&
+              currentSlide === numberOfSlides &&
+              numberOfSlides !== 0,
+            _onPreviousDisabled: !infiniteControls && currentSlide === 0,
+            key: `astonish-${childName}-${index}`,
+            _childOfAstonish: true,
+          })
+        );
+      else if (
+        childName !== "Slide" ||
+        currentLoopedSlideIndex === currentSlide
+      )
+        childrenToRender.push(
+          React.cloneElement(child, {
+            _childOfAstonish: true,
+            key: `astonish-${childName}-${index}`,
+          })
         );
 
       if (childName === "Slide") currentLoopedSlideIndex++;
     });
 
-    setNumberOfSlides(currentLoopedSlideIndex);
     setChildrenToRender(childrenToRender);
 
+    // autofocus astonish
     ref.current!.focus();
-  }, [children, currentSlide]);
+  }, [children, currentSlide, numberOfSlides]);
+
+  const _onPrevious = () => {
+    const previousSlide =
+      currentSlide - 1 < 0
+        ? infiniteControls
+          ? numberOfSlides - 1
+          : 0
+        : currentSlide - 1;
+
+    setCurrentSlide(previousSlide);
+  };
+
+  const _onNext = () => {
+    const nextSlide = infiniteControls
+      ? (currentSlide + 1) % numberOfSlides
+      : currentSlide + 1 > numberOfSlides
+      ? numberOfSlides - 1
+      : currentSlide + 1;
+
+    setCurrentSlide(nextSlide);
+  };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "ArrowLeft") {
-      setCurrentSlide((prev) => (prev - 1 < 0 ? 0 : prev - 1));
+      _onPrevious();
       e.preventDefault();
     }
 
     if (e.key === "ArrowRight") {
-      setCurrentSlide((prev) => (prev + 1) % numberOfSlides);
+      _onNext();
       e.preventDefault();
     }
   };
