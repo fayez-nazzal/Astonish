@@ -8,8 +8,6 @@
         -- index.test.tsx or index.spec.tsx
 */
 
-import ExampleComponent from "./Example";
+import Astonish from "./Astonish";
 
-export const test = "You will love this 🔥";
-
-export { ExampleComponent };
+export { Astonish };
