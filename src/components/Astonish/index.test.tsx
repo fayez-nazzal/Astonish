@@ -1,5 +1,11 @@
 import React from "react";
-import { render, fireEvent, screen, queryByText } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  screen,
+  queryByText,
+  waitFor,
+} from "@testing-library/react";
 import Astonish from ".";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 import Slide from "../Slide";
@@ -62,6 +68,6 @@ describe("Test Astonish Component", () => {
     fireEvent.keyDown(document.activeElement, { key: "ArrowRight" });
 
     expect(queryByText("Slide 2")).toBeInTheDocument();
-    expect(queryByText("Slide 1")).not.toBeInTheDocument();
+    await waitFor(() => expect(queryByText("Slide 1")).not.toBeInTheDocument());
   });
 });

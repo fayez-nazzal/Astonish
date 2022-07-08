@@ -3,6 +3,7 @@ import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 
 import "./index.styles.scss";
+import { AnimatePresence } from "framer-motion";
 
 const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -10,6 +11,7 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   const [childrenToRender, setChildrenToRender] = React.useState<
     typeof children
   >([]);
+  const [disableTransition, setDisableTransition] = React.useState(false);
 
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -47,9 +49,7 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
             _onNext,
             _onPrevious,
             _onNextDisabled:
-              !infiniteControls &&
-              currentSlide === numberOfSlides &&
-              numberOfSlides !== 0,
+              !infiniteControls && currentSlide === numberOfSlides - 1,
             _onPreviousDisabled: !infiniteControls && currentSlide === 0,
             key: `astonish-${childName}-${index}`,
             _childOfAstonish: true,
@@ -60,10 +60,14 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
         currentLoopedSlideIndex === currentSlide
       )
         childrenToRender.push(
-          React.cloneElement(child, {
-            _childOfAstonish: true,
-            key: `astonish-${childName}-${index}`,
-          })
+          <AnimatePresence>
+            {React.cloneElement(child, {
+              _childOfAstonish: true,
+              key: `astonish-${childName}-${index}`,
+              _disableTransition: disableTransition,
+              _disableInitialTransition: currentLoopedSlideIndex === 0,
+            })}
+          </AnimatePresence>
         );
 
       if (childName === "Slide") currentLoopedSlideIndex++;
@@ -76,6 +80,8 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   }, [children, currentSlide, numberOfSlides]);
 
   const _onPrevious = () => {
+    setDisableTransition(true);
+
     const previousSlide =
       currentSlide - 1 < 0
         ? infiniteControls
@@ -87,9 +93,11 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   };
 
   const _onNext = () => {
+    setDisableTransition(false);
+
     const nextSlide = infiniteControls
       ? (currentSlide + 1) % numberOfSlides
-      : currentSlide + 1 > numberOfSlides
+      : currentSlide + 1 >= numberOfSlides
       ? numberOfSlides - 1
       : currentSlide + 1;
 

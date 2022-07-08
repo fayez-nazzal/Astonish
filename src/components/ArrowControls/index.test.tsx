@@ -1,4 +1,9 @@
-import { fireEvent, render } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  queryByText,
+  waitFor,
+} from "@testing-library/react";
 import React from "react";
 import ArrowControls from ".";
 import Slide from "../Slide";
@@ -27,7 +32,7 @@ describe("Testing ArrowControls Component", () => {
     expect(queryByTestId("arrow-controls-right")).toBeInTheDocument();
   });
 
-  it("goes next slide when arrow right is clicked", () => {
+  it("goes next slide when arrow right is clicked", async () => {
     const { queryByTestId, queryByText } = render(
       <Astonish>
         <ArrowControls />
@@ -43,9 +48,10 @@ describe("Testing ArrowControls Component", () => {
     fireEvent.click(queryByTestId("arrow-controls-right"));
 
     expect(queryByText("Slide 2")).toBeInTheDocument();
+    await waitFor(() => expect(queryByText("Slide 1")).not.toBeInTheDocument());
   });
 
-  it("goes previous slide when arrow left is clicked", () => {
+  it("goes previous slide when arrow left is clicked", async () => {
     const { queryByTestId, queryByText } = render(
       <Astonish>
         <ArrowControls />
@@ -63,5 +69,6 @@ describe("Testing ArrowControls Component", () => {
     fireEvent.click(queryByTestId("arrow-controls-left"));
 
     expect(queryByText("Slide 1")).toBeInTheDocument();
+    await waitFor(() => expect(queryByText("Slide 2")).not.toBeInTheDocument());
   });
 });

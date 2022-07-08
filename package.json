@@ -77,7 +77,9 @@
     "url-loader": "^4.1.1",
     "webpack": "5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "framer-motion": "^6.4.2"
+  },
   "pre-commit": [
     "lint"
   ]
