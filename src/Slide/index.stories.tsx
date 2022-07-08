@@ -8,13 +8,12 @@ export default {
   title: "Slide",
 };
 
-const SlideStory: Story<ISlideProps> = (args) => (
+const SlideStory: Story<ISlideProps> = () => (
   <Astonish>
-    <Slide {...args} />
+    <Slide>Slide 1</Slide>
+    <Slide>Slide 2</Slide>
+    <Slide>Slide 3</Slide>
   </Astonish>
 );
 
 export const SlideStoryComponent = SlideStory.bind({});
-SlideStoryComponent.args = {
-  children: <div>Slide</div>,
-};

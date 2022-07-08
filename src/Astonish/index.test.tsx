@@ -1,7 +1,8 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent, screen, queryByText } from "@testing-library/react";
 import Astonish from ".";
 import { getWrongChildrenErrorMessage } from "./index.utils";
+import Slide from "../Slide";
 
 const SampleComponent = () => {
   return <div>Hello</div>;
@@ -9,10 +10,6 @@ const SampleComponent = () => {
 
 const Shared = () => {
   return <div>Shared</div>;
-};
-
-const Slide = () => {
-  return <div>Slide</div>;
 };
 
 describe("Test Astonish Component", () => {
@@ -31,11 +28,36 @@ describe("Test Astonish Component", () => {
     const { getByText } = render(
       <Astonish>
         <Shared />
-        <Slide />
+        <Slide>Slide 1</Slide>
+        <Slide>Slide 2</Slide>
       </Astonish>
     );
 
     expect(getByText("Shared")).toBeInTheDocument();
-    expect(getByText("Slide")).toBeInTheDocument();
+    expect(getByText("Slide 1")).toBeInTheDocument();
+  });
+
+  it("Goes next slide when pressing ArrowRight", async () => {
+    const component = (
+      <Astonish>
+        <Shared />
+        <Slide>Slide 1</Slide>
+        <Slide>Slide 2</Slide>
+      </Astonish>
+    );
+
+    render(component);
+
+    const { queryByText, getByTestId } = screen;
+
+    expect(queryByText("Slide 1")).toBeInTheDocument();
+    expect(queryByText("Slide 2")).not.toBeInTheDocument();
+
+    getByTestId("astonish").focus();
+
+    fireEvent.keyDown(document.activeElement, { key: "ArrowRight" });
+
+    expect(queryByText("Slide 2")).toBeInTheDocument();
+    expect(queryByText("Slide 1")).not.toBeInTheDocument();
   });
 });
