@@ -3,6 +3,8 @@ import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 
 import "./index.styles.scss";
+import "../../global.scss";
+
 import { AnimatePresence } from "framer-motion";
 
 const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {

@@ -23,12 +23,7 @@ const Slide = ({
     <motion.div
       {...(_disableTransition ? {} : transition)}
       {...(!_disableInitialTransition ? {} : { initial: false })}
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        background: "gray",
-      }}
+      className="full-slide"
       transition={{ duration: 0.6, type: "spring" }}
     >
       {children}

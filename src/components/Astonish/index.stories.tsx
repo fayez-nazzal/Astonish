@@ -1,6 +1,8 @@
 import { Story } from "@storybook/react";
 import React from "react";
 import Astonish from ".";
+import Shared from "../Shared";
+import Slide from "../Slide";
 import { AstonishProps } from "./index.types";
 
 export default {
@@ -9,10 +11,7 @@ export default {
 
 const AstonishStory: Story<AstonishProps> = (args) => <Astonish {...args} />;
 
-const Shared = () => <div>Shared</div>;
-const Slide = () => <div>Slide</div>;
-
 export const AstonhisStoryComponent = AstonishStory.bind({});
 AstonhisStoryComponent.args = {
-  children: [<Shared key="shared" />, <Slide key="slide" />],
+  children: [<Slide key="slide">slide content</Slide>],
 };
