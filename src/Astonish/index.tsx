@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 
@@ -12,7 +12,7 @@ const Astonish: React.FC<AstonishProps> = ({ children }) => {
         throw new Error(getWrongChildrenErrorMessage(childName));
       }
 
-      return child;
+      return React.cloneElement(child, { _childOfAstonish: true });
     });
   };
 
