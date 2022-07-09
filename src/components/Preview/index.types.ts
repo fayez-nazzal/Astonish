@@ -1,5 +1,4 @@
 export interface IPreviewProps {
-  orientation?: "horizontal" | "vertical";
   _children?: any;
   _childOfAstonish?: boolean;
   _goToSlide?: (slideIndex: number) => void;

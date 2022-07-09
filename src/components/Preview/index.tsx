@@ -7,7 +7,6 @@ import "./index.styles.scss";
 const Preview = ({
   _children,
   _childOfAstonish,
-  orientation = "vertical",
   _goToSlide,
   _currentSlide,
 }: IPreviewProps) => {
