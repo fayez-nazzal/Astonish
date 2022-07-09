@@ -2,10 +2,9 @@
   width: 200px;
   max-height: 100%;
   overflow: auto;
-  border-radius: 4px;
   border-right: 1px solid #aaa;
-  box-shadow: 0 0 8px rgb(0 0 0 / 10%);
-  z-index: 1000;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  padding-right: 2px;
 }
 
 .slide-preview {
@@ -19,16 +18,16 @@
   &:hover {
     opacity: 1;
     cursor: pointer;
-    background-color: #4b82b488;
+    background-color: #4b82b444;
   }
 
   &:active {
-    background-color: #4b82b4aa;
+    background-color: #4b82b477;
   }
 
   &.slide-preview-active {
     opacity: 1;
-    background-color: #4b82b4cc;
+    background-color: #4b82b4aa;
   }
 
   & .slide-preview-index {
@@ -37,7 +36,7 @@
 
   & .slide-preview-slide {
     border: 1px solid #8a8a8a;
-    background-color: rgb(0 0 0 / 22%);
+    background-color: rgba(0, 0, 0, 0.22);
     width: 100%;
   }
 }
