@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 
@@ -13,6 +13,8 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   const [childrenToRender, setChildrenToRender] = React.useState<
     typeof children
   >([]);
+  const [previewComponent, setPreviewComponent] =
+    React.useState<ReactElement>();
   const [disableTransition, setDisableTransition] = React.useState(false);
 
   const ref = React.useRef<HTMLDivElement>(null);
@@ -24,11 +26,15 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
     React.Children.forEach(children, (child: JSX.Element) => {
       const childName = child.type.name || child.type;
 
-      if (!["Shared", "Slide", "ArrowControls"].includes(childName)) {
+      if (
+        !["Shared", "Slide", "ArrowControls", "Preview"].includes(childName)
+      ) {
         throw new Error(getWrongChildrenErrorMessage(childName));
       }
 
       if (childName === "Slide") nunberOfSlides++;
+
+      console.log(child);
     });
 
     setNumberOfSlides(nunberOfSlides);
@@ -40,6 +46,7 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
 
     const childrenToRender = [];
     let currentLoopedSlideIndex = 0;
+    const slides = [];
 
     React.Children.forEach(children, (child: JSX.Element, index) => {
       // get child name
@@ -57,22 +64,34 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
             _childOfAstonish: true,
           })
         );
-      else if (
+      else if (childName === "Preview") {
+        setPreviewComponent(
+          React.cloneElement(child, {
+            key: `astonish-${childName}-${index}`,
+            _childOfAstonish: true,
+            _children: slides,
+            _goToSlide,
+            _currentSlide: currentSlide,
+          })
+        );
+      } else if (
         childName !== "Slide" ||
         currentLoopedSlideIndex === currentSlide
       )
         childrenToRender.push(
-          <AnimatePresence>
+          <AnimatePresence key={`astonish-${childName}-${index}`}>
             {React.cloneElement(child, {
               _childOfAstonish: true,
-              key: `astonish-${childName}-${index}`,
               _disableTransition: disableTransition,
               _disableInitialTransition: currentLoopedSlideIndex === 0,
             })}
           </AnimatePresence>
         );
 
-      if (childName === "Slide") currentLoopedSlideIndex++;
+      if (childName === "Slide") {
+        currentLoopedSlideIndex++;
+        slides.push(child);
+      }
     });
 
     setChildrenToRender(childrenToRender);
@@ -80,6 +99,11 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
     // autofocus astonish
     ref.current!.focus();
   }, [children, currentSlide, numberOfSlides]);
+
+  const _goToSlide = (slideIndex: number) => {
+    setDisableTransition(true);
+    setCurrentSlide(slideIndex);
+  };
 
   const _onPrevious = () => {
     setDisableTransition(true);
@@ -126,7 +150,8 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
       onKeyDown={onKeyDown}
       ref={ref}
     >
-      {childrenToRender}
+      {previewComponent}
+      <div className="astonish-inner">{childrenToRender}</div>
     </div>
   );
 };
