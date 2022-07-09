@@ -14,10 +14,6 @@ const SampleComponent = () => {
   return <div>Hello</div>;
 };
 
-const Shared = () => {
-  return <div>Shared</div>;
-};
-
 describe("Test Astonish Component", () => {
   it(`Throws error when providing wrong children`, () => {
     console.error = () => {};
@@ -37,20 +33,17 @@ describe("Test Astonish Component", () => {
   it("renders correctly when providing correct children", () => {
     const { getByText } = render(
       <Astonish>
-        <Shared />
         <Slide>Slide 1</Slide>
         <Slide>Slide 2</Slide>
       </Astonish>
     );
 
-    expect(getByText("Shared")).toBeInTheDocument();
     expect(getByText("Slide 1")).toBeInTheDocument();
   });
 
   it("Goes next slide when pressing ArrowRight", async () => {
     const component = (
       <Astonish>
-        <Shared />
         <Slide>Slide 1</Slide>
         <Slide>Slide 2</Slide>
       </Astonish>

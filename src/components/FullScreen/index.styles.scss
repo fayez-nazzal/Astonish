@@ -1,0 +1,15 @@
+.full-screen {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  opacity: 0.78;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  &:active {
+    opacity: 1;
+  }
+}

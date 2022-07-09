@@ -40,4 +40,6 @@ const ArrowControls = ({
   );
 };
 
+ArrowControls.displayName = "ArrowControls";
+
 export default ArrowControls;

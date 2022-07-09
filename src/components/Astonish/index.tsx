@@ -6,6 +6,7 @@ import "./index.styles.scss";
 import "../../global.scss";
 
 import { AnimatePresence } from "framer-motion";
+import fscreen from "fscreen";
 
 const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -15,7 +16,10 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
   >([]);
   const [previewComponent, setPreviewComponent] =
     React.useState<ReactElement>();
+  const [fullScrenComponent, setFullScreenComponent] =
+    React.useState<ReactElement>();
   const [disableTransition, setDisableTransition] = React.useState(false);
+  const [isFullScreen, setIsFullScreen] = React.useState(false);
 
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -24,17 +28,17 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
     let nunberOfSlides = 0;
 
     React.Children.forEach(children, (child: JSX.Element) => {
-      const childName = child.type.name || child.type;
+      const childName = child.type.displayName || child.type;
 
       if (
-        !["Shared", "Slide", "ArrowControls", "Preview"].includes(childName)
+        !["Shared", "Slide", "ArrowControls", "Preview", "FullScreen"].includes(
+          childName
+        )
       ) {
         throw new Error(getWrongChildrenErrorMessage(childName));
       }
 
       if (childName === "Slide") nunberOfSlides++;
-
-      console.log(child);
     });
 
     setNumberOfSlides(nunberOfSlides);
@@ -50,7 +54,7 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
 
     React.Children.forEach(children, (child: JSX.Element, index) => {
       // get child name
-      const childName = child.type.name || child.type;
+      const childName = child.type.displayName || child.type;
 
       if (childName === "ArrowControls")
         childrenToRender.push(
@@ -67,11 +71,18 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
       else if (childName === "Preview") {
         setPreviewComponent(
           React.cloneElement(child, {
-            key: `astonish-${childName}-${index}`,
             _childOfAstonish: true,
             _children: slides,
             _goToSlide,
             _currentSlide: currentSlide,
+          })
+        );
+      } else if (childName === "FullScreen") {
+        setFullScreenComponent(
+          React.cloneElement(child, {
+            _isFullScreen: isFullScreen,
+            _setIsFullScreen: setIsFullScreen,
+            _childOfAstonish: true,
           })
         );
       } else if (
@@ -98,7 +109,7 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
 
     // autofocus astonish
     ref.current!.focus();
-  }, [children, currentSlide, numberOfSlides]);
+  }, [children, currentSlide, numberOfSlides, isFullScreen]);
 
   const _goToSlide = (slideIndex: number) => {
     setDisableTransition(true);
@@ -140,6 +151,11 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
       _onNext();
       e.preventDefault();
     }
+
+    // handle full screen exit
+    if (e.key === "Escape" || e.key === "F11") {
+      setIsFullScreen(false);
+    }
   };
 
   return (
@@ -152,8 +168,12 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
     >
       {previewComponent}
       <div className="astonish-inner">{childrenToRender}</div>
+
+      {fullScrenComponent}
     </div>
   );
 };
+
+Astonish.displayName = "Astonish";
 
 export default Astonish;

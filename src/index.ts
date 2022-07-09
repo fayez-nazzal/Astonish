@@ -8,6 +8,11 @@
         -- index.test.tsx or index.spec.tsx
 */
 
-import Astonish from "./Astonish";
+import Astonish from "./components/Astonish";
+import Slide from "./components/Slide";
+import Shared from "./components/Shared";
+import Preview from "./components/Preview";
+import FullScreen from "./components/FullScreen";
+import ArrowControls from "./components/ArrowControls";
 
-export { Astonish };
+export { Astonish, Slide, Shared, Preview, FullScreen, ArrowControls };

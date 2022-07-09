@@ -31,4 +31,6 @@ const Slide = ({
   );
 };
 
+Slide.displayName = "Slide";
+
 export default Slide;

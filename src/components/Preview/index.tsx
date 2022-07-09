@@ -30,6 +30,8 @@ const Preview = ({
   );
 };
 
+Preview.displayName = "Preview";
+
 export default Preview;
 
 const SlidePreview = ({
