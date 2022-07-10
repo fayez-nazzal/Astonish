@@ -166,7 +166,7 @@ const Astonish: React.FC<AstonishProps> = ({ children, infiniteControls }) => {
       onKeyDown={onKeyDown}
       ref={ref}
     >
-      {previewComponent}
+      {!isFullScreen && previewComponent}
       <div className="astonish-inner">{childrenToRender}</div>
 
       {fullScrenComponent}

@@ -11,6 +11,7 @@ const FUllScreenIcon = () => {
       viewBox="0 0 512 512"
       width="28px"
       height="28px"
+      fill="#4b82b4"
     >
       <g>
         <g>

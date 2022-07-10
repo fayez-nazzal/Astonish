@@ -29,7 +29,9 @@ const FullScreen = ({
 
   const onFullScreenClick = () => {
     if (fscreen.fullscreenElement === null) {
-      fscreen.requestFullscreen(document.documentElement);
+      try {
+        fscreen.requestFullscreen(document.documentElement);
+      } catch {}
       _setIsFullScreen(true);
     } else {
       fscreen.exitFullscreen();

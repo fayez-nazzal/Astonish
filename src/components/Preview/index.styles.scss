@@ -3,9 +3,10 @@
   max-height: 100%;
   overflow: auto;
   border-right: 1px solid #aaa;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px #0000001a;
   padding-right: 2px;
   z-index: 1000;
+  perspective: 1;
   background-color: white;
 }
 

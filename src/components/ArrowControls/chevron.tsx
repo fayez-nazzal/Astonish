@@ -10,7 +10,10 @@ const Chevron = ({ direction }: IChevronProps) => {
       xmlns="http://www.w3.org/2000/svg"
       transform={`rotate(${direction !== "left" ? "180" : "0"})`}
     >
-      <path fill="#444" d="M2.9 8l8-8 2.2 2.1-5.9 5.9 5.9 5.9-2.2 2.1z"></path>
+      <path
+        fill="#4b82b4"
+        d="M2.9 8l8-8 2.2 2.1-5.9 5.9 5.9 5.9-2.2 2.1z"
+      ></path>
     </svg>
   );
 };

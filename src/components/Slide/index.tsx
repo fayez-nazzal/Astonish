@@ -9,7 +9,7 @@ import {
 const Slide = ({
   children,
   _childOfAstonish,
-  transition = generateCustomTransition("spring", 0.32, {
+  transition = generateCustomTransition("tween", 0.32, {
     x: { from: "105%", to: 0 },
   }),
   _disableTransition,
