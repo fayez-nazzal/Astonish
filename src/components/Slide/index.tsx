@@ -25,6 +25,7 @@ const Slide = ({
       {...(!_disableInitialTransition ? {} : { initial: false })}
       className="full-slide"
       transition={{ duration: 0.6, type: "spring" }}
+      style={{ zIndex: 60 }}
     >
       {children}
     </motion.div>
