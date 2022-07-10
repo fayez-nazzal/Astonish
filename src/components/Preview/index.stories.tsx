@@ -11,7 +11,21 @@ export default {
 
 const PreviewStory: Story<IPreviewProps> = () => (
   <Astonish>
-    <Slide>Slide 1</Slide>
+    <Slide>
+      <div
+        style={{
+          background: "grey",
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 80,
+        }}
+      >
+        Slide 1
+      </div>
+    </Slide>
     <Slide>Slide 2</Slide>
     <Slide>Slide 3</Slide>
     <Slide>Slide 4</Slide>

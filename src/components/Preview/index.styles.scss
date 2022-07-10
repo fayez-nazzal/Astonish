@@ -11,7 +11,7 @@
 }
 
 .slide-preview {
-  width: 99%;
+  width: 180px;
   height: 100px;
   position: relative;
   opacity: 0.78;
@@ -42,4 +42,17 @@
     background-color: rgba(0, 0, 0, 0.22);
     width: 100%;
   }
+}
+
+.slide-to-snapshot {
+  background: white;
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+}
+
+.snapshot-children {
+  width: 100vw;
+  height: 100vh;
 }
