@@ -9,6 +9,7 @@ const Preview = ({
   _childOfAstonish,
   _goToSlide,
   _currentSlide,
+  defaultBackgroundColor,
 }: IPreviewProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage());
@@ -23,6 +24,7 @@ const Preview = ({
             onClick={() => _goToSlide(index)}
             active={_currentSlide === index}
             index={index}
+            defaultBackgroundColor={defaultBackgroundColor}
           />
         );
       })}
@@ -39,12 +41,18 @@ const SlidePreview = ({
   onClick,
   active,
   index,
+  defaultBackgroundColor,
 }: ISlidePreviewProps) => {
   const [snapshot, setSnapshot] = React.useState();
 
   return !snapshot ? (
     <div className="slide-to-snapshot">
-      <SnapshotChildren setSnapshot={setSnapshot}>{children}</SnapshotChildren>
+      <SnapshotChildren
+        defaultBackgroundColor={defaultBackgroundColor}
+        setSnapshot={setSnapshot}
+      >
+        {children}
+      </SnapshotChildren>
     </div>
   ) : (
     <div
@@ -71,29 +79,19 @@ const SlidePreview = ({
 const SnapshotChildren = ({
   children,
   setSnapshot,
+  defaultBackgroundColor,
 }: {
   children: JSX.Element;
   setSnapshot: (image: any) => void;
+  defaultBackgroundColor: string;
 }) => {
   const [image, takeScreenShot] = useScreenshot();
   const ref = useRef();
 
   useEffect(() => {
-    // first, hide astonish inner
-    const astonishInner = document.querySelector(
-      ".astonish-inner"
-    ) as HTMLElement;
-
-    astonishInner.style.display = "none";
-
     setTimeout(() => {
       takeScreenShot(ref.current);
-    }, 1000);
-
-    return () => {
-      // on unmount, show astonish inner
-      astonishInner.style.display = "block";
-    };
+    }, 800);
   }, []);
 
   useEffect(() => {
@@ -105,7 +103,11 @@ const SnapshotChildren = ({
   return (
     <>
       {image ? null : (
-        <div className="snapshot-children" ref={ref}>
+        <div
+          className="snapshot-children"
+          ref={ref}
+          style={{ backgroundColor: defaultBackgroundColor }}
+        >
           {children}
         </div>
       )}

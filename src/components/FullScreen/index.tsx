@@ -27,12 +27,19 @@ const FullScreen = ({
     }
   }, [_isFullScreen]);
 
+  const requestFullscreen = async () => {
+    try {
+      // focus on document to prevent weird behavior
+      document.documentElement.focus();
+
+      await fscreen.requestFullscreen(document.documentElement);
+    } catch {}
+    _setIsFullScreen(true);
+  };
+
   const onFullScreenClick = () => {
     if (fscreen.fullscreenElement === null) {
-      try {
-        fscreen.requestFullscreen(document.documentElement);
-      } catch {}
-      _setIsFullScreen(true);
+      requestFullscreen();
     } else {
       fscreen.exitFullscreen();
       _setIsFullScreen(false);

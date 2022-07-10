@@ -14,5 +14,14 @@ import Shared from "./components/Shared";
 import Preview from "./components/Preview";
 import FullScreen from "./components/FullScreen";
 import ArrowControls from "./components/ArrowControls";
+import { generateCustomTransition } from "./components/Slide/index.utils";
 
-export { Astonish, Slide, Shared, Preview, FullScreen, ArrowControls };
+export {
+  Astonish,
+  Slide,
+  Shared,
+  Preview,
+  FullScreen,
+  ArrowControls,
+  generateCustomTransition,
+};

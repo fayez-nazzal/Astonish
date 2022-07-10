@@ -42,7 +42,7 @@ const PreviewStory: Story<IPreviewProps> = () => (
     <Slide>Slide 15</Slide>
     <Slide>Slide 16</Slide>
 
-    <Preview />
+    <Preview defaultBackgroundColor="royalblue" />
   </Astonish>
 );
 

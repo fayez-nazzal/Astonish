@@ -3,6 +3,7 @@ export interface IPreviewProps {
   _childOfAstonish?: boolean;
   _goToSlide?: (slideIndex: number) => void;
   _currentSlide?: number;
+  defaultBackgroundColor?: string;
 }
 
 export interface ISlidePreviewProps {
@@ -10,4 +11,5 @@ export interface ISlidePreviewProps {
   children: any;
   onClick: () => void;
   active: boolean;
+  defaultBackgroundColor?: string;
 }
