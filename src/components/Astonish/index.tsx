@@ -150,12 +150,18 @@ const Astonish: React.FC<AstonishProps> = ({
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "ArrowLeft") {
+    if (e.key === "ArrowLeft" || e.key === "PageDown") {
       _onPrevious();
       e.preventDefault();
     }
 
-    if (e.key === "ArrowRight") {
+    if (
+      e.key === "ArrowRight" ||
+      e.key === " " ||
+      e.key === "Enter" ||
+      e.key == "Space" ||
+      e.key === "PageUp"
+    ) {
       _onNext();
       e.preventDefault();
     }
