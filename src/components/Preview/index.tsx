@@ -50,6 +50,7 @@ const SlidePreview = ({
       <SnapshotChildren
         defaultBackgroundColor={defaultBackgroundColor}
         setSnapshot={setSnapshot}
+        index={index}
       >
         {children}
       </SnapshotChildren>
@@ -80,10 +81,12 @@ const SnapshotChildren = ({
   children,
   setSnapshot,
   defaultBackgroundColor,
+  index,
 }: {
   children: JSX.Element;
   setSnapshot: (image: any) => void;
   defaultBackgroundColor: string;
+  index: number;
 }) => {
   const [image, takeScreenShot] = useScreenshot();
   const ref = useRef();
@@ -91,7 +94,7 @@ const SnapshotChildren = ({
   useEffect(() => {
     setTimeout(() => {
       takeScreenShot(ref.current);
-    }, 800);
+    }, 90 * index);
   }, []);
 
   useEffect(() => {

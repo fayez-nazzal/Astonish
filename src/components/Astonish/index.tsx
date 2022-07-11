@@ -6,7 +6,7 @@ import "./index.styles.scss";
 import "../../global.scss";
 
 import { AnimatePresence } from "framer-motion";
-import fscreen from "fscreen";
+import AstonishLoader from "./index.loader";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -24,7 +24,6 @@ const Astonish: React.FC<AstonishProps> = ({
     React.useState<ReactElement>();
   const [disableTransition, setDisableTransition] = React.useState(false);
   const [isFullScreen, setIsFullScreen] = React.useState(false);
-  const [loadingAstonish, setIsLoadingAstonish] = React.useState(true);
   const ref = React.useRef<HTMLDivElement>(null);
 
   // count number of slides
@@ -44,10 +43,6 @@ const Astonish: React.FC<AstonishProps> = ({
 
       if (childName === "Slide") nunberOfSlides++;
     });
-
-    setTimeout(() => {
-      setIsLoadingAstonish(false);
-    }, 2000);
 
     setNumberOfSlides(nunberOfSlides);
   }, [children]);
@@ -180,18 +175,10 @@ const Astonish: React.FC<AstonishProps> = ({
       onKeyDown={onKeyDown}
       ref={ref}
     >
-      {loadingAstonish && (
-        <div
-          style={{ backgroundColor: defaultBackgroundColor }}
-          className="astonish-loading"
-        >
-          Astonish is loading...
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      )}
+      <AstonishLoader
+        numberOfSlides={numberOfSlides}
+        defaultBackgroundColor={defaultBackgroundColor}
+      />
       {!isFullScreen && previewComponent}
       <div className="astonish-inner">{childrenToRender}</div>
 

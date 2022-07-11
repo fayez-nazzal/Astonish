@@ -3,3 +3,8 @@ export interface AstonishProps {
   infiniteControls?: boolean;
   defaultBackgroundColor?: string;
 }
+
+export interface IAstonishLoaderProps {
+  numberOfSlides: number;
+  defaultBackgroundColor?: string;
+}
