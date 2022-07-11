@@ -179,6 +179,7 @@ const Astonish: React.FC<AstonishProps> = ({
         numberOfSlides={numberOfSlides}
         defaultBackgroundColor={defaultBackgroundColor}
       />
+
       {!isFullScreen && previewComponent}
       <div className="astonish-inner">{childrenToRender}</div>
 

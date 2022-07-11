@@ -11,7 +11,7 @@ const AstonishLoader = ({
     if (numberOfSlides)
       setTimeout(() => {
         setIsLoadingAstonish(false);
-      }, 20 + numberOfSlides * 90);
+      }, numberOfSlides * 300);
   }, [numberOfSlides]);
 
   return loadingAstonish ? (
