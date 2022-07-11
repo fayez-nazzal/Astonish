@@ -163,7 +163,7 @@ const Astonish: React.FC<AstonishProps> = ({
 
     // handle full screen exit
     if (e.key === "Escape" || e.key === "F11") {
-      setIsFullScreen(false);
+      setIsFullScreen(!isFullScreen);
     }
   };
 
