@@ -27,6 +27,7 @@ const ArrowControls = ({
         disabled={_onPreviousDisabled}
         icon={iconLeft}
         data-testid="arrow-controls-left"
+        className="arrow-controls-left"
       />
 
       <SVGButton
@@ -35,6 +36,7 @@ const ArrowControls = ({
         disabled={_onNextDisabled}
         icon={iconRight}
         data-testid="arrow-controls-right"
+        className="arrow-controls-right"
       />
     </div>
   );

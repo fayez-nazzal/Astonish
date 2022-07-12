@@ -3,9 +3,18 @@
   bottom: 12px;
   right: 48px;
   z-index: 100;
+
+  @media (max-width: 768px) {
+    bottom: 8px;
+    right: 8px;
+  }
+}
+
+.arrow-controls-right {
+  margin-left: 8px;
 }
 
 .c-chevron {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
 }
