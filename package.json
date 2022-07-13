@@ -1,6 +1,6 @@
 {
   "name": "astonish",
-  "version": "0.0.288",
+  "version": "0.0.29",
   "description": "The ReactJS library for creative presentations.",
   "license": "MIT",
   "main": "build/index.js",
