@@ -4,11 +4,9 @@ import { IFullScreenProps } from "./index.types";
 import SVGButton from "../../ui/SVGButton";
 import FUllScreenIcon from "./fullscreen";
 import "./index.styles.scss";
-import fscreen from "fscreen";
 
 const FullScreen = ({
   _childOfAstonish,
-  _isFullScreen,
   _setIsFullScreen,
   icon = <FUllScreenIcon />,
 }: IFullScreenProps) => {
@@ -18,42 +16,37 @@ const FullScreen = ({
     throw Error(getWrongParentErrorMessage());
   }
 
-  // keep synced
-  useEffect(() => {
-    if (_isFullScreen && !fscreen.fullscreenElement) {
-      fscreen.requestFullscreen(document.documentElement);
-    } else if (fscreen.fullscreenElement !== null) {
-      fscreen.exitFullscreen();
-    }
-  }, [_isFullScreen]);
-
-  const requestFullscreen = async () => {
+  const toggleFullScreen = async () => {
     try {
-      // focus on document to prevent weird behavior
-      document.documentElement.focus();
+      if (!document.fullscreenElement) {
+        const astonishInner = document.querySelector(
+          ".astonish-inner"
+        ) as HTMLDivElement;
 
-      await fscreen.requestFullscreen(document.documentElement);
-    } catch {}
-    _setIsFullScreen(true);
+        // focus on astonish-inner
+        astonishInner.focus();
+
+        await astonishInner.requestFullscreen();
+      } else if (!!document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const onFullScreenClick = () => {
-    if (fscreen.fullscreenElement === null) {
-      requestFullscreen();
-    } else {
-      fscreen.exitFullscreen();
-      _setIsFullScreen(false);
-    }
+    toggleFullScreen();
   };
 
-  return !_isFullScreen ? (
+  return (
     <SVGButton
       ariaLabel="full screen"
       onClick={onFullScreenClick}
       icon={icon}
       className="full-screen"
     />
-  ) : null;
+  );
 };
 
 FullScreen.displayName = "FullScreen";

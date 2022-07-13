@@ -23,7 +23,6 @@ const Astonish: React.FC<AstonishProps> = ({
   const [fullScrenComponent, setFullScreenComponent] =
     React.useState<ReactElement>();
   const [disableTransition, setDisableTransition] = React.useState(false);
-  const [isFullScreen, setIsFullScreen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,6 +30,12 @@ const Astonish: React.FC<AstonishProps> = ({
     let vh = window.innerHeight * 0.01;
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    window.addEventListener("resize", () => {
+      // We execute the same script as before
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    });
   }, []);
 
   // count number of slides
@@ -90,8 +95,6 @@ const Astonish: React.FC<AstonishProps> = ({
       } else if (childName === "FullScreen") {
         setFullScreenComponent(
           React.cloneElement(child, {
-            _isFullScreen: isFullScreen,
-            _setIsFullScreen: setIsFullScreen,
             _childOfAstonish: true,
           })
         );
@@ -119,7 +122,7 @@ const Astonish: React.FC<AstonishProps> = ({
 
     // autofocus astonish
     ref.current!.focus();
-  }, [children, currentSlide, numberOfSlides, isFullScreen]);
+  }, [children, currentSlide, numberOfSlides]);
 
   const _goToSlide = (slideIndex: number) => {
     setDisableTransition(true);
@@ -167,11 +170,6 @@ const Astonish: React.FC<AstonishProps> = ({
       _onNext();
       e.preventDefault();
     }
-
-    // handle full screen exit
-    if (e.key === "Escape" || e.key === "F11") {
-      setIsFullScreen(!isFullScreen);
-    }
   };
 
   return (
@@ -187,8 +185,13 @@ const Astonish: React.FC<AstonishProps> = ({
         defaultBackgroundColor={defaultBackgroundColor}
       />
 
-      {!isFullScreen && previewComponent}
-      <div className="astonish-inner">{childrenToRender}</div>
+      {previewComponent}
+      <div
+        className="astonish-inner"
+        style={{ background: defaultBackgroundColor }}
+      >
+        {childrenToRender}
+      </div>
 
       {fullScrenComponent}
     </div>
