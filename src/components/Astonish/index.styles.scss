@@ -33,6 +33,18 @@
   }
 }
 
+.astonish-controls {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  padding: 0 12px 8px;
+  z-index: 10000;
+}
+
 .lds-ripple {
   display: inline-block;
   position: relative;

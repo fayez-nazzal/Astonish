@@ -19,9 +19,9 @@ const Astonish: React.FC<AstonishProps> = ({
     typeof children
   >([]);
   const [previewComponent, setPreviewComponent] =
-    React.useState<ReactElement>();
-  const [fullScrenComponent, setFullScreenComponent] =
-    React.useState<ReactElement>();
+    React.useState<React.FunctionComponentElement<any>>();
+  const [controls, setControls] =
+    React.useState<React.FunctionComponentElement<any>[]>();
   const [disableTransition, setDisableTransition] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -66,13 +66,14 @@ const Astonish: React.FC<AstonishProps> = ({
     const childrenToRender = [];
     let currentLoopedSlideIndex = 0;
     const slides = [];
+    const controls = [];
 
     React.Children.forEach(children, (child: JSX.Element, index) => {
       // get child name
       const childName = child.type.displayName || child.type;
 
       if (childName === "ArrowControls")
-        childrenToRender.push(
+        controls.push(
           React.cloneElement(child, {
             _onNext,
             _onPrevious,
@@ -93,7 +94,7 @@ const Astonish: React.FC<AstonishProps> = ({
           })
         );
       } else if (childName === "FullScreen") {
-        setFullScreenComponent(
+        controls.push(
           React.cloneElement(child, {
             _childOfAstonish: true,
           })
@@ -119,6 +120,7 @@ const Astonish: React.FC<AstonishProps> = ({
     });
 
     setChildrenToRender(childrenToRender);
+    setControls(controls);
 
     // autofocus astonish
     ref.current!.focus();
@@ -192,9 +194,9 @@ const Astonish: React.FC<AstonishProps> = ({
         onKeyDown={onKeyDown}
       >
         {childrenToRender}
-      </div>
 
-      {fullScrenComponent}
+        <div className="astonish-controls">{controls}</div>
+      </div>
     </div>
   );
 };

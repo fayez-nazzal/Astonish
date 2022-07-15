@@ -1,13 +1,5 @@
 .arrow-controls {
-  position: absolute;
-  bottom: 12px;
-  right: 48px;
   z-index: 100;
-
-  @media (max-width: 768px) {
-    bottom: 8px;
-    right: 8px;
-  }
 }
 
 .arrow-controls-right {
