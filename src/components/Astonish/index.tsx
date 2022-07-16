@@ -80,7 +80,7 @@ const Astonish: React.FC<AstonishProps> = ({
             _onNextDisabled:
               !infiniteControls && currentSlide === numberOfSlides - 1,
             _onPreviousDisabled: !infiniteControls && currentSlide === 0,
-            key: `astonish-${childName}-${index}`,
+            key: `astonish-arrow-controls`,
             _childOfAstonish: true,
           })
         );
@@ -91,12 +91,14 @@ const Astonish: React.FC<AstonishProps> = ({
             _children: slides,
             _goToSlide,
             _currentSlide: currentSlide,
+            Key: "astonish-preview",
           })
         );
       } else if (childName === "FullScreen") {
         controls.push(
           React.cloneElement(child, {
             _childOfAstonish: true,
+            key: `astonish-fullscreen`,
           })
         );
       } else if (
