@@ -15,11 +15,12 @@ const Astonish: React.FC<AstonishProps> = ({
 }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
-  const [childrenToRender, setChildrenToRender] = React.useState<
-    typeof children
-  >([]);
+  const [slides, setSlides] = React.useState<typeof children>([]);
   const [previewComponent, setPreviewComponent] =
     React.useState<React.FunctionComponentElement<any>>();
+  const [sharedComponents, setSharedComponents] = React.useState<
+    React.FunctionComponentElement<any>[]
+  >([]);
   const [controls, setControls] =
     React.useState<React.FunctionComponentElement<any>[]>();
   const [disableTransition, setDisableTransition] = React.useState(false);
@@ -28,6 +29,7 @@ const Astonish: React.FC<AstonishProps> = ({
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
     let vh = window.innerHeight * 0.01;
+
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
@@ -40,7 +42,7 @@ const Astonish: React.FC<AstonishProps> = ({
 
   // count number of slides
   useEffect(() => {
-    let nunberOfSlides = 0;
+    let numberOfSlides = 0;
 
     React.Children.forEach(children, (child: JSX.Element) => {
       const childName = child.type.displayName || child.type;
@@ -53,26 +55,45 @@ const Astonish: React.FC<AstonishProps> = ({
         throw new Error(getWrongChildrenErrorMessage(childName));
       }
 
-      if (childName === "Slide") nunberOfSlides++;
+      if (childName === "Slide") numberOfSlides++;
     });
 
-    setNumberOfSlides(nunberOfSlides);
+    setNumberOfSlides(numberOfSlides);
   }, [children]);
 
   // get components to render
   useEffect(() => {
     if (numberOfSlides === 0) return;
 
-    const childrenToRender = [];
     let currentLoopedSlideIndex = 0;
     const slides = [];
     const controls = [];
+    const sharedComponents = [];
 
     React.Children.forEach(children, (child: JSX.Element, index) => {
       // get child name
       const childName = child.type.displayName || child.type;
 
-      if (childName === "ArrowControls")
+      if (childName === "Slide") {
+        slides.push(
+          <AnimatePresence key={`astonish-Slide-${index}`}>
+            {React.cloneElement(child, {
+              _childOfAstonish: true,
+              _disableTransition: disableTransition,
+              _disableInitialTransition: currentLoopedSlideIndex === 0,
+            })}
+          </AnimatePresence>
+        );
+
+        currentLoopedSlideIndex++;
+      } else if (childName === "Shared") {
+        sharedComponents.push(
+          React.cloneElement(child, {
+            _childOfAstonish: true,
+            key: `astonish-Shared-${index}`,
+          })
+        );
+      } else if (childName === "ArrowControls")
         controls.push(
           React.cloneElement(child, {
             _onNext,
@@ -80,8 +101,8 @@ const Astonish: React.FC<AstonishProps> = ({
             _onNextDisabled:
               !infiniteControls && currentSlide === numberOfSlides - 1,
             _onPreviousDisabled: !infiniteControls && currentSlide === 0,
-            key: `astonish-arrow-controls`,
             _childOfAstonish: true,
+            key: `astonish-arrow-controls`,
           })
         );
       else if (childName === "Preview") {
@@ -101,28 +122,12 @@ const Astonish: React.FC<AstonishProps> = ({
             key: `astonish-fullscreen`,
           })
         );
-      } else if (
-        childName !== "Slide" ||
-        currentLoopedSlideIndex === currentSlide
-      )
-        childrenToRender.push(
-          <AnimatePresence key={`astonish-${childName}-${index}`}>
-            {React.cloneElement(child, {
-              _childOfAstonish: true,
-              _disableTransition: disableTransition,
-              _disableInitialTransition: currentLoopedSlideIndex === 0,
-            })}
-          </AnimatePresence>
-        );
-
-      if (childName === "Slide") {
-        currentLoopedSlideIndex++;
-        slides.push(child);
       }
     });
 
-    setChildrenToRender(childrenToRender);
+    setSlides(slides);
     setControls(controls);
+    setSharedComponents(sharedComponents);
 
     // autofocus astonish
     ref.current!.focus();
@@ -196,7 +201,8 @@ const Astonish: React.FC<AstonishProps> = ({
         onKeyDown={onKeyDown}
         data-testid="astonish-inner"
       >
-        {childrenToRender}
+        {sharedComponents}
+        {slides[currentSlide]}
 
         <div className="astonish-controls">{controls}</div>
       </div>
