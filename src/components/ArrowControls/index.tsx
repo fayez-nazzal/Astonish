@@ -2,7 +2,7 @@ import React from "react";
 import SVGButton from "../../ui/SVGButton";
 import Chevron from "./chevron";
 import { IArrowControlsProps } from "./index.types";
-import { getWrongParentErrorMessage } from "./index.utils";
+import { getWrongParentErrorMessage } from "../../../utils/errors";
 
 import "./index.styles.scss";
 
@@ -16,7 +16,7 @@ const ArrowControls = ({
   _childOfAstonish,
 }: IArrowControlsProps) => {
   if (!_childOfAstonish) {
-    throw Error(getWrongParentErrorMessage());
+    throw Error(getWrongParentErrorMessage("ArrowControls", "Astonish"));
   }
 
   return (

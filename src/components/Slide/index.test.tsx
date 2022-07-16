@@ -1,15 +1,15 @@
 import { render } from "@testing-library/react";
 import React from "react";
 import Slide from ".";
+import { getWrongParentErrorMessage } from "../../../utils/errors";
 import Astonish from "../Astonish";
-import { getWrongParentErrorMessage } from "./index.utils";
 
 describe("Testing Slide Component", () => {
   it("Throws error when not child of Astonish", () => {
     console.error = () => {};
 
     expect(() => render(<Slide>test</Slide>)).toThrow(
-      getWrongParentErrorMessage()
+      getWrongParentErrorMessage("Slide", "Astonish")
     );
   });
 

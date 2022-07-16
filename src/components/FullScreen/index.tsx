@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { getWrongParentErrorMessage } from "../Slide/index.utils";
 import { IFullScreenProps } from "./index.types";
 import SVGButton from "../../ui/SVGButton";
 import FUllScreenIcon from "./fullscreen";
 import "./index.styles.scss";
+import { getWrongParentErrorMessage } from "../../../utils/errors";
 
 const FullScreen = ({
   _childOfAstonish,
   icon = <FUllScreenIcon />,
 }: IFullScreenProps) => {
   if (!_childOfAstonish) {
-    throw Error(getWrongParentErrorMessage());
+    throw Error(getWrongParentErrorMessage("FullScreen", "Astonish"));
   }
 
   const toggleFullScreen = async () => {

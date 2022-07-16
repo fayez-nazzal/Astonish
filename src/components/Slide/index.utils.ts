@@ -1,6 +1,4 @@
 import { ISlideTransition, ITransitionProperty } from "./index.types";
-export const getWrongParentErrorMessage = () =>
-  `Slide can only be a child of Astonish.`;
 
 export const generateCustomTransition = (
   type: "spring" | "tween",

@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 import React from "react";
+import { getWrongParentErrorMessage } from "../../../utils/errors";
 import { ISlideProps } from "./index.types";
-import {
-  generateCustomTransition,
-  getWrongParentErrorMessage,
-} from "./index.utils";
+import { generateCustomTransition } from "./index.utils";
 
 const Slide = ({
   children,
@@ -16,7 +14,7 @@ const Slide = ({
   _disableInitialTransition,
 }: ISlideProps) => {
   if (!_childOfAstonish) {
-    throw Error(getWrongParentErrorMessage());
+    throw Error(getWrongParentErrorMessage("Slide", "Astonish"));
   }
 
   return (

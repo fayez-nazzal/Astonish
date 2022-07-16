@@ -3,8 +3,18 @@ import React from "react";
 import FullScreen from ".";
 import Astonish from "../Astonish";
 import Slide from "../Slide";
+import ArrowControls from "../ArrowControls";
+import { getWrongParentErrorMessage } from "../../../utils/errors";
 
 describe("Testing FullScreen component", () => {
+  it("Throws error when not child of Astonish", () => {
+    console.error = () => {};
+
+    expect(() => render(<FullScreen />)).toThrow(
+      getWrongParentErrorMessage("FullScreen", "Astonish")
+    );
+  });
+
   it("is displayed", async () => {
     const component = (
       <Astonish>

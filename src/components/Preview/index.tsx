@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { IPreviewProps, ISlidePreviewProps } from "./index.types";
-import { getWrongParentErrorMessage } from "./index.utils";
 import { useScreenshot } from "use-react-screenshot";
 import "./index.styles.scss";
+import { getWrongParentErrorMessage } from "../../../utils/errors";
 
 const Preview = ({
   _children,
@@ -12,7 +12,7 @@ const Preview = ({
   defaultBackgroundColor,
 }: IPreviewProps) => {
   if (!_childOfAstonish) {
-    throw Error(getWrongParentErrorMessage());
+    throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
   }
 
   return (
