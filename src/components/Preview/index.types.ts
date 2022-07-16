@@ -11,5 +11,6 @@ export interface ISlidePreviewProps {
   children: any;
   onClick: () => void;
   active: boolean;
+  currentSlide: number;
   defaultBackgroundColor?: string;
 }

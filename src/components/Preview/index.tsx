@@ -25,6 +25,7 @@ const Preview = ({
             active={_currentSlide === index}
             index={index}
             defaultBackgroundColor={defaultBackgroundColor}
+            currentSlide={_currentSlide}
           />
         );
       })}
@@ -42,8 +43,19 @@ const SlidePreview = ({
   active,
   index,
   defaultBackgroundColor,
+  currentSlide,
 }: ISlidePreviewProps) => {
   const [snapshot, setSnapshot] = React.useState();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (currentSlide === index && !!ref.current) {
+      ref.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [currentSlide]);
 
   return !snapshot ? (
     <div className="slide-to-snapshot">
@@ -59,6 +71,7 @@ const SlidePreview = ({
     <div
       className={`slide-preview ${active ? "slide-preview-active" : ""}`}
       onClick={onClick}
+      ref={ref}
     >
       <span className="slide-preview-index">{index + 1}</span>
       <div className="slide-preview-slide">
