@@ -105,9 +105,11 @@ const SnapshotChildren = ({
   const ref = useRef();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       takeScreenShot(ref.current);
     }, 32 * index);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {

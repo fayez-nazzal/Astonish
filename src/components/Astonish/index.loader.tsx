@@ -8,10 +8,14 @@ const AstonishLoader = ({
   const [loadingAstonish, setIsLoadingAstonish] = React.useState(true);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
     if (numberOfSlides)
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         setIsLoadingAstonish(false);
       }, numberOfSlides * 300);
+
+    return () => clearTimeout(timeout);
   }, [numberOfSlides]);
 
   return loadingAstonish ? (
