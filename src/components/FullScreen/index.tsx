@@ -7,11 +7,8 @@ import "./index.styles.scss";
 
 const FullScreen = ({
   _childOfAstonish,
-  _setIsFullScreen,
   icon = <FUllScreenIcon />,
 }: IFullScreenProps) => {
-  const timeout = useRef<NodeJS.Timeout>();
-
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage());
   }
@@ -45,6 +42,7 @@ const FullScreen = ({
       onClick={onFullScreenClick}
       icon={icon}
       className="full-screen"
+      data-testid="astonish-fullscreen"
     />
   );
 };

@@ -194,6 +194,7 @@ const Astonish: React.FC<AstonishProps> = ({
         className="astonish-inner"
         style={{ background: defaultBackgroundColor }}
         onKeyDown={onKeyDown}
+        data-testid="astonish-inner"
       >
         {childrenToRender}
 
