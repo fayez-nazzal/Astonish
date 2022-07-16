@@ -30,7 +30,7 @@ describe("Testing FullScreen component", () => {
       </Astonish>
     );
 
-    const { queryByTestId, getByTestId } = render(component);
+    const { queryByTestId } = render(component);
 
     await waitFor(() => {
       expect(queryByTestId("astonish-fullscreen")).toBeInTheDocument();
