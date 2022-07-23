@@ -1,5 +1,5 @@
 // accessible SVGButton component
-
+/** @jsxImportSource @theme-ui/core */
 import React from "react";
 import { SVGButtonProps } from "./indedx.types";
 
@@ -11,6 +11,7 @@ const SVGButton = ({
   disabled,
   className,
   ariaLabel,
+  sx,
   ...rest
 }: SVGButtonProps) => {
   const Icon = (
@@ -24,6 +25,7 @@ const SVGButton = ({
       disabled={disabled}
       aria-label={ariaLabel}
       {...rest}
+      sx={{ ...sx }}
     >
       <Icon />
     </button>

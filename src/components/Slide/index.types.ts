@@ -1,9 +1,11 @@
+import { ThemeUIStyleObject } from "@theme-ui/core";
 export interface ISlideProps {
   children: any;
   transition?: ISlideTransition;
   _childOfAstonish?: boolean;
   _disableTransition?: boolean;
   _disableInitialTransition?: boolean;
+  sx?: ThemeUIStyleObject;
 }
 
 export interface ITransitionProperty {

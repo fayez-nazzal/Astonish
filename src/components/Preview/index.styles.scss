@@ -2,12 +2,10 @@
   width: 200px;
   max-height: 100%;
   overflow: auto;
-  border-right: 2px solid #748da6;
-  box-shadow: 0 0 8px #0000001a;
+  border-right: 2px solid;
   padding-right: 2px;
   z-index: 1000;
   perspective: 1;
-  background-color: #f1eee9;
   justify-content: flex-start safe;
 
   @media (max-width: 768px) {
@@ -18,22 +16,7 @@
     height: 100px;
     overflow-y: hidden;
     border-right: 0;
-    border-top: 2px solid #73777b;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.4em;
-    height: 0.4em;
-  }
-
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #428acd;
-    outline: 1px solid slategrey;
-    border-radius: 12px;
+    border-top: 2px solid;
   }
 }
 

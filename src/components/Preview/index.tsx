@@ -1,5 +1,10 @@
+/** @jsxImportSource @theme-ui/core */
 import React, { useEffect, useRef } from "react";
-import { IPreviewProps, ISlidePreviewProps } from "./index.types";
+import {
+  IPreviewProps,
+  ISlidePreviewProps,
+  ISnapshotChildrenProps,
+} from "./index.types";
 import { useScreenshot } from "use-react-screenshot";
 import "./index.styles.scss";
 import { getWrongParentErrorMessage } from "../../../utils/errors";
@@ -9,14 +14,35 @@ const Preview = ({
   _childOfAstonish,
   _goToSlide,
   _currentSlide,
-  defaultBackgroundColor,
+  sx,
+  slideSx,
 }: IPreviewProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
   }
 
   return (
-    <div className="preview" style={{ zIndex: 50 }}>
+    <div
+      className="preview"
+      style={{ zIndex: 50 }}
+      sx={{
+        bg: "preview-background",
+        boxShadow: "preview-box-shadow",
+        borderColor: "primary",
+        "&::-webkit-scrollbar": {
+          width: "8px",
+          height: "8px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "primary",
+          borderRadius: "8px",
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "transparent",
+        },
+        ...sx,
+      }}
+    >
       {React.Children.map(_children, (child: JSX.Element, index: number) => {
         return (
           <SlidePreview
@@ -24,8 +50,8 @@ const Preview = ({
             onClick={() => _goToSlide(index)}
             active={_currentSlide === index}
             index={index}
-            defaultBackgroundColor={defaultBackgroundColor}
             currentSlide={_currentSlide}
+            sx={slideSx}
           />
         );
       })}
@@ -42,7 +68,7 @@ const SlidePreview = ({
   onClick,
   active,
   index,
-  defaultBackgroundColor,
+  sx,
   currentSlide,
 }: ISlidePreviewProps) => {
   const [snapshot, setSnapshot] = React.useState();
@@ -59,11 +85,7 @@ const SlidePreview = ({
 
   return !snapshot ? (
     <div className="slide-to-snapshot">
-      <SnapshotChildren
-        defaultBackgroundColor={defaultBackgroundColor}
-        setSnapshot={setSnapshot}
-        index={index}
-      >
+      <SnapshotChildren sx={{ ...sx }} setSnapshot={setSnapshot} index={index}>
         {children}
       </SnapshotChildren>
     </div>
@@ -72,6 +94,7 @@ const SlidePreview = ({
       className={`slide-preview ${active ? "slide-preview-active" : ""}`}
       onClick={onClick}
       ref={ref}
+      sx={{ ...sx }}
     >
       <span className="slide-preview-index">{index + 1}</span>
       <div className="slide-preview-slide">
@@ -93,14 +116,9 @@ const SlidePreview = ({
 const SnapshotChildren = ({
   children,
   setSnapshot,
-  defaultBackgroundColor,
   index,
-}: {
-  children: JSX.Element;
-  setSnapshot: (image: any) => void;
-  defaultBackgroundColor: string;
-  index: number;
-}) => {
+  sx,
+}: ISnapshotChildrenProps) => {
   const [image, takeScreenShot] = useScreenshot();
   const ref = useRef();
 
@@ -124,7 +142,7 @@ const SnapshotChildren = ({
         <div
           className="snapshot-children"
           ref={ref}
-          style={{ backgroundColor: defaultBackgroundColor }}
+          sx={{ bg: "background", ...sx }}
         >
           {children}
         </div>

@@ -1,10 +1,14 @@
+import { ThemeUIStyleObject } from "@theme-ui/core";
+
 export interface AstonishProps {
   children?: JSX.Element[] | JSX.Element;
   infiniteControls?: boolean;
-  defaultBackgroundColor?: string;
+  sx?: ThemeUIStyleObject;
+  innerSx?: ThemeUIStyleObject;
+  loaderSx?: ThemeUIStyleObject;
 }
 
 export interface IAstonishLoaderProps {
   numberOfSlides: number;
-  defaultBackgroundColor?: string;
+  sx?: ThemeUIStyleObject;
 }

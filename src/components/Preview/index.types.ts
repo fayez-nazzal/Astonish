@@ -1,9 +1,11 @@
+import { ThemeUIStyleObject } from "@theme-ui/core";
 export interface IPreviewProps {
   _children?: any;
   _childOfAstonish?: boolean;
   _goToSlide?: (slideIndex: number) => void;
   _currentSlide?: number;
-  defaultBackgroundColor?: string;
+  sx?: ThemeUIStyleObject;
+  slideSx?: ThemeUIStyleObject;
 }
 
 export interface ISlidePreviewProps {
@@ -12,5 +14,12 @@ export interface ISlidePreviewProps {
   onClick: () => void;
   active: boolean;
   currentSlide: number;
-  defaultBackgroundColor?: string;
+  sx?: ThemeUIStyleObject;
+}
+
+export interface ISnapshotChildrenProps {
+  children: JSX.Element;
+  setSnapshot: (image: any) => void;
+  index: number;
+  sx: ThemeUIStyleObject;
 }

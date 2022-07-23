@@ -1,3 +1,4 @@
+/** @jsxImportSource @theme-ui/core */
 import React from "react";
 import SVGButton from "../../ui/SVGButton";
 import Chevron from "./chevron";
@@ -14,13 +15,15 @@ const ArrowControls = ({
   _onPrevious,
   _onPreviousDisabled,
   _childOfAstonish,
+  sx,
+  iconSx,
 }: IArrowControlsProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("ArrowControls", "Astonish"));
   }
 
   return (
-    <div className="arrow-controls">
+    <div className="arrow-controls" sx={{ ...sx }}>
       <SVGButton
         ariaLabel="previous slide"
         onClick={_onPrevious}
@@ -28,6 +31,7 @@ const ArrowControls = ({
         icon={iconLeft}
         data-testid="arrow-controls-left"
         className="arrow-controls-left"
+        sx={{ ...iconSx }}
       />
 
       <SVGButton
@@ -37,6 +41,7 @@ const ArrowControls = ({
         icon={iconRight}
         data-testid="arrow-controls-right"
         className="arrow-controls-right"
+        sx={{ ...iconSx }}
       />
     </div>
   );

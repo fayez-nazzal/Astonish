@@ -1,10 +1,8 @@
+/** @jsxImportSource @theme-ui/core */
 import React, { useEffect } from "react";
 import { IAstonishLoaderProps } from "./index.types";
 
-const AstonishLoader = ({
-  numberOfSlides,
-  defaultBackgroundColor,
-}: IAstonishLoaderProps) => {
+const AstonishLoader = ({ numberOfSlides, sx }: IAstonishLoaderProps) => {
   const [loadingAstonish, setIsLoadingAstonish] = React.useState(true);
 
   useEffect(() => {
@@ -21,10 +19,7 @@ const AstonishLoader = ({
   return loadingAstonish ? (
     <>
       {loadingAstonish && (
-        <div
-          style={{ backgroundColor: defaultBackgroundColor }}
-          className="astonish-loading"
-        >
+        <div sx={{ bg: "background", ...sx }} className="astonish-loading">
           Astonish is loading...
           <div className="lds-ripple">
             <div></div>

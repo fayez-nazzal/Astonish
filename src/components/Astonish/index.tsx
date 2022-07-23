@@ -1,3 +1,4 @@
+/** @jsxImportSource @theme-ui/core */
 import React, { ReactElement, useEffect } from "react";
 import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
@@ -7,11 +8,14 @@ import "../../global.scss";
 
 import { AnimatePresence } from "framer-motion";
 import AstonishLoader from "./index.loader";
+import { AstonishContainer } from "./container";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
   infiniteControls,
-  defaultBackgroundColor = "#22232b",
+  sx,
+  innerSx,
+  loaderSx,
 }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
@@ -182,31 +186,31 @@ const Astonish: React.FC<AstonishProps> = ({
   };
 
   return (
-    <div
-      className="astonish"
-      data-testid="astonish"
-      tabIndex={0}
-      onKeyDown={onKeyDown}
-      ref={ref}
-    >
-      <AstonishLoader
-        numberOfSlides={numberOfSlides}
-        defaultBackgroundColor={defaultBackgroundColor}
-      />
-
-      {previewComponent}
+    <AstonishContainer>
       <div
-        className="astonish-inner"
-        style={{ background: defaultBackgroundColor }}
+        className="astonish"
+        data-testid="astonish"
+        tabIndex={0}
         onKeyDown={onKeyDown}
-        data-testid="astonish-inner"
+        ref={ref}
+        sx={{ bg: "background", ...sx }}
       >
-        {sharedComponents}
-        {slides[currentSlide]}
+        <AstonishLoader numberOfSlides={numberOfSlides} sx={loaderSx} />
 
-        <div className="astonish-controls">{controls}</div>
+        {previewComponent}
+        <div
+          className="astonish-inner"
+          onKeyDown={onKeyDown}
+          data-testid="astonish-inner"
+          sx={{ ...innerSx }}
+        >
+          {sharedComponents}
+          {slides[currentSlide]}
+
+          <div className="astonish-controls">{controls}</div>
+        </div>
       </div>
-    </div>
+    </AstonishContainer>
   );
 };
 

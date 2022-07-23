@@ -1,3 +1,5 @@
+import { ThemeUIStyleObject } from "@theme-ui/core";
+
 export interface IArrowControlsProps {
   iconLeft?: JSX.Element;
   iconRight?: JSX.Element;
@@ -6,6 +8,8 @@ export interface IArrowControlsProps {
   _onPrevious?: () => void;
   _onNextDisabled?: boolean;
   _onPreviousDisabled?: boolean;
+  sx?: ThemeUIStyleObject;
+  iconSx?: ThemeUIStyleObject;
 }
 
 export interface IChevronProps {

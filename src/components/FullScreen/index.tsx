@@ -8,6 +8,7 @@ import { getWrongParentErrorMessage } from "../../../utils/errors";
 const FullScreen = ({
   _childOfAstonish,
   icon = <FUllScreenIcon />,
+  sx,
 }: IFullScreenProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("FullScreen", "Astonish"));
@@ -43,6 +44,7 @@ const FullScreen = ({
       icon={icon}
       className="full-screen"
       data-testid="astonish-fullscreen"
+      sx={{ ...sx }}
     />
   );
 };

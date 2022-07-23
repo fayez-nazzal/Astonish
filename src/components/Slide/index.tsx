@@ -1,5 +1,5 @@
+/** @jsxImportSource @theme-ui/core */
 import { motion } from "framer-motion";
-import React from "react";
 import { getWrongParentErrorMessage } from "../../../utils/errors";
 import { ISlideProps } from "./index.types";
 import { generateCustomTransition } from "./index.utils";
@@ -12,6 +12,7 @@ const Slide = ({
   }),
   _disableTransition,
   _disableInitialTransition,
+  sx,
 }: ISlideProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("Slide", "Astonish"));
@@ -24,6 +25,7 @@ const Slide = ({
       className="full-slide"
       transition={{ duration: 0.6, type: "spring" }}
       style={{ zIndex: 60 }}
+      sx={{ ...sx }}
     >
       {children}
     </motion.div>
