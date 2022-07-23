@@ -1,6 +1,6 @@
 {
   "name": "astonish",
-  "version": "0.0.3",
+  "version": "0.0.34",
   "description": "The ReactJS library for creative presentations.",
   "license": "MIT",
   "main": "build/index.js",
@@ -79,6 +79,8 @@
     "webpack": "5"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@theme-ui/core": "^0.14.6",
     "framer-motion": "^6.4.2",
     "html2canvas": "^1.4.1",
     "use-react-screenshot": "^3.0.0"
