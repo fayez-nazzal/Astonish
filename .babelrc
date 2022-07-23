@@ -6,8 +6,14 @@
         "targets": ">0.2%, not dead, not op_mini all"
       }
     ],
-    "@babel/preset-react",
-    "@babel/preset-typescript"
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-react",
+      {
+        "importSource": "@theme-ui/core",
+        "runtime": "automatic"
+      }
+    ]
   ],
   "plugins": ["@babel/plugin-transform-runtime"]
 }
