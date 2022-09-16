@@ -1,4 +1,3 @@
-/** @jsxImportSource @theme-ui/core */
 import React, { useEffect, useRef } from "react";
 import {
   IPreviewProps,
@@ -16,6 +15,7 @@ const Preview = ({
   _currentSlide,
   sx,
   slideSx,
+  renderSlidePreview,
 }: IPreviewProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
@@ -51,7 +51,32 @@ const Preview = ({
             active={_currentSlide === index}
             index={index}
             currentSlide={_currentSlide}
-            slideSx={slideSx}
+            _renderSelf={
+              renderSlidePreview ??
+              (({ index, imageSrc, active, onClick, slideSx }) => (
+                <div
+                  className={`slide-preview ${
+                    active ? "slide-preview-active" : ""
+                  }`}
+                  onClick={onClick}
+                  sx={slideSx}
+                >
+                  <span className="slide-preview-index">{index + 1}</span>
+                  <div className="slide-preview-slide" sx={slideSx}>
+                    <img
+                      src={imageSrc}
+                      style={{
+                        objectFit: "fill",
+                        width: "100%",
+                        height: "100%",
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                      }}
+                    />
+                  </div>
+                </div>
+              ))
+            }
           />
         );
       })}
@@ -68,8 +93,8 @@ const SlidePreview = ({
   onClick,
   active,
   index,
-  slideSx,
   currentSlide,
+  _renderSelf,
 }: ISlidePreviewProps) => {
   const [snapshot, setSnapshot] = React.useState();
   const ref = useRef<HTMLDivElement>(null);
@@ -83,31 +108,22 @@ const SlidePreview = ({
     }
   }, [currentSlide]);
 
+  const RenderSelf = _renderSelf;
+
   return !snapshot ? (
     <div className="slide-to-snapshot">
-      <SnapshotChildren slideSx={{ ...slideSx }} setSnapshot={setSnapshot} index={index}>
+      <SnapshotChildren setSnapshot={setSnapshot} index={index}>
         {children}
       </SnapshotChildren>
     </div>
   ) : (
-    <div
-      className={`slide-preview ${active ? "slide-preview-active" : ""}`}
-      onClick={onClick}
-      ref={ref}
-    >
-      <span className="slide-preview-index">{index + 1}</span>
-      <div className="slide-preview-slide" sx={slideSx}>
-        <img
-          src={snapshot}
-          style={{
-            objectFit: "fill",
-            width: "100%",
-            height: "100%",
-            maxWidth: "100%",
-            maxHeight: "100%",
-          }}
-        />
-      </div>
+    <div ref={ref}>
+      <RenderSelf
+        index={index}
+        imageSrc={snapshot}
+        active={active}
+        onClick={onClick}
+      />
     </div>
   );
 };
@@ -116,7 +132,6 @@ const SnapshotChildren = ({
   children,
   setSnapshot,
   index,
-  slideSx,
 }: ISnapshotChildrenProps) => {
   const [image, takeScreenShot] = useScreenshot();
   const ref = useRef();
@@ -138,11 +153,7 @@ const SnapshotChildren = ({
   return (
     <>
       {image ? null : (
-        <div
-          className="snapshot-children"
-          ref={ref}
-          sx={{ bg: "background", ...slideSx }}
-        >
+        <div className="snapshot-children" ref={ref} sx={{ bg: "background" }}>
           {children}
         </div>
       )}
