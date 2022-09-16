@@ -7,6 +7,9 @@ import FullScreen from "../FullScreen";
 import ArrowControls from "../ArrowControls";
 import Preview from "../Preview";
 
+import { ReactComponent as ChevronRightIcon } from "../../svg/chevron-custom.svg";
+import { ReactComponent as FullScreenIcon } from "../../svg/fullscreen-custom.svg";
+
 export default {
   title: "Astonish",
 };
@@ -107,7 +110,22 @@ CustomizedSlideShow.args = {
         </div>
       )}
     />,
-    <ArrowControls key="16" />,
-    <FullScreen key="17" />,
+    <ArrowControls
+      iconRight={
+        <ChevronRightIcon style={{ width: 48, height: 48, marginLeft: 8 }} />
+      }
+      iconLeft={
+        <ChevronRightIcon
+          style={{ width: 48, height: 48, transform: "rotate(180deg)" }}
+        />
+      }
+      key="16"
+    />,
+    <FullScreen
+      key="17"
+      icon={
+        <FullScreenIcon style={{ width: 48, height: 48, marginBottom: 16 }} />
+      }
+    />,
   ],
 };
