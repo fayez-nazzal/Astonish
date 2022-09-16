@@ -14,12 +14,12 @@ export interface ISlidePreviewProps {
   onClick: () => void;
   active: boolean;
   currentSlide: number;
-  sx?: ThemeUIStyleObject;
+  slideSx?: ThemeUIStyleObject;
 }
 
 export interface ISnapshotChildrenProps {
   children: JSX.Element;
   setSnapshot: (image: any) => void;
   index: number;
-  sx: ThemeUIStyleObject;
+  slideSx: ThemeUIStyleObject;
 }

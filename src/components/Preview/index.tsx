@@ -51,7 +51,7 @@ const Preview = ({
             active={_currentSlide === index}
             index={index}
             currentSlide={_currentSlide}
-            sx={slideSx}
+            slideSx={slideSx}
           />
         );
       })}
@@ -68,7 +68,7 @@ const SlidePreview = ({
   onClick,
   active,
   index,
-  sx,
+  slideSx,
   currentSlide,
 }: ISlidePreviewProps) => {
   const [snapshot, setSnapshot] = React.useState();
@@ -85,7 +85,7 @@ const SlidePreview = ({
 
   return !snapshot ? (
     <div className="slide-to-snapshot">
-      <SnapshotChildren sx={{ ...sx }} setSnapshot={setSnapshot} index={index}>
+      <SnapshotChildren slideSx={{ ...slideSx }} setSnapshot={setSnapshot} index={index}>
         {children}
       </SnapshotChildren>
     </div>
@@ -94,10 +94,9 @@ const SlidePreview = ({
       className={`slide-preview ${active ? "slide-preview-active" : ""}`}
       onClick={onClick}
       ref={ref}
-      sx={{ ...sx }}
     >
       <span className="slide-preview-index">{index + 1}</span>
-      <div className="slide-preview-slide">
+      <div className="slide-preview-slide" sx={slideSx}>
         <img
           src={snapshot}
           style={{
@@ -117,7 +116,7 @@ const SnapshotChildren = ({
   children,
   setSnapshot,
   index,
-  sx,
+  slideSx,
 }: ISnapshotChildrenProps) => {
   const [image, takeScreenShot] = useScreenshot();
   const ref = useRef();
@@ -142,7 +141,7 @@ const SnapshotChildren = ({
         <div
           className="snapshot-children"
           ref={ref}
-          sx={{ bg: "background", ...sx }}
+          sx={{ bg: "background", ...slideSx }}
         >
           {children}
         </div>
