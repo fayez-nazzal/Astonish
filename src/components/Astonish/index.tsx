@@ -32,7 +32,7 @@ const Astonish: React.FC<AstonishProps> = ({
   const [disableTransition, setDisableTransition] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
-  const [previewDnDPosition, setPreviewDnDPosition] = React.useState("left");
+  const [previewDnDPosition, setPreviewDnDPosition] = React.useState<string>();
 
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
@@ -116,17 +116,19 @@ const Astonish: React.FC<AstonishProps> = ({
           })
         );
       else if (childName === "Preview") {
+        const previewPosition =
+          previewDnDPosition ?? (child.props.position || "left");
+
+        !previewDnDPosition && setPreviewDnDPosition(previewPosition);
+
         setPreviewComponent(
           React.cloneElement(child, {
             _childOfAstonish: true,
             _children: slides,
             _goToSlide,
             _currentSlide: currentSlide,
-            _orientation:
-              previewDnDPosition === "left" || previewDnDPosition === "right"
-                ? "vertical"
-                : "horizontal",
             Key: "astonish-preview",
+            position: previewDnDPosition,
           })
         );
       } else if (childName === "FullScreen") {

@@ -15,10 +15,10 @@ export interface IPreviewProps {
   _childOfAstonish?: boolean;
   _goToSlide?: (slideIndex: number) => void;
   _currentSlide?: number;
-  _orientation?: "horizontal" | "vertical";
   sx?: ThemeUIStyleObject;
   slideSx?: ThemeUIStyleObject;
   renderSlidePreview?: IRenderSlidePreview;
+  position?: "left" | "right" | "top" | "bottom";
 }
 
 export interface ISlidePreviewProps {

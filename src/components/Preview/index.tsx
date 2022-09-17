@@ -18,9 +18,8 @@ const Preview = ({
   _goToSlide,
   _currentSlide,
   sx,
-  slideSx,
   renderSlidePreview,
-  _orientation,
+  position = "left",
 }: IPreviewProps) => {
   const [draggableEnabled, setDraggableEnabled] = React.useState(false);
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -37,6 +36,9 @@ const Preview = ({
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
       }
     : undefined;
+
+  const _orientation =
+    position === "left" || position === "right" ? "vertical" : "horizontal";
 
   return (
     <div
