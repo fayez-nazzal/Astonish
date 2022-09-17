@@ -9,6 +9,7 @@ import "../../global.scss";
 import { AnimatePresence } from "framer-motion";
 import AstonishLoader from "./index.loader";
 import { AstonishContainer } from "./container";
+import { DndContext } from "@dnd-kit/core";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -186,31 +187,33 @@ const Astonish: React.FC<AstonishProps> = ({
   };
 
   return (
-    <AstonishContainer>
-      <div
-        className="astonish"
-        data-testid="astonish"
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-        ref={ref}
-        sx={{ bg: "background", ...sx }}
-      >
-        <AstonishLoader numberOfSlides={numberOfSlides} sx={loaderSx} />
-
-        {previewComponent}
+    <DndContext>
+      <AstonishContainer>
         <div
-          className="astonish-inner"
+          className="astonish"
+          data-testid="astonish"
+          tabIndex={0}
           onKeyDown={onKeyDown}
-          data-testid="astonish-inner"
-          sx={{ ...innerSx }}
+          ref={ref}
+          sx={{ bg: "background", ...sx }}
         >
-          {sharedComponents}
-          {slides[currentSlide]}
+          <AstonishLoader numberOfSlides={numberOfSlides} sx={loaderSx} />
 
-          <div className="astonish-controls">{controls}</div>
+          {previewComponent}
+          <div
+            className="astonish-inner"
+            onKeyDown={onKeyDown}
+            data-testid="astonish-inner"
+            sx={{ ...innerSx }}
+          >
+            {sharedComponents}
+            {slides[currentSlide]}
+
+            <div className="astonish-controls">{controls}</div>
+          </div>
         </div>
-      </div>
-    </AstonishContainer>
+      </AstonishContainer>
+    </DndContext>
   );
 };
 

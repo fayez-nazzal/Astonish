@@ -1,3 +1,5 @@
+/** @jsxImportSource @theme-ui/core */
+
 import React, { useEffect, useRef } from "react";
 import {
   IPreviewProps,
@@ -7,6 +9,8 @@ import {
 import { useScreenshot } from "use-react-screenshot";
 import "./index.styles.scss";
 import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { useDraggable } from "@dnd-kit/core";
+import { ReactComponent as DragHandle } from "../../svg/drag-handle.svg";
 
 const Preview = ({
   _children,
@@ -17,14 +21,26 @@ const Preview = ({
   slideSx,
   renderSlidePreview,
 }: IPreviewProps) => {
+  const [draggableEnabled, setDraggableEnabled] = React.useState(false);
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: "preview",
+    disabled: !draggableEnabled,
+  });
+
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
   }
 
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : undefined;
+
   return (
     <div
       className="preview"
-      style={{ zIndex: 50 }}
+      style={{ zIndex: 50, ...style }}
       sx={{
         bg: "preview-background",
         boxShadow: "preview-box-shadow",
@@ -42,7 +58,37 @@ const Preview = ({
         },
         ...sx,
       }}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
     >
+      <div
+        sx={{
+          display: "flex",
+          height: 32,
+          px: 2,
+          alignItems: "center",
+          justifyContent: "space-between",
+          bg: "primary",
+          fontSize: "14px",
+          lineHeight: "14x",
+          color: "#fff",
+        }}
+        className="drag-handle"
+      >
+        <div>Preview</div>
+
+        <DragHandle
+          style={{
+            width: 24,
+            height: 24,
+            cursor: transform ? "grabbing" : "grab",
+          }}
+          onMouseEnter={() => setDraggableEnabled(true)}
+          onMouseLeave={() => setDraggableEnabled(false)}
+        />
+      </div>
+
       {React.Children.map(_children, (child: JSX.Element, index: number) => {
         return (
           <SlidePreview
