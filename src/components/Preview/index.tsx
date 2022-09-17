@@ -20,6 +20,7 @@ const Preview = ({
   sx,
   slideSx,
   renderSlidePreview,
+  _orientation,
 }: IPreviewProps) => {
   const [draggableEnabled, setDraggableEnabled] = React.useState(false);
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -39,7 +40,9 @@ const Preview = ({
 
   return (
     <div
-      className="preview"
+      className={`preview ${
+        _orientation === "horizontal" ? "horizontal" : "vertical"
+      }`}
       style={{ zIndex: 50, ...style }}
       sx={{
         bg: "preview-background",
@@ -56,6 +59,7 @@ const Preview = ({
         "&::-webkit-scrollbar-track": {
           background: "transparent",
         },
+
         ...sx,
       }}
       ref={setNodeRef}
@@ -65,14 +69,17 @@ const Preview = ({
       <div
         sx={{
           display: "flex",
-          height: 32,
-          px: 2,
+          height: _orientation === "horizontal" ? "100%" : 32,
+          pl: 2,
+          pr: _orientation === "horizontal" ? 2 : 0,
+          py: _orientation === "horizontal" ? 2 : 0,
           alignItems: "center",
           justifyContent: "space-between",
           bg: "primary",
           fontSize: "14px",
           lineHeight: "14x",
           color: "#fff",
+          flexDirection: _orientation === "horizontal" ? "column" : "row",
         }}
         className="drag-handle"
       >
@@ -86,6 +93,7 @@ const Preview = ({
           }}
           onMouseEnter={() => setDraggableEnabled(true)}
           onMouseLeave={() => setDraggableEnabled(false)}
+          onMouseUp={() => setDraggableEnabled(false)}
         />
       </div>
 

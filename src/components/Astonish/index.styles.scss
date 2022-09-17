@@ -2,18 +2,49 @@
   width: 100%;
   height: 100vh; /* Fallback for browsers that do not support Custom Properties */
   height: calc(var(--vh, 1vh) * 100);
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  grid-template-rows: max-content 1fr max-content;
   overflow: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column-reverse;
   }
-}
 
-.astonish-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
+  .astonish-inner,
+  .content-left,
+  .content-right,
+  .content-top,
+  .content-bottom {
+    position: relative;
+  }
+
+  .astonish-inner {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    width: 100%;
+    height: 100%;
+  }
+
+  .content-left {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+  }
+
+  .content-right {
+    grid-column: 3 / 4;
+    grid-row: 1 / 4;
+  }
+
+  .content-top {
+    grid-column: 1 / 4;
+    grid-row: 1 / 2;
+  }
+
+  .content-bottom {
+    grid-column: 1 / 4;
+    grid-row: 3 / 4;
+  }
 }
 
 .astonish-loading {

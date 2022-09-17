@@ -12,3 +12,7 @@ export interface IAstonishLoaderProps {
   numberOfSlides: number;
   sx?: ThemeUIStyleObject;
 }
+
+export interface IDropAreaProps {
+  position: "left" | "right" | "top" | "bottom";
+}

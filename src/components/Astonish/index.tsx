@@ -9,7 +9,8 @@ import "../../global.scss";
 import { AnimatePresence } from "framer-motion";
 import AstonishLoader from "./index.loader";
 import { AstonishContainer } from "./container";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { DropArea } from "./index.droparea";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -30,6 +31,8 @@ const Astonish: React.FC<AstonishProps> = ({
     React.useState<React.FunctionComponentElement<any>[]>();
   const [disableTransition, setDisableTransition] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
+
+  const [previewDnDPosition, setPreviewDnDPosition] = React.useState("left");
 
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
@@ -54,7 +57,9 @@ const Astonish: React.FC<AstonishProps> = ({
 
       if (
         !["Shared", "Slide", "ArrowControls", "Preview", "FullScreen"].includes(
-          childName
+          childName // if (event.over && event.active.id === 'preview') {
+          //   setPreviewDnDPosition('right')
+          // }
         )
       ) {
         throw new Error(getWrongChildrenErrorMessage(childName));
@@ -117,6 +122,10 @@ const Astonish: React.FC<AstonishProps> = ({
             _children: slides,
             _goToSlide,
             _currentSlide: currentSlide,
+            _orientation:
+              previewDnDPosition === "left" || previewDnDPosition === "right"
+                ? "vertical"
+                : "horizontal",
             Key: "astonish-preview",
           })
         );
@@ -136,7 +145,7 @@ const Astonish: React.FC<AstonishProps> = ({
 
     // autofocus astonish
     ref.current!.focus();
-  }, [children, currentSlide, numberOfSlides]);
+  }, [children, currentSlide, numberOfSlides, previewDnDPosition]);
 
   const _goToSlide = (slideIndex: number) => {
     setDisableTransition(true);
@@ -186,8 +195,20 @@ const Astonish: React.FC<AstonishProps> = ({
     }
   };
 
+  const onPreviewDragEnd = (event: DragEndEvent) => {
+    if (typeof event.over.id !== "string" || !event.over) return;
+
+    const position = (event.over.id as string).match(
+      /droppable-(.*)/
+    )[1] as string;
+
+    if (event.over && event.active.id === "preview") {
+      setPreviewDnDPosition(position);
+    }
+  };
+
   return (
-    <DndContext>
+    <DndContext onDragEnd={onPreviewDragEnd}>
       <AstonishContainer>
         <div
           className="astonish"
@@ -199,7 +220,27 @@ const Astonish: React.FC<AstonishProps> = ({
         >
           <AstonishLoader numberOfSlides={numberOfSlides} sx={loaderSx} />
 
-          {previewComponent}
+          <DropArea position="right" />
+          <DropArea position="left" />
+          <DropArea position="top" />
+          <DropArea position="bottom" />
+
+          <div className="content-left">
+            {previewDnDPosition === "left" && previewComponent}
+          </div>
+
+          <div className="content-right">
+            {previewDnDPosition === "right" && previewComponent}
+          </div>
+
+          <div className="content-top">
+            {previewDnDPosition === "top" && previewComponent}
+          </div>
+
+          <div className="content-bottom">
+            {previewDnDPosition === "bottom" && previewComponent}
+          </div>
+
           <div
             className="astonish-inner"
             onKeyDown={onKeyDown}
