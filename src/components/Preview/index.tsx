@@ -9,8 +9,6 @@ import {
 import { useScreenshot } from "use-react-screenshot";
 import "./index.styles.scss";
 import { getWrongParentErrorMessage } from "../../../utils/errors";
-import { useDraggable } from "@dnd-kit/core";
-import { ReactComponent as DragHandle } from "../../svg/drag-handle.svg";
 
 const Preview = ({
   _children,
@@ -21,21 +19,9 @@ const Preview = ({
   renderSlidePreview,
   position = "left",
 }: IPreviewProps) => {
-  const [draggableEnabled, setDraggableEnabled] = React.useState(false);
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: "preview",
-    disabled: !draggableEnabled,
-  });
-
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
   }
-
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
 
   const _orientation =
     position === "left" || position === "right" ? "vertical" : "horizontal";
@@ -45,7 +31,6 @@ const Preview = ({
       className={`preview ${
         _orientation === "horizontal" ? "horizontal" : "vertical"
       }`}
-      style={{ zIndex: 50, ...style }}
       sx={{
         bg: "preview-background",
         boxShadow: "preview-box-shadow",
@@ -64,41 +49,7 @@ const Preview = ({
 
         ...sx,
       }}
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
     >
-      <div
-        sx={{
-          display: "flex",
-          height: _orientation === "horizontal" ? "100%" : 32,
-          pl: 2,
-          pr: _orientation === "horizontal" ? 2 : 0,
-          py: _orientation === "horizontal" ? 2 : 0,
-          alignItems: "center",
-          justifyContent: "space-between",
-          bg: "primary",
-          fontSize: "14px",
-          lineHeight: "14x",
-          color: "#fff",
-          flexDirection: _orientation === "horizontal" ? "column" : "row",
-        }}
-        className="drag-handle"
-      >
-        <div>Preview</div>
-
-        <DragHandle
-          style={{
-            width: 24,
-            height: 24,
-            cursor: transform ? "grabbing" : "grab",
-          }}
-          onMouseEnter={() => setDraggableEnabled(true)}
-          onMouseLeave={() => setDraggableEnabled(false)}
-          onMouseUp={() => setDraggableEnabled(false)}
-        />
-      </div>
-
       {React.Children.map(_children, (child: JSX.Element, index: number) => {
         return (
           <SlidePreview

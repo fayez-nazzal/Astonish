@@ -16,3 +16,10 @@ export interface IAstonishLoaderProps {
 export interface IDropAreaProps {
   position: "left" | "right" | "top" | "bottom";
 }
+
+export interface IPaneProps {
+  position: "left" | "right" | "top" | "bottom";
+  name: string;
+  draggable: boolean;
+  children: JSX.Element[] | JSX.Element;
+}

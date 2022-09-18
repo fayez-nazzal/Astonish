@@ -1,5 +1,5 @@
 /** @jsxImportSource @theme-ui/core */
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, SetStateAction, useEffect } from "react";
 import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 
@@ -11,6 +11,8 @@ import AstonishLoader from "./index.loader";
 import { AstonishContainer } from "./container";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { DropArea } from "./index.droparea";
+import Pane from "./index.pane";
+import usePrevious from "../../hooks/usePrevious";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -22,8 +24,6 @@ const Astonish: React.FC<AstonishProps> = ({
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
   const [slides, setSlides] = React.useState<typeof children>([]);
-  const [previewComponent, setPreviewComponent] =
-    React.useState<React.FunctionComponentElement<any>>();
   const [sharedComponents, setSharedComponents] = React.useState<
     React.FunctionComponentElement<any>[]
   >([]);
@@ -31,8 +31,13 @@ const Astonish: React.FC<AstonishProps> = ({
     React.useState<React.FunctionComponentElement<any>[]>();
   const [disableTransition, setDisableTransition] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
+  const [leftPanes, setLeftPanes] = React.useState<JSX.Element[]>([]);
+  const [rightPanes, setRightPanes] = React.useState<JSX.Element[]>([]);
+  const [topPanes, setTopPanes] = React.useState<JSX.Element[]>([]);
+  const [bottomPanes, setBottomPanes] = React.useState<JSX.Element[]>([]);
 
   const [previewDnDPosition, setPreviewDnDPosition] = React.useState<string>();
+  const previousPreviewDnDPosition = usePrevious(previewDnDPosition);
 
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
@@ -57,9 +62,7 @@ const Astonish: React.FC<AstonishProps> = ({
 
       if (
         !["Shared", "Slide", "ArrowControls", "Preview", "FullScreen"].includes(
-          childName // if (event.over && event.active.id === 'preview') {
-          //   setPreviewDnDPosition('right')
-          // }
+          childName
         )
       ) {
         throw new Error(getWrongChildrenErrorMessage(childName));
@@ -116,21 +119,81 @@ const Astonish: React.FC<AstonishProps> = ({
           })
         );
       else if (childName === "Preview") {
+        const previewComponent = React.cloneElement(child, {
+          _childOfAstonish: true,
+          _children: slides,
+          _goToSlide,
+          _currentSlide: currentSlide,
+          Key: "astonish-preview",
+          position: previewDnDPosition,
+        });
+
         const previewPosition =
           previewDnDPosition ?? (child.props.position || "left");
 
-        !previewDnDPosition && setPreviewDnDPosition(previewPosition);
+        setPreviewDnDPosition(previewPosition);
 
-        setPreviewComponent(
-          React.cloneElement(child, {
-            _childOfAstonish: true,
-            _children: slides,
-            _goToSlide,
-            _currentSlide: currentSlide,
-            Key: "astonish-preview",
-            position: previewDnDPosition,
-          })
-        );
+        const pane =
+          previewPosition === "left"
+            ? leftPanes
+            : previewPosition === "right"
+            ? rightPanes
+            : previewPosition === "top"
+            ? topPanes
+            : bottomPanes;
+
+        if (previousPreviewDnDPosition === previewDnDPosition) {
+          const previewPaneIndex = pane.findIndex(
+            (p) => p.props.name === "Preview"
+          );
+
+          if (previewPaneIndex !== -1) {
+            pane[previewPaneIndex] = (
+              <Pane
+                draggable
+                key="preview"
+                name="Preview"
+                position={previewPosition}
+              >
+                {previewComponent}
+              </Pane>
+            );
+          }
+        } else {
+          if (!!previousPreviewDnDPosition) {
+            const previousPaneSetter =
+              previousPreviewDnDPosition === "left"
+                ? setLeftPanes
+                : previousPreviewDnDPosition === "right"
+                ? setRightPanes
+                : previousPreviewDnDPosition === "top"
+                ? setTopPanes
+                : setBottomPanes;
+
+            previousPaneSetter((previousPane) =>
+              previousPane.filter((child) => {
+                return child.props.name !== "Preview";
+              })
+            );
+          }
+
+          // add preview to pane
+          pane.push(
+            <Pane
+              position={previewPosition}
+              draggable
+              key="preview"
+              name="Preview"
+            >
+              {previewComponent}
+            </Pane>
+          );
+
+          if (previewPosition === "left") setLeftPanes(pane);
+          else if (previewPosition === "right") setRightPanes(pane);
+          else if (previewPosition === "top") setTopPanes(pane);
+          else setBottomPanes(pane);
+        }
       } else if (childName === "FullScreen") {
         controls.push(
           React.cloneElement(child, {
@@ -197,20 +260,20 @@ const Astonish: React.FC<AstonishProps> = ({
     }
   };
 
-  const onPreviewDragEnd = (event: DragEndEvent) => {
+  const onDragEnd = (event: DragEndEvent) => {
     if (typeof event.over.id !== "string" || !event.over) return;
 
     const position = (event.over.id as string).match(
       /droppable-(.*)/
     )[1] as string;
 
-    if (event.over && event.active.id === "preview") {
+    if ((event.active.id as string).toLowerCase().includes("preview")) {
       setPreviewDnDPosition(position);
     }
   };
 
   return (
-    <DndContext onDragEnd={onPreviewDragEnd}>
+    <DndContext onDragEnd={onDragEnd}>
       <AstonishContainer>
         <div
           className="astonish"
@@ -227,21 +290,10 @@ const Astonish: React.FC<AstonishProps> = ({
           <DropArea position="top" />
           <DropArea position="bottom" />
 
-          <div className="content-left">
-            {previewDnDPosition === "left" && previewComponent}
-          </div>
-
-          <div className="content-right">
-            {previewDnDPosition === "right" && previewComponent}
-          </div>
-
-          <div className="content-top">
-            {previewDnDPosition === "top" && previewComponent}
-          </div>
-
-          <div className="content-bottom">
-            {previewDnDPosition === "bottom" && previewComponent}
-          </div>
+          <div className="content-left">{leftPanes}</div>
+          <div className="content-right">{rightPanes}</div>
+          <div className="content-top">{topPanes}</div>
+          <div className="content-bottom">{bottomPanes}</div>
 
           <div
             className="astonish-inner"
