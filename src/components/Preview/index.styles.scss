@@ -5,19 +5,21 @@
   min-height: 100px;
   height: 100px;
   overflow-y: hidden;
+  overflow-x: auto;
   border-right: 0;
   border-top: 2px solid;
 }
 
 .preview {
   width: 180px;
-  max-width: 200px;
-  max-height: 100%;
+  max-width: 180px;
+  height: 100%;
   overflow: auto;
   padding-right: 2px;
   z-index: 1000;
   perspective: 1;
   justify-content: flex-start safe;
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     @include horizontal-orientation;
@@ -36,6 +38,7 @@
   display: flex;
   padding: 5px;
   flex-shrink: 0;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     min-height: 100px;
@@ -69,17 +72,4 @@
     background-color: rgba(0, 0, 0, 0.22);
     width: 100%;
   }
-}
-
-.slide-to-snapshot {
-  background: white;
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  height: 100%;
-}
-
-.snapshot-children {
-  width: 100vw;
-  height: 100vh;
 }

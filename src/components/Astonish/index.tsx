@@ -94,6 +94,7 @@ const Astonish: React.FC<AstonishProps> = ({
               _childOfAstonish: true,
               _disableTransition: disableTransition,
               _disableInitialTransition: currentLoopedSlideIndex === 0,
+              key: `astonish-preview-slide-${index}`,
             })}
           </AnimatePresence>
         );
@@ -119,17 +120,17 @@ const Astonish: React.FC<AstonishProps> = ({
           })
         );
       else if (childName === "Preview") {
+        const previewPosition =
+          previewDnDPosition ?? (child.props.position || "left");
+
         const previewComponent = React.cloneElement(child, {
           _childOfAstonish: true,
           _children: slides,
           _goToSlide,
           _currentSlide: currentSlide,
-          Key: "astonish-preview",
-          position: previewDnDPosition,
+          key: "astonish-preview",
+          position: previewPosition,
         });
-
-        const previewPosition =
-          previewDnDPosition ?? (child.props.position || "left");
 
         setPreviewDnDPosition(previewPosition);
 
@@ -302,7 +303,18 @@ const Astonish: React.FC<AstonishProps> = ({
             sx={{ ...innerSx }}
           >
             {sharedComponents}
-            {slides[currentSlide]}
+
+            <div
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            >
+              {slides[currentSlide]}
+            </div>
 
             <div className="astonish-controls">{controls}</div>
           </div>

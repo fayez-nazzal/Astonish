@@ -26,7 +26,26 @@ export const SlideshowWithPreview = AstonishStory.bind({});
 
 SlideshowWithPreview.args = {
   children: [
-    <Slide key="1">Slide 1</Slide>,
+    <Slide key="1">
+      <div style={{ display: "flex" }}>
+        <div style={{ width: 400, height: 400, background: "red" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "blue" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "green" }}></div>
+      </div>
+      <div style={{ display: "flex" }}>
+        <div style={{ width: 400, height: 400, background: "yellow" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "cyan" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "orange" }}></div>
+      </div>
+    </Slide>,
     <Slide key="2"> Slide 2</Slide>,
     <Slide key="3">Slide 3</Slide>,
     <Slide key="4">Slide 4</Slide>,
@@ -54,7 +73,26 @@ export const CustomizedSlideShow = CustomizationStory.bind({});
 
 CustomizedSlideShow.args = {
   children: [
-    <Slide key="1">Slide 1</Slide>,
+    <Slide key="1">
+      <div style={{ display: "flex" }}>
+        <div style={{ width: 400, height: 400, background: "red" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "blue" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "green" }}></div>
+      </div>
+      <div style={{ display: "flex" }}>
+        <div style={{ width: 400, height: 400, background: "yellow" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "cyan" }}>
+          Slide 1
+        </div>
+        <div style={{ width: 400, height: 400, background: "orange" }}></div>
+      </div>
+    </Slide>,
     <Slide key="2"> Slide 2</Slide>,
     <Slide key="3">Slide 3</Slide>,
     <Slide key="4">Slide 4</Slide>,
@@ -72,7 +110,7 @@ CustomizedSlideShow.args = {
       key="15"
       position="right"
       sx={{ backgroundColor: "#34352b", color: "white", fontWeight: "bold" }}
-      renderSlidePreview={({ index, imageSrc, active, onClick }) => (
+      renderSlidePreview={({ Wrapper, slide, index, active, onClick }) => (
         <div
           onClick={onClick}
           style={{
@@ -83,17 +121,7 @@ CustomizedSlideShow.args = {
             opacity: active ? 1 : 0.8,
           }}
         >
-          <img
-            src={imageSrc}
-            style={{
-              objectFit: "fill",
-              width: "100%",
-              height: "100%",
-              maxWidth: "100%",
-              maxHeight: "100%",
-              borderRadius: 16,
-            }}
-          />
+          <Wrapper>{slide}</Wrapper>
 
           <span
             style={{

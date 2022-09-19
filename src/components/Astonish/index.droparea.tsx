@@ -16,6 +16,7 @@ export const DropArea = ({ position }: IDropAreaProps) => {
     width: position === "top" || position === "bottom" ? "100%" : 180,
     height: position === "left" || position === "right" ? "100%" : 180,
     bg: isOver ? "primary" : "transparent",
+    zIndex: 100,
   };
 
   return (

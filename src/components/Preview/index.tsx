@@ -1,12 +1,7 @@
 /** @jsxImportSource @theme-ui/core */
 
-import React, { useEffect, useRef } from "react";
-import {
-  IPreviewProps,
-  ISlidePreviewProps,
-  ISnapshotChildrenProps,
-} from "./index.types";
-import { useScreenshot } from "use-react-screenshot";
+import React, { useCallback, useEffect, useRef } from "react";
+import { IPreviewProps, ISlidePreviewProps } from "./index.types";
 import "./index.styles.scss";
 import { getWrongParentErrorMessage } from "../../../utils/errors";
 
@@ -60,27 +55,18 @@ const Preview = ({
             currentSlide={_currentSlide}
             _renderSelf={
               renderSlidePreview ??
-              (({ index, imageSrc, active, onClick, slideSx }) => (
+              (({ Wrapper, slide, index, active, onClick, slideSx }) => (
                 <div
                   className={`slide-preview ${
                     active ? "slide-preview-active" : ""
                   }`}
                   onClick={onClick}
-                  sx={slideSx}
+                  sx={{
+                    position: "relative",
+                    ...slideSx,
+                  }}
                 >
-                  <span className="slide-preview-index">{index + 1}</span>
-                  <div className="slide-preview-slide" sx={slideSx}>
-                    <img
-                      src={imageSrc}
-                      style={{
-                        objectFit: "fill",
-                        width: "100%",
-                        height: "100%",
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                      }}
-                    />
-                  </div>
+                  <Wrapper>{slide}</Wrapper>
                 </div>
               ))
             }
@@ -103,67 +89,75 @@ const SlidePreview = ({
   currentSlide,
   _renderSelf,
 }: ISlidePreviewProps) => {
-  const [snapshot, setSnapshot] = React.useState();
   const ref = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [styleProp, setStyleProp] = React.useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    const _astonishInner = document.querySelector(".astonish-inner");
+    const _slideWrapper = wrapperRef.current;
+
+    if (_astonishInner && _slideWrapper) {
+      const _astonishInnerWidth = _astonishInner.clientWidth;
+      const _astonishInnerHeight = _astonishInner.clientHeight;
+      const _slidePreviewWidth = _slideWrapper.clientWidth;
+      const _slidePreviewHeight = _slideWrapper.clientHeight;
+
+      setStyleProp({
+        width: _astonishInnerWidth,
+        height: _astonishInnerHeight,
+        transform: `scale(${_slidePreviewWidth / _astonishInnerWidth}, ${
+          _slidePreviewHeight / _astonishInnerHeight
+        })`,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (currentSlide === index && !!ref.current) {
       ref.current.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "nearest",
       });
     }
   }, [currentSlide]);
 
-  const RenderSelf = _renderSelf;
+  // The slide preview should not be rerendered, only the initial view
+  const RenderSelf = useCallback<typeof _renderSelf>(_renderSelf, []);
 
-  return !snapshot ? (
-    <div className="slide-to-snapshot">
-      <SnapshotChildren setSnapshot={setSnapshot} index={index}>
-        {children}
-      </SnapshotChildren>
-    </div>
-  ) : (
+  const Wrapper = useCallback(
+    ({ children }: any) => (
+      <div
+        ref={wrapperRef}
+        sx={{ position: "relative", width: "100%", height: "100%" }}
+      >
+        <div
+          sx={{
+            position: "absolute",
+            ...styleProp,
+            // origin top left
+            transformOrigin: "0 0",
+          }}
+        >
+          {React.cloneElement(children, {
+            _disableTransition: true,
+            _disableInitialTransition: true,
+          })}
+        </div>
+      </div>
+    ),
+    [styleProp]
+  );
+
+  return (
     <div ref={ref}>
       <RenderSelf
         index={index}
-        imageSrc={snapshot}
         active={active}
         onClick={onClick}
+        Wrapper={Wrapper}
+        slide={children}
       />
     </div>
-  );
-};
-
-const SnapshotChildren = ({
-  children,
-  setSnapshot,
-  index,
-}: ISnapshotChildrenProps) => {
-  const [image, takeScreenShot] = useScreenshot();
-  const ref = useRef();
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      takeScreenShot(ref.current);
-    }, 32 * index);
-
-    return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    if (image) {
-      setSnapshot(image);
-    }
-  }, [image]);
-
-  return (
-    <>
-      {image ? null : (
-        <div className="snapshot-children" ref={ref} sx={{ bg: "background" }}>
-          {children}
-        </div>
-      )}
-    </>
   );
 };

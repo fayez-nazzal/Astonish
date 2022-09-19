@@ -29,7 +29,7 @@ const Pane = ({
     <div
       sx={{
         position: "relative",
-        zIndex: 50,
+        zIndex: 100,
         height: "100%",
         display: "flex",
         flexDirection: _orientation === "horizontal" ? "row" : "column",
@@ -45,7 +45,6 @@ const Pane = ({
           width: _orientation === "horizontal" ? 64 : "100%",
           pl: 2,
           pr: _orientation === "horizontal" ? 2 : 0,
-          py: _orientation === "horizontal" ? 2 : 0,
           alignItems: "center",
           justifyContent: "space-between",
           bg: "primary",
@@ -68,11 +67,22 @@ const Pane = ({
         />
       </div>
 
-      <div sx={{ height: "calc(100% - 32px)" }}>{children}</div>
+      <div
+        sx={{
+          height: "calc(100% - 32px)",
+          position: "relative",
+          overflow: "hidden",
+          "& *": {
+            transition: "none !important",
+          },
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 };
 
 Pane.displayName = "Preview";
 
-export default Pane;
+export default React.memo(Pane);
