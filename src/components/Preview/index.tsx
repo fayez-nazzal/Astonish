@@ -129,7 +129,12 @@ const SlidePreview = ({
     ({ children }: any) => (
       <div
         ref={wrapperRef}
-        sx={{ position: "relative", width: "100%", height: "100%" }}
+        sx={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+        }}
       >
         <div
           sx={{
