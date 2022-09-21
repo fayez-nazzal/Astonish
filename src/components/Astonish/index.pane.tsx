@@ -33,6 +33,7 @@ const Pane = ({
         height: "100%",
         display: "flex",
         flexDirection: _orientation === "horizontal" ? "row" : "column",
+        overflow: "hidden",
         ...style,
       }}
       ref={setNodeRef}
@@ -42,9 +43,10 @@ const Pane = ({
         sx={{
           display: "flex",
           height: _orientation === "horizontal" ? "100%" : 32,
-          width: _orientation === "horizontal" ? 64 : "100%",
+          width: _orientation === "horizontal" ? 66 : "100%",
           pl: 2,
           pr: _orientation === "horizontal" ? 2 : 0,
+          py: _orientation === "horizontal" ? 2 : 0,
           alignItems: "center",
           justifyContent: "space-between",
           bg: "primary",
@@ -69,7 +71,7 @@ const Pane = ({
 
       <div
         sx={{
-          height: "calc(100% - 32px)",
+          height: _orientation === "horizontal" ? "100%" : "calc(100% - 32px)",
           position: "relative",
           overflow: "hidden",
           "& *": {

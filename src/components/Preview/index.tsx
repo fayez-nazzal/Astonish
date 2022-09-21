@@ -33,6 +33,7 @@ const Preview = ({
         "&::-webkit-scrollbar": {
           width: "8px",
           height: "8px",
+          zIndex: 100,
         },
         "&::-webkit-scrollbar-thumb": {
           background: "primary",

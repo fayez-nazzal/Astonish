@@ -4,8 +4,13 @@
   width: 100vw;
   min-height: 100px;
   height: 100px;
-  overflow-y: hidden;
   overflow-x: auto;
+
+  @supports (overflow-x: overlay) {
+    overflow-x: overlay;
+  }
+
+  overflow-y: hidden;
   border-right: 0;
   border-top: 2px solid;
 }
@@ -19,7 +24,14 @@
   z-index: 1000;
   perspective: 1;
   justify-content: flex-start safe;
+  overflow-y: auto;
+
+  @supports (overflow-y: overlay) {
+    overflow-y: overlay;
+  }
+
   overflow-x: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 
   @media (max-width: 768px) {
     @include horizontal-orientation;

@@ -4,7 +4,7 @@
   height: calc(var(--vh, 1vh) * 100);
   display: grid;
   grid-template-columns: max-content 1fr max-content;
-  grid-template-rows: max-content 1fr max-content;
+  grid-template-rows: auto 1fr auto;
   overflow: hidden;
 
   @media (max-width: 768px) {
