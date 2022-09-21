@@ -1,12 +1,50 @@
 /** @jsxImportSource @theme-ui/core */
 
 import { useDroppable } from "@dnd-kit/core";
+import { useEffect, useState } from "react";
 import { IDropAreaProps } from "./index.types";
 
 export const DropArea = ({ position }: IDropAreaProps) => {
+  const [mouseSide, setMouseSide] = useState("");
   const { isOver, setNodeRef } = useDroppable({
     id: `droppable-${position}`,
+    disabled: !mouseSide.includes(position),
   });
+
+  useEffect(() => {
+    // get mouse position
+    const updateMousePosition = (ev) => {
+      const mousePosition = { x: ev.clientX, y: ev.clientY };
+
+      if (
+        mousePosition.x < window.innerWidth / 2 &&
+        mousePosition.y < window.innerHeight / 2
+      ) {
+        setMouseSide("top left");
+      } else if (
+        mousePosition.x > window.innerWidth / 2 &&
+        mousePosition.y < window.innerHeight / 2
+      ) {
+        setMouseSide("top right");
+      } else if (
+        mousePosition.x < window.innerWidth / 2 &&
+        mousePosition.y > window.innerHeight / 2
+      ) {
+        setMouseSide("bottom left");
+      } else if (
+        mousePosition.x > window.innerWidth / 2 &&
+        mousePosition.y > window.innerHeight / 2
+      ) {
+        setMouseSide("bottom right");
+      }
+    };
+
+    // set the listener to the same handler function
+    document.addEventListener("mousemove", updateMousePosition);
+
+    // remove the event listener when the component is unmounted
+    return () => document.removeEventListener("mousemove", updateMousePosition);
+  }, []);
 
   const positionStyles = {
     top: position === "bottom" ? undefined : 0,
