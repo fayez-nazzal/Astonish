@@ -128,7 +128,7 @@ CustomizedSlideShow.args = {
             style={{
               position: "relative",
               height: 92,
-              width: 162,
+              width: ["left", "right"].includes(position) ? "90%" : 140,
               marginBottom: 4,
               marginTop: 4,
               marginLeft: ["left", "right"].includes(position) ? "auto" : 4,
