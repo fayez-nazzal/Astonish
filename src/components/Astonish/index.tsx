@@ -121,7 +121,7 @@ const Astonish: React.FC<AstonishProps> = ({
         );
       else if (childName === "Preview") {
         const previewPosition =
-          previewDnDPosition ?? (child.props.position || "left");
+          previewDnDPosition ?? (child.props.initialPosition || "left");
 
         const previewComponent = React.cloneElement(child, {
           _childOfAstonish: true,
@@ -129,7 +129,7 @@ const Astonish: React.FC<AstonishProps> = ({
           _goToSlide,
           _currentSlide: currentSlide,
           key: "astonish-preview",
-          position: previewPosition,
+          initialPosition: previewPosition,
         });
 
         setPreviewDnDPosition(previewPosition);

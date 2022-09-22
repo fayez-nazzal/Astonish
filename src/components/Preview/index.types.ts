@@ -22,7 +22,7 @@ export interface IPreviewProps {
   sx?: ThemeUIStyleObject;
   slideSx?: ThemeUIStyleObject;
   renderSlidePreview?: IRenderSlidePreview;
-  position?: "left" | "right" | "top" | "bottom";
+  initialPosition?: "left" | "right" | "top" | "bottom";
 }
 
 export interface ISlidePreviewProps {

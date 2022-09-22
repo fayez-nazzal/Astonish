@@ -12,7 +12,7 @@ const Preview = ({
   _currentSlide,
   sx,
   renderSlidePreview,
-  position = "left",
+  initialPosition: position = "left",
 }: IPreviewProps) => {
   if (!_childOfAstonish) {
     throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
