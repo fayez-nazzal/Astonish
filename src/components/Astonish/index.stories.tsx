@@ -110,32 +110,53 @@ CustomizedSlideShow.args = {
       key="15"
       position="right"
       sx={{ backgroundColor: "#34352b", color: "white", fontWeight: "bold" }}
-      renderSlidePreview={({ Wrapper, slide, index, active, onClick }) => (
+      renderSlidePreview={({
+        Wrapper,
+        slide,
+        index,
+        active,
+        onClick,
+        position,
+      }) => (
         <div
-          onClick={onClick}
-          style={{
-            position: "relative",
-            height: 120,
-            margin: 4,
-            marginBottom: 10,
-            opacity: active ? 1 : 0.8,
+          sx={{
+            margin: "8px 16px !important",
           }}
         >
-          <Wrapper>{slide}</Wrapper>
-
-          <span
+          <div
+            onClick={onClick}
             style={{
-              zIndex: 100,
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              background: "royalblue",
-              padding: "6px 6px 3px 6px",
-              borderRadius: "16px 0 16px 0",
+              position: "relative",
+              height: 92,
+              width: 162,
+              marginBottom: 4,
+              marginTop: 4,
+              marginLeft: ["left", "right"].includes(position) ? "auto" : 4,
+              marginRight: ["left", "right"].includes(position) ? "auto" : 4,
+              opacity: active ? 1 : 0.8,
+              border: "1px solid",
+              borderColor: active ? "#963944" : "#ffffff1A",
+              borderRadius: "12px",
+              overflow: "hidden",
             }}
+            className="slide-preview"
           >
-            {index + 1}
-          </span>
+            <Wrapper>{slide}</Wrapper>
+
+            <span
+              style={{
+                zIndex: 100,
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                background: "#963944",
+                padding: "6px 6px 3px 6px",
+                borderRadius: "12px 0 12px 0",
+              }}
+            >
+              {index + 1}
+            </span>
+          </div>
         </div>
       )}
     />,

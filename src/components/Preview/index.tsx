@@ -31,8 +31,8 @@ const Preview = ({
         boxShadow: "preview-box-shadow",
         borderColor: "primary",
         "&::-webkit-scrollbar": {
-          width: "8px",
-          height: "8px",
+          width: "4px",
+          height: "4px",
           zIndex: 100,
         },
         "&::-webkit-scrollbar-thumb": {
@@ -54,6 +54,7 @@ const Preview = ({
             active={_currentSlide === index}
             index={index}
             currentSlide={_currentSlide}
+            _position={position}
             _renderSelf={
               renderSlidePreview ??
               (({ Wrapper, slide, index, active, onClick, slideSx }) => (
@@ -89,6 +90,7 @@ const SlidePreview = ({
   index,
   currentSlide,
   _renderSelf,
+  _position,
 }: ISlidePreviewProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -163,6 +165,7 @@ const SlidePreview = ({
         onClick={onClick}
         Wrapper={Wrapper}
         slide={children}
+        position={_position}
       />
     </div>
   );

@@ -5,11 +5,14 @@ export interface IRenderSlidePreviewProps {
   active?: boolean;
   onClick?: any;
   slideSx?: ThemeUIStyleObject;
+  position?: "left" | "right" | "top" | "bottom";
   Wrapper: (props: any) => JSX.Element;
   slide: JSX.Element | JSX.Element[];
 }
 
-export type IRenderSlidePreview = (props: IRenderSlidePreviewProps) => JSX.Element;
+export type IRenderSlidePreview = (
+  props: IRenderSlidePreviewProps
+) => JSX.Element;
 
 export interface IPreviewProps {
   _children?: any;
@@ -29,4 +32,5 @@ export interface ISlidePreviewProps {
   active: boolean;
   currentSlide: number;
   _renderSelf?: IRenderSlidePreview;
+  _position?: "left" | "right" | "top" | "bottom";
 }
