@@ -46,18 +46,26 @@ export const DropArea = ({ position }: IDropAreaProps) => {
     return () => document.removeEventListener("mousemove", updateMousePosition);
   }, []);
 
-  const positionStyles = {
+  const isOverStyles = {
+    bg: "#44444425",
+    zIndex: 100,
+    [(position === "top" && "borderBottom") ||
+    (position === "bottom" && "borderTop") ||
+    (position === "left" && "borderRight") ||
+    (position === "right" && "borderLeft")]: "2px solid #44444488",
+  };
+
+  const dropAreaStyles = {
     top: position === "bottom" ? undefined : 0,
     bottom: position === "top" ? undefined : 0,
     left: position === "right" ? undefined : 0,
     right: position === "left" ? undefined : 0,
     width: position === "top" || position === "bottom" ? "100%" : 180,
     height: position === "left" || position === "right" ? "100%" : 180,
-    bg: isOver ? "primary" : "transparent",
-    zIndex: 100,
+    ...((isOver && isOverStyles) || {}),
   };
 
   return (
-    <div ref={setNodeRef} sx={{ position: "absolute", ...positionStyles }} />
+    <div ref={setNodeRef} sx={{ position: "absolute", ...dropAreaStyles }} />
   );
 };

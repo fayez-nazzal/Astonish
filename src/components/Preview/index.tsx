@@ -22,59 +22,68 @@ const Preview = ({
     position === "left" || position === "right" ? "vertical" : "horizontal";
 
   return (
-    <div
-      className={`preview ${
-        _orientation === "horizontal" ? "horizontal" : "vertical"
-      }`}
-      sx={{
-        bg: "preview-background",
-        boxShadow: "preview-box-shadow",
-        borderColor: "primary",
-        "&::-webkit-scrollbar": {
-          width: "4px",
-          height: "4px",
-          zIndex: 100,
-        },
-        "&::-webkit-scrollbar-thumb": {
-          background: "primary",
-          borderRadius: "8px",
-        },
-        "&::-webkit-scrollbar-track": {
-          background: "transparent",
-        },
+    <div className="preview-wrapper" sx={{ bg: "preview-background" }}>
+      <div
+        className={`preview ${
+          _orientation === "horizontal" ? "horizontal" : "vertical"
+        }`}
+        sx={{
+          boxShadow: "preview-box-shadow",
+          borderColor: "primary",
+          "&::-webkit-scrollbar": {
+            width: "4px",
+            height: "4px",
+            zIndex: 100,
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "primary",
+            borderRadius: "8px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "transparent",
+          },
 
-        ...sx,
-      }}
-    >
-      {React.Children.map(_children, (child: JSX.Element, index: number) => {
-        return (
-          <SlidePreview
-            {...child.props}
-            onClick={() => _goToSlide(index)}
-            active={_currentSlide === index}
-            index={index}
-            currentSlide={_currentSlide}
-            _position={position}
-            _renderSelf={
-              renderSlidePreview ??
-              (({ Wrapper, slide, index, active, onClick, slideSx }) => (
-                <div
-                  className={`slide-preview ${
-                    active ? "slide-preview-active" : ""
-                  }`}
-                  onClick={onClick}
-                  sx={{
-                    position: "relative",
-                    ...slideSx,
-                  }}
-                >
-                  <Wrapper>{slide}</Wrapper>
-                </div>
-              ))
-            }
-          />
-        );
-      })}
+          ...sx,
+        }}
+      >
+        {React.Children.map(_children, (child: JSX.Element, index: number) => {
+          return (
+            <SlidePreview
+              {...child.props}
+              onClick={() => _goToSlide(index)}
+              active={_currentSlide === index}
+              index={index}
+              currentSlide={_currentSlide}
+              _position={position}
+              _renderSelf={
+                renderSlidePreview ??
+                (({ Wrapper, slide, index, active, onClick, slideSx }) => (
+                  <div
+                    className={`slide-preview ${
+                      active ? "slide-preview-active" : ""
+                    }`}
+                    onClick={onClick}
+                    sx={{
+                      position: "relative",
+                      width:
+                        position === "left" || position === "right"
+                          ? "100%"
+                          : 140,
+                      height:
+                        position === "left" || position === "right"
+                          ? 92
+                          : "100%",
+                      ...slideSx,
+                    }}
+                  >
+                    <Wrapper>{slide}</Wrapper>
+                  </div>
+                ))
+              }
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
