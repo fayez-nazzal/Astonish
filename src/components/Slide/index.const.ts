@@ -1,10 +1,12 @@
 import { ITransition } from "./index.types";
 import { createTransition } from "./index.utils";
 
-export const DEFAULT_TRANSITION_DURATION = 0.24;
+export const DEFAULT_TRANSITION_DURATION = 0.6;
+
+export const DEFAULT_TRANSITION_TYPE = "spring";
 
 export const FadeInTransition = createTransition({
-  type: "tween",
+  type: DEFAULT_TRANSITION_TYPE,
   duration: DEFAULT_TRANSITION_DURATION,
   properties: {
     opacity: { from: 0, to: 1 },
@@ -12,7 +14,7 @@ export const FadeInTransition = createTransition({
 });
 
 export const SlideToBottomTransition = createTransition({
-  type: "tween",
+  type: DEFAULT_TRANSITION_TYPE,
   duration: DEFAULT_TRANSITION_DURATION,
   properties: {
     y: { from: "-100vh", to: 0 },
@@ -20,7 +22,7 @@ export const SlideToBottomTransition = createTransition({
 });
 
 export const SlideToTopTransition = createTransition({
-  type: "tween",
+  type: DEFAULT_TRANSITION_TYPE,
   duration: DEFAULT_TRANSITION_DURATION,
   properties: {
     y: { from: "100vh", to: 0 },
@@ -28,7 +30,7 @@ export const SlideToTopTransition = createTransition({
 });
 
 export const SlideToRightTransition = createTransition({
-  type: "tween",
+  type: DEFAULT_TRANSITION_TYPE,
   duration: DEFAULT_TRANSITION_DURATION,
   properties: {
     x: { from: "-100vw", to: 0 },
@@ -36,7 +38,7 @@ export const SlideToRightTransition = createTransition({
 });
 
 export const SlideToLeftTransition = createTransition({
-  type: "tween",
+  type: DEFAULT_TRANSITION_TYPE,
   duration: DEFAULT_TRANSITION_DURATION,
   properties: {
     x: { from: "100vw", to: 0 },
