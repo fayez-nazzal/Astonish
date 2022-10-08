@@ -70,9 +70,14 @@ const Astonish: React.FC<AstonishProps> = ({
       const childName = child.type.displayName || child.type;
 
       if (
-        !["Shared", "Slide", "ArrowControls", "Preview", "FullScreen"].includes(
-          childName
-        )
+        ![
+          "Shared",
+          "Slide",
+          "SlideNumber",
+          "ArrowControls",
+          "Preview",
+          "FullScreen",
+        ].includes(childName)
       ) {
         throw new Error(getWrongChildrenErrorMessage(childName));
       }
@@ -206,6 +211,15 @@ const Astonish: React.FC<AstonishProps> = ({
           React.cloneElement(child, {
             _childOfAstonish: true,
             key: `astonish-fullscreen`,
+          })
+        );
+      } else if (childName === "SlideNumber") {
+        sharedComponents.push(
+          React.cloneElement(child, {
+            _childOfAstonish: true,
+            _currentSlide: currentSlide,
+            _numberOfSlides: numberOfSlides,
+            key: `astonish-slide-number`,
           })
         );
       }
