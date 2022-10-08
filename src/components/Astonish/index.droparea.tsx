@@ -4,7 +4,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { IDropAreaProps } from "./index.types";
 import React from "react";
-import { PaneContext } from "../../../contexts/PaneContext";
+import { PaneContext } from "../../contexts/PaneContext";
 
 export const DropArea = ({ position }: IDropAreaProps) => {
   const [mouseSide, setMouseSide] = useState("");

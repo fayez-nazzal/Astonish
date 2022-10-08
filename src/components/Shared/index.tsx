@@ -1,5 +1,5 @@
 /** @jsxImportSource @theme-ui/core */
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 import { ISharedProps } from "./index.types";
 
 const Shared = ({ children, _childOfAstonish, sx }: ISharedProps) => {

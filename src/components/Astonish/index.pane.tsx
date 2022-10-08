@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { ReactComponent as DragHandle } from "../../svg/drag-handle.svg";
 import { IPaneProps } from "./index.types";
-import { PaneContext } from "../../../contexts/PaneContext";
+import { PaneContext } from "../../contexts/PaneContext";
 
 const Pane = ({
   position = "left",

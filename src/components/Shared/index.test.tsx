@@ -3,7 +3,7 @@ import React from "react";
 import Shared from ".";
 import Astonish from "../Astonish";
 import Slide from "../Slide";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 
 describe("Testing Shared component", () => {
   it("Throws error when not child of Astonish", () => {

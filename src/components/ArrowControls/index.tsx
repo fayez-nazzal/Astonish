@@ -3,7 +3,7 @@ import React from "react";
 import SVGButton from "../../ui/SVGButton";
 import Chevron from "./chevron";
 import { IArrowControlsProps } from "./index.types";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 
 import "./index.styles.scss";
 

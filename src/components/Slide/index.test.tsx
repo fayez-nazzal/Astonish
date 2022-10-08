@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import React from "react";
 import Slide from ".";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 import Astonish from "../Astonish";
 
 describe("Testing Slide Component", () => {

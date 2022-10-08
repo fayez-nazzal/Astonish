@@ -3,7 +3,7 @@ import { IFullScreenProps } from "./index.types";
 import SVGButton from "../../ui/SVGButton";
 import FUllScreenIcon from "./fullscreen";
 import "./index.styles.scss";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 
 const FullScreen = ({
   _childOfAstonish,

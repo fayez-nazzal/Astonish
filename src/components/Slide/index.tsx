@@ -1,7 +1,7 @@
 /** @jsxImportSource @theme-ui/core */
 import { motion } from "framer-motion";
 import React from "react";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 import { ISlideProps } from "./index.types";
 import { generateCustomTransition } from "./index.utils";
 

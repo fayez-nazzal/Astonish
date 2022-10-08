@@ -8,7 +8,7 @@ import React from "react";
 import ArrowControls from ".";
 import Slide from "../Slide";
 import Astonish from "../Astonish";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 
 describe("Testing ArrowControls Component", () => {
   it("Throws error when not child of Astonish", () => {

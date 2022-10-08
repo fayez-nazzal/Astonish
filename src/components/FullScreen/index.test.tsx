@@ -4,7 +4,7 @@ import FullScreen from ".";
 import Astonish from "../Astonish";
 import Slide from "../Slide";
 import ArrowControls from "../ArrowControls";
-import { getWrongParentErrorMessage } from "../../../utils/errors";
+import { getWrongParentErrorMessage } from "../../utils/errors";
 
 describe("Testing FullScreen component", () => {
   it("Throws error when not child of Astonish", () => {
