@@ -24,6 +24,7 @@ const Astonish: React.FC<AstonishProps> = ({
   sx,
   innerSx,
   loaderSx,
+  paneSx,
 }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
@@ -157,6 +158,7 @@ const Astonish: React.FC<AstonishProps> = ({
             position={previewPosition}
             vWidth={INITIAL_H_PREVIEW_WIDTH}
             hHeight={INITIAL_V_PREVIEW_HEIGHT}
+            sx={paneSx}
           >
             {previewComponent}
           </Pane>
@@ -304,7 +306,7 @@ const Astonish: React.FC<AstonishProps> = ({
             className="astonish-inner"
             onKeyDown={onKeyDown}
             data-testid="astonish-inner"
-            sx={{ ...innerSx }}
+            sx={{ bg: "background", ...sx, ...innerSx }}
           >
             {sharedComponents}
 

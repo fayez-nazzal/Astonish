@@ -13,6 +13,7 @@ const Pane = ({
   vWidth: hWidth,
   hHeight: vHeight,
   children,
+  sx,
 }: IPaneProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `pane-${name}`,
@@ -47,6 +48,12 @@ const Pane = ({
         ...style,
         width: _orientation === "horizontal" ? "100%" : hWidth,
         height: _orientation === "horizontal" ? vHeight : "100%",
+        border: "#555 solid",
+        borderLeftWidth: position === "right" ? "1px" : "0",
+        borderRightWidth: position === "left" ? "1px" : "0",
+        borderTopWidth: position === "bottom" ? "1px" : "0",
+        borderBottomWidth: position === "top" ? "1px" : "0",
+        ...sx,
       }}
       ref={setNodeRef}
       {...attributes}

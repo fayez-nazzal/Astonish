@@ -6,6 +6,7 @@ export interface AstonishProps {
   sx?: ThemeUIStyleObject;
   innerSx?: ThemeUIStyleObject;
   loaderSx?: ThemeUIStyleObject;
+  paneSx?: ThemeUIStyleObject;
 }
 
 export interface IAstonishLoaderProps {
@@ -24,4 +25,5 @@ export interface IPaneProps {
   children: JSX.Element[] | JSX.Element;
   vWidth: string; // width when in horizontal mode
   hHeight: string; // height when in vertical mode
+  sx?: ThemeUIStyleObject;
 }
