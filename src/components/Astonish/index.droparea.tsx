@@ -3,6 +3,8 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { IDropAreaProps } from "./index.types";
+import React from "react";
+import { PaneContext } from "../../../contexts/PaneContext";
 
 export const DropArea = ({ position }: IDropAreaProps) => {
   const [mouseSide, setMouseSide] = useState("");
@@ -10,6 +12,8 @@ export const DropArea = ({ position }: IDropAreaProps) => {
     id: `droppable-${position}`,
     disabled: !mouseSide.includes(position),
   });
+  const { draggingPaneWidth, draggingPaneHeight } =
+    React.useContext(PaneContext);
 
   useEffect(() => {
     // get mouse position
@@ -60,8 +64,10 @@ export const DropArea = ({ position }: IDropAreaProps) => {
     bottom: position === "top" ? undefined : 0,
     left: position === "right" ? undefined : 0,
     right: position === "left" ? undefined : 0,
-    width: position === "top" || position === "bottom" ? "100%" : 180,
-    height: position === "left" || position === "right" ? "100%" : 180,
+    width:
+      position === "top" || position === "bottom" ? "100%" : draggingPaneWidth,
+    height:
+      position === "left" || position === "right" ? "100%" : draggingPaneHeight,
     ...((isOver && isOverStyles) || {}),
   };
 

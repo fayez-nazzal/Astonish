@@ -22,4 +22,6 @@ export interface IPaneProps {
   name: string;
   draggable: boolean;
   children: JSX.Element[] | JSX.Element;
+  vWidth: string; // width when in horizontal mode
+  hHeight: string; // height when in vertical mode
 }

@@ -9,10 +9,14 @@ import "../../global.scss";
 import { AnimatePresence } from "framer-motion";
 import AstonishLoader from "./index.loader";
 import { AstonishContainer } from "./container";
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragOverlay } from "@dnd-kit/core";
 import { DropArea } from "./index.droparea";
 import Pane from "./index.pane";
 import usePrevious from "../../hooks/usePrevious";
+import {
+  INITIAL_H_PREVIEW_WIDTH,
+  INITIAL_V_PREVIEW_HEIGHT,
+} from "../Preview/index.const";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -38,6 +42,8 @@ const Astonish: React.FC<AstonishProps> = ({
 
   const [previewDnDPosition, setPreviewDnDPosition] = React.useState<string>();
   const previousPreviewDnDPosition = usePrevious(previewDnDPosition);
+
+  const [activeDNDId, setActiveDNDId] = React.useState(null);
 
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
@@ -143,22 +149,26 @@ const Astonish: React.FC<AstonishProps> = ({
             ? topPanes
             : bottomPanes;
 
+        const newPaneWithPreview = (
+          <Pane
+            draggable
+            key="preview"
+            name="Preview"
+            position={previewPosition}
+            vWidth={INITIAL_H_PREVIEW_WIDTH}
+            hHeight={INITIAL_V_PREVIEW_HEIGHT}
+          >
+            {previewComponent}
+          </Pane>
+        );
+
         if (previousPreviewDnDPosition === previewDnDPosition) {
           const previewPaneIndex = pane.findIndex(
             (p) => p.props.name === "Preview"
           );
 
           if (previewPaneIndex !== -1) {
-            pane[previewPaneIndex] = (
-              <Pane
-                draggable
-                key="preview"
-                name="Preview"
-                position={previewPosition}
-              >
-                {previewComponent}
-              </Pane>
-            );
+            pane[previewPaneIndex] = newPaneWithPreview;
           }
         } else {
           if (!!previousPreviewDnDPosition) {
@@ -179,16 +189,7 @@ const Astonish: React.FC<AstonishProps> = ({
           }
 
           // add preview to pane
-          pane.push(
-            <Pane
-              position={previewPosition}
-              draggable
-              key="preview"
-              name="Preview"
-            >
-              {previewComponent}
-            </Pane>
-          );
+          pane.push(newPaneWithPreview);
 
           if (previewPosition === "left") setLeftPanes(pane);
           else if (previewPosition === "right") setRightPanes(pane);
@@ -274,7 +275,10 @@ const Astonish: React.FC<AstonishProps> = ({
   };
 
   return (
-    <DndContext onDragEnd={onDragEnd}>
+    <DndContext
+      onDragEnd={onDragEnd}
+      onDragStart={(event) => setActiveDNDId(event.active.id)}
+    >
       <AstonishContainer>
         <div
           className="astonish"
@@ -319,6 +323,18 @@ const Astonish: React.FC<AstonishProps> = ({
             <div className="astonish-controls">{controls}</div>
           </div>
         </div>
+
+        <DragOverlay>
+          {activeDNDId ? (
+            <div
+              sx={{
+                width: "100%",
+                height: "100%",
+                boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+              }}
+            />
+          ) : null}
+        </DragOverlay>
       </AstonishContainer>
     </DndContext>
   );

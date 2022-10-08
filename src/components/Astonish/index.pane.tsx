@@ -1,20 +1,31 @@
 /** @jsxImportSource @theme-ui/core */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { ReactComponent as DragHandle } from "../../svg/drag-handle.svg";
 import { IPaneProps } from "./index.types";
+import { PaneContext } from "../../../contexts/PaneContext";
 
 const Pane = ({
   position = "left",
   name,
   draggable = true,
+  vWidth: hWidth,
+  hHeight: vHeight,
   children,
 }: IPaneProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `pane-${name}`,
     disabled: !draggable,
   });
+
+  const { setDraggingPaneWidth, setDraggingPaneHeight } =
+    React.useContext(PaneContext);
+
+  const onDragHandleMouseDown = () => {
+    setDraggingPaneWidth(hWidth);
+    setDraggingPaneHeight(vHeight);
+  };
 
   const style = transform
     ? {
@@ -30,11 +41,12 @@ const Pane = ({
       sx={{
         position: "relative",
         zIndex: 100,
-        height: "100%",
         display: "flex",
         flexDirection: _orientation === "horizontal" ? "row" : "column",
         overflow: "hidden",
         ...style,
+        width: _orientation === "horizontal" ? "100%" : hWidth,
+        height: _orientation === "horizontal" ? vHeight : "100%",
       }}
       ref={setNodeRef}
       {...attributes}
@@ -42,8 +54,6 @@ const Pane = ({
       <div
         sx={{
           display: "flex",
-          height: _orientation === "horizontal" ? "100%" : 32,
-          width: _orientation === "horizontal" ? 66 : "100%",
           pl: 2,
           pr: _orientation === "horizontal" ? 2 : 0,
           py: _orientation === "horizontal" ? 2 : 0,
@@ -54,8 +64,11 @@ const Pane = ({
           lineHeight: "14x",
           color: "#fff",
           flexDirection: _orientation === "horizontal" ? "column" : "row",
+          height: _orientation === "horizontal" ? "100%" : 32,
+          width: _orientation === "horizontal" ? 66 : "100%",
         }}
         className="drag-handle"
+        onMouseDown={onDragHandleMouseDown}
       >
         <label>{name}</label>
 
@@ -71,12 +84,13 @@ const Pane = ({
 
       <div
         sx={{
-          height: _orientation === "horizontal" ? "100%" : "calc(100% - 32px)",
           position: "relative",
           overflow: "hidden",
           "& *": {
             transition: "none !important",
           },
+          height: "100%",
+          width: "100%",
         }}
       >
         {children}
