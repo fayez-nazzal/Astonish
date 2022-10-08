@@ -1,3 +1,10 @@
+import {
+  FadeInTransition,
+  SlideToRightTransition,
+  SlideToLeftTransition,
+  SlideToTopTransition,
+  SlideToBottomTransition,
+} from "./components/Slide/index.const";
 // Export your components here using export `component` syntax
 /* Each component tree may look like the following
         - ExampleComponent/
@@ -24,4 +31,9 @@ export {
   FullScreen,
   ArrowControls,
   createTransition,
+  FadeInTransition,
+  SlideToRightTransition,
+  SlideToLeftTransition,
+  SlideToTopTransition,
+  SlideToBottomTransition,
 };
