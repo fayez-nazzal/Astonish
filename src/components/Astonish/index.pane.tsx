@@ -50,6 +50,7 @@ const Pane = ({
       }}
       ref={setNodeRef}
       {...attributes}
+      data-testid="pane"
     >
       <div
         sx={{
@@ -72,14 +73,17 @@ const Pane = ({
       >
         <label>{name}</label>
 
-        <DragHandle
-          style={{
-            width: 24,
-            height: 24,
-            cursor: transform ? "grabbing" : "grab",
-          }}
-          {...listeners}
-        />
+        {draggable && (
+          <DragHandle
+            style={{
+              width: 24,
+              height: 24,
+              cursor: transform ? "grabbing" : "grab",
+            }}
+            {...listeners}
+            data-testid="drag-handle"
+          />
+        )}
       </div>
 
       <div
