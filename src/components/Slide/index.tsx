@@ -3,15 +3,13 @@ import { motion } from "framer-motion";
 import React from "react";
 import { getWrongParentErrorMessage } from "../../utils/errors";
 import { ISlideProps } from "./index.types";
-import { generateCustomTransition } from "./index.utils";
 
 const Slide = React.memo(
   ({
     children,
     _childOfAstonish,
-    transition = generateCustomTransition("tween", 0.32, {
-      x: { from: "105%", to: 0 },
-    }),
+    transition,
+    _defaultTransition,
     _disableTransition,
     _disableInitialTransition,
     sx,
@@ -29,9 +27,8 @@ const Slide = React.memo(
     if (!_disableTransition)
       return (
         <motion.div
-          {...transition}
+          {...(_defaultTransition ?? transition)}
           {...(!_disableInitialTransition ? {} : { initial: false })}
-          transition={{ duration: 0.6, type: "spring" }}
         >
           {children}
         </motion.div>

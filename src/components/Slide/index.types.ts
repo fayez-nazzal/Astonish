@@ -1,10 +1,11 @@
 import { ThemeUIStyleObject } from "@theme-ui/core";
 export interface ISlideProps {
   children: any;
-  transition?: ISlideTransition;
+  transition?: ITransition;
   _childOfAstonish?: boolean;
   _disableTransition?: boolean;
   _disableInitialTransition?: boolean;
+  _defaultTransition?: ITransition;
   sx?: ThemeUIStyleObject;
 }
 
@@ -13,7 +14,7 @@ export interface ITransitionProperty {
   to: number | string;
 }
 
-export interface ISlideTransition {
+export interface ITransition {
   initial: Record<string, string | number>;
   animate: Record<string, string | number>;
   exit: Record<string, string | number>;
@@ -21,4 +22,10 @@ export interface ISlideTransition {
     duration: number;
     type: "spring" | "tween";
   };
+}
+
+export interface ICreateTransitionConfig {
+  type: "spring" | "tween";
+  duration: number;
+  properties: Record<string, ITransitionProperty>;
 }

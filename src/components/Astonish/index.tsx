@@ -17,6 +17,7 @@ import {
   INITIAL_H_PREVIEW_WIDTH,
   INITIAL_V_PREVIEW_HEIGHT,
 } from "../Preview/index.const";
+import { SLIDE_DEFAULT_TRANSITION } from "../Slide/index.const";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -25,6 +26,7 @@ const Astonish: React.FC<AstonishProps> = ({
   innerSx,
   loaderSx,
   paneSx,
+  defaultSlideTransition = SLIDE_DEFAULT_TRANSITION,
 }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
@@ -101,6 +103,7 @@ const Astonish: React.FC<AstonishProps> = ({
               _childOfAstonish: true,
               _disableTransition: disableTransition,
               _disableInitialTransition: currentLoopedSlideIndex === 0,
+              _defaultTransition: defaultSlideTransition,
               key: `astonish-preview-slide-${index}`,
             })}
           </AnimatePresence>

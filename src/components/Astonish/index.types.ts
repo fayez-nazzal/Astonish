@@ -1,4 +1,5 @@
 import { ThemeUIStyleObject } from "@theme-ui/core";
+import { ITransition } from "../Slide/index.types";
 
 export interface AstonishProps {
   children?: JSX.Element[] | JSX.Element;
@@ -7,6 +8,7 @@ export interface AstonishProps {
   innerSx?: ThemeUIStyleObject;
   loaderSx?: ThemeUIStyleObject;
   paneSx?: ThemeUIStyleObject;
+  defaultSlideTransition?: ITransition;
 }
 
 export interface IAstonishLoaderProps {

@@ -14,7 +14,7 @@ import Shared from "./components/Shared";
 import Preview from "./components/Preview";
 import FullScreen from "./components/FullScreen";
 import ArrowControls from "./components/ArrowControls";
-import { generateCustomTransition } from "./components/Slide/index.utils";
+import { createTransition } from "./components/Slide/index.utils";
 
 export {
   Astonish,
@@ -23,5 +23,5 @@ export {
   Preview,
   FullScreen,
   ArrowControls,
-  generateCustomTransition,
+  createTransition,
 };

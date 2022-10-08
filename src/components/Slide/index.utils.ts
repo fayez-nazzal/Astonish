@@ -1,10 +1,14 @@
-import { ISlideTransition, ITransitionProperty } from "./index.types";
+import {
+  ICreateTransitionConfig,
+  ITransition,
+  ITransitionProperty,
+} from "./index.types";
 
-export const generateCustomTransition = (
-  type: "spring" | "tween",
-  duration: number,
-  properties: Record<string, ITransitionProperty>
-) => {
+export const createTransition = ({
+  type,
+  duration,
+  properties,
+}: ICreateTransitionConfig) => {
   const finalTransition = {
     initial: {},
     animate: {},
@@ -21,5 +25,5 @@ export const generateCustomTransition = (
     finalTransition.exit[key] = properties[key].to;
   });
 
-  return finalTransition as ISlideTransition;
+  return finalTransition as ITransition;
 };
