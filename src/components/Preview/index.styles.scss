@@ -1,33 +1,55 @@
+@mixin horizontal-orientation {
+  display: flex;
+  max-width: 100vw;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  overflow-x: auto;
+
+  @supports (overflow-x: overlay) {
+    overflow-x: overlay;
+  }
+
+  overflow-y: hidden;
+}
+
+.preview-wrapper {
+  height: 100%;
+}
+
 .preview {
-  width: 200px;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   overflow: auto;
-  border-right: 2px solid;
   padding-right: 2px;
   z-index: 1000;
   perspective: 1;
   justify-content: flex-start safe;
+  overflow-y: auto;
+
+  @supports (overflow-y: overlay) {
+    overflow-y: overlay;
+  }
+
+  overflow-x: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 
   @media (max-width: 768px) {
-    display: flex;
-    max-width: 100vw;
-    width: 100vw;
-    min-height: 100px;
-    height: 100px;
-    overflow-y: hidden;
-    border-right: 0;
-    border-top: 2px solid;
+    @include horizontal-orientation;
+  }
+
+  &.horizontal {
+    @include horizontal-orientation;
   }
 }
 
 .slide-preview {
-  width: 180px;
-  height: 100px;
   position: relative;
   opacity: 0.78;
   display: flex;
   padding: 5px;
   flex-shrink: 0;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     min-height: 100px;
@@ -57,21 +79,7 @@
   }
 
   & .slide-preview-slide {
-    border: 1px solid #8a8a8a;
     background-color: rgba(0, 0, 0, 0.22);
     width: 100%;
   }
-}
-
-.slide-to-snapshot {
-  background: white;
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  height: 100%;
-}
-
-.snapshot-children {
-  width: 100vw;
-  height: 100vh;
 }

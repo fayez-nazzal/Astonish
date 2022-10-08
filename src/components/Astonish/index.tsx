@@ -1,5 +1,5 @@
 /** @jsxImportSource @theme-ui/core */
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, SetStateAction, useEffect } from "react";
 import { AstonishProps } from "./index.types";
 import { getWrongChildrenErrorMessage } from "./index.utils";
 
@@ -9,6 +9,14 @@ import "../../global.scss";
 import { AnimatePresence } from "framer-motion";
 import AstonishLoader from "./index.loader";
 import { AstonishContainer } from "./container";
+import { DndContext, DragEndEvent, DragOverlay } from "@dnd-kit/core";
+import { DropArea } from "./index.droparea";
+import Pane from "./index.pane";
+import usePrevious from "../../hooks/usePrevious";
+import {
+  INITIAL_H_PREVIEW_WIDTH,
+  INITIAL_V_PREVIEW_HEIGHT,
+} from "../Preview/index.const";
 
 const Astonish: React.FC<AstonishProps> = ({
   children,
@@ -16,12 +24,11 @@ const Astonish: React.FC<AstonishProps> = ({
   sx,
   innerSx,
   loaderSx,
+  paneSx,
 }) => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [numberOfSlides, setNumberOfSlides] = React.useState(0);
   const [slides, setSlides] = React.useState<typeof children>([]);
-  const [previewComponent, setPreviewComponent] =
-    React.useState<React.FunctionComponentElement<any>>();
   const [sharedComponents, setSharedComponents] = React.useState<
     React.FunctionComponentElement<any>[]
   >([]);
@@ -29,6 +36,15 @@ const Astonish: React.FC<AstonishProps> = ({
     React.useState<React.FunctionComponentElement<any>[]>();
   const [disableTransition, setDisableTransition] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
+  const [leftPanes, setLeftPanes] = React.useState<JSX.Element[]>([]);
+  const [rightPanes, setRightPanes] = React.useState<JSX.Element[]>([]);
+  const [topPanes, setTopPanes] = React.useState<JSX.Element[]>([]);
+  const [bottomPanes, setBottomPanes] = React.useState<JSX.Element[]>([]);
+
+  const [previewDnDPosition, setPreviewDnDPosition] = React.useState<string>();
+  const previousPreviewDnDPosition = usePrevious(previewDnDPosition);
+
+  const [activeDNDId, setActiveDNDId] = React.useState(null);
 
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
@@ -85,6 +101,7 @@ const Astonish: React.FC<AstonishProps> = ({
               _childOfAstonish: true,
               _disableTransition: disableTransition,
               _disableInitialTransition: currentLoopedSlideIndex === 0,
+              key: `astonish-preview-slide-${index}`,
             })}
           </AnimatePresence>
         );
@@ -110,15 +127,77 @@ const Astonish: React.FC<AstonishProps> = ({
           })
         );
       else if (childName === "Preview") {
-        setPreviewComponent(
-          React.cloneElement(child, {
-            _childOfAstonish: true,
-            _children: slides,
-            _goToSlide,
-            _currentSlide: currentSlide,
-            Key: "astonish-preview",
-          })
+        const previewPosition =
+          previewDnDPosition ?? (child.props.initialPosition || "left");
+
+        const previewComponent = React.cloneElement(child, {
+          _childOfAstonish: true,
+          _children: slides,
+          _goToSlide,
+          _currentSlide: currentSlide,
+          key: "astonish-preview",
+          initialPosition: previewPosition,
+        });
+
+        setPreviewDnDPosition(previewPosition);
+
+        const pane =
+          previewPosition === "left"
+            ? leftPanes
+            : previewPosition === "right"
+            ? rightPanes
+            : previewPosition === "top"
+            ? topPanes
+            : bottomPanes;
+
+        const newPaneWithPreview = (
+          <Pane
+            draggable
+            key="preview"
+            name="Preview"
+            position={previewPosition}
+            vWidth={INITIAL_H_PREVIEW_WIDTH}
+            hHeight={INITIAL_V_PREVIEW_HEIGHT}
+            sx={paneSx}
+          >
+            {previewComponent}
+          </Pane>
         );
+
+        if (previousPreviewDnDPosition === previewDnDPosition) {
+          const previewPaneIndex = pane.findIndex(
+            (p) => p.props.name === "Preview"
+          );
+
+          if (previewPaneIndex !== -1) {
+            pane[previewPaneIndex] = newPaneWithPreview;
+          }
+        } else {
+          if (!!previousPreviewDnDPosition) {
+            const previousPaneSetter =
+              previousPreviewDnDPosition === "left"
+                ? setLeftPanes
+                : previousPreviewDnDPosition === "right"
+                ? setRightPanes
+                : previousPreviewDnDPosition === "top"
+                ? setTopPanes
+                : setBottomPanes;
+
+            previousPaneSetter((previousPane) =>
+              previousPane.filter((child) => {
+                return child.props.name !== "Preview";
+              })
+            );
+          }
+
+          // add preview to pane
+          pane.push(newPaneWithPreview);
+
+          if (previewPosition === "left") setLeftPanes(pane);
+          else if (previewPosition === "right") setRightPanes(pane);
+          else if (previewPosition === "top") setTopPanes(pane);
+          else setBottomPanes(pane);
+        }
       } else if (childName === "FullScreen") {
         controls.push(
           React.cloneElement(child, {
@@ -135,7 +214,7 @@ const Astonish: React.FC<AstonishProps> = ({
 
     // autofocus astonish
     ref.current!.focus();
-  }, [children, currentSlide, numberOfSlides]);
+  }, [children, currentSlide, numberOfSlides, previewDnDPosition]);
 
   const _goToSlide = (slideIndex: number) => {
     setDisableTransition(true);
@@ -185,32 +264,81 @@ const Astonish: React.FC<AstonishProps> = ({
     }
   };
 
+  const onDragEnd = (event: DragEndEvent) => {
+    if (typeof event.over.id !== "string" || !event.over) return;
+
+    const position = (event.over.id as string).match(
+      /droppable-(.*)/
+    )[1] as string;
+
+    if ((event.active.id as string).toLowerCase().includes("preview")) {
+      setPreviewDnDPosition(position);
+    }
+  };
+
   return (
-    <AstonishContainer>
-      <div
-        className="astonish"
-        data-testid="astonish"
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-        ref={ref}
-        sx={{ bg: "background", ...sx }}
-      >
-        <AstonishLoader numberOfSlides={numberOfSlides} sx={loaderSx} />
-
-        {previewComponent}
+    <DndContext
+      onDragEnd={onDragEnd}
+      onDragStart={(event) => setActiveDNDId(event.active.id)}
+    >
+      <AstonishContainer>
         <div
-          className="astonish-inner"
+          className="astonish"
+          data-testid="astonish"
+          tabIndex={0}
           onKeyDown={onKeyDown}
-          data-testid="astonish-inner"
-          sx={{ ...innerSx }}
+          ref={ref}
+          sx={{ bg: "background", ...sx }}
         >
-          {sharedComponents}
-          {slides[currentSlide]}
+          <AstonishLoader numberOfSlides={numberOfSlides} sx={loaderSx} />
 
-          <div className="astonish-controls">{controls}</div>
+          <DropArea position="right" />
+          <DropArea position="left" />
+          <DropArea position="top" />
+          <DropArea position="bottom" />
+
+          <div className="content-left">{leftPanes}</div>
+          <div className="content-right">{rightPanes}</div>
+          <div className="content-top">{topPanes}</div>
+          <div className="content-bottom">{bottomPanes}</div>
+
+          <div
+            className="astonish-inner"
+            onKeyDown={onKeyDown}
+            data-testid="astonish-inner"
+            sx={{ bg: "background", ...sx, ...innerSx }}
+          >
+            {sharedComponents}
+
+            <div
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            >
+              {slides[currentSlide]}
+            </div>
+
+            <div className="astonish-controls">{controls}</div>
+          </div>
         </div>
-      </div>
-    </AstonishContainer>
+
+        <DragOverlay>
+          {activeDNDId ? (
+            <div
+              sx={{
+                width: "100%",
+                height: "100%",
+                boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+              }}
+            />
+          ) : null}
+        </DragOverlay>
+      </AstonishContainer>
+    </DndContext>
   );
 };
 
