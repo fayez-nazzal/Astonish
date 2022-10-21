@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import Astonish from ".";
+import Astonish from "./index";
 import Slide from "../Slide";
 import { AstonishProps } from "./index.types";
 import FullScreen from "../FullScreen";

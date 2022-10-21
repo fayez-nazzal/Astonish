@@ -1,11 +1,11 @@
 /** @jsxImportSource @theme-ui/core */
 import { ISlideNumberProps } from "./index.types";
+import React from "react";
+import { AstonishContext } from "../../contexts/AstonishContext";
 
-export const SlideNumber = ({
-  position,
-  sx,
-  _currentSlide,
-}: ISlideNumberProps) => {
+export const SlideNumber = ({ position, sx }: ISlideNumberProps) => {
+  const { currentSlide } = React.useContext(AstonishContext);
+
   return (
     <div
       sx={{
@@ -31,7 +31,7 @@ export const SlideNumber = ({
         ...sx,
       }}
     >
-      {_currentSlide + 1}
+      {currentSlide + 1}
     </div>
   );
 };

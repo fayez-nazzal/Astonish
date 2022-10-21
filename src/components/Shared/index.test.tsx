@@ -3,17 +3,8 @@ import React from "react";
 import Shared from ".";
 import Astonish from "../Astonish";
 import Slide from "../Slide";
-import { getWrongParentErrorMessage } from "../../utils/errors";
 
 describe("Testing Shared component", () => {
-  it("Throws error when not child of Astonish", () => {
-    console.error = () => {};
-
-    expect(() => render(<Shared>test</Shared>)).toThrow(
-      getWrongParentErrorMessage("Shared", "Astonish")
-    );
-  });
-
   it("is rendered", () => {
     const component = (
       <Astonish>

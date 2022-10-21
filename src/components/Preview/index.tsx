@@ -3,21 +3,15 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { IPreviewProps, ISlidePreviewProps } from "./index.types";
 import "./index.styles.scss";
-import { getWrongParentErrorMessage } from "../../utils/errors";
 
 const Preview = ({
   _children,
-  _childOfAstonish,
   _goToSlide,
   _currentSlide,
   sx,
   renderSlidePreview,
   initialPosition: position = "left",
 }: IPreviewProps) => {
-  if (!_childOfAstonish) {
-    throw Error(getWrongParentErrorMessage("Preview", "Astonish"));
-  }
-
   const _orientation =
     position === "left" || position === "right" ? "vertical" : "horizontal";
 

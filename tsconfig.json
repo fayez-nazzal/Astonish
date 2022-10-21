@@ -13,6 +13,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@theme-ui/core"
   },
-  "include": ["declarations.d.ts", "src/**/*"],
+  "include": ["declarations.d.ts", "src/**/*", "contexts", "utils"],
   "exclude": ["node_modules", "build"]
 }

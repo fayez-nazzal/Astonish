@@ -1,2 +1,8 @@
-export const getWrongChildrenErrorMessage = (childName: string) =>
-  `Astonish only accepts children of type Shared, Slide, ArrowControls, Preview, FullScreen. Received ${childName}`;
+// recursive function that get children of all nest levels
+export const getReactDeepNestedChildren = (children: any) => {
+  if (children && children.props && children.props.children) {
+    return [children, ...getReactDeepNestedChildren(children.props.children)];
+  }
+
+  return [children];
+};

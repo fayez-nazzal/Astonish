@@ -2,7 +2,6 @@ import { ThemeUIStyleObject } from "@theme-ui/core";
 export interface ISlideProps {
   children: any;
   transition?: ITransition;
-  _childOfAstonish?: boolean;
   _disableTransition?: boolean;
   _disableInitialTransition?: boolean;
   _defaultTransition?: ITransition;

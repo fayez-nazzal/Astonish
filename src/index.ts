@@ -15,7 +15,7 @@ import {
         -- index.test.tsx or index.spec.tsx
 */
 
-import Astonish from "./components/Astonish";
+import Astonish from "./components/Astonish/index.astonish-container";
 import Slide from "./components/Slide";
 import Shared from "./components/Shared";
 import Preview from "./components/Preview";

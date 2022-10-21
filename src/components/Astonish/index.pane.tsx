@@ -10,8 +10,10 @@ const Pane = ({
   position = "left",
   name,
   draggable = true,
-  vWidth: hWidth,
-  hHeight: vHeight,
+  vWidth,
+  hHeight,
+  defaultWidth = "100%",
+  defaultHeight = "100%",
   children,
   sx,
 }: IPaneProps) => {
@@ -24,8 +26,8 @@ const Pane = ({
     React.useContext(PaneContext);
 
   const onDragHandleMouseDown = () => {
-    setDraggingPaneWidth(hWidth);
-    setDraggingPaneHeight(vHeight);
+    setDraggingPaneWidth(vWidth);
+    setDraggingPaneHeight(hHeight);
   };
 
   const style = transform
@@ -46,8 +48,8 @@ const Pane = ({
         flexDirection: _orientation === "horizontal" ? "row" : "column",
         overflow: "hidden",
         ...style,
-        width: _orientation === "horizontal" ? "100%" : hWidth,
-        height: _orientation === "horizontal" ? vHeight : "100%",
+        width: _orientation === "horizontal" ? defaultWidth : vWidth,
+        height: _orientation === "horizontal" ? hHeight : defaultHeight,
         border: "#555 solid",
         borderLeftWidth: position === "right" ? "1px" : "0",
         borderRightWidth: position === "left" ? "1px" : "0",
@@ -110,6 +112,6 @@ const Pane = ({
   );
 };
 
-Pane.displayName = "Preview";
+Pane.displayName = "Pane";
 
 export default React.memo(Pane);

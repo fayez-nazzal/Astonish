@@ -9,5 +9,4 @@ export interface ISlideNumberProps {
     | "bottom-right"
     | "bottom-center";
   sx?: ThemeUIStyleObject;
-  _currentSlide?: number;
 }
