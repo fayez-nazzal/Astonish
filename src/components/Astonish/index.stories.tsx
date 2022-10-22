@@ -1,6 +1,5 @@
 import { Story } from "@storybook/react";
-import React from "react";
-import Astonish from ".";
+import Astonish from "./index";
 import Slide from "../Slide";
 import { AstonishProps } from "./index.types";
 import FullScreen from "../FullScreen";
@@ -9,6 +8,7 @@ import Preview from "../Preview";
 
 import { ReactComponent as ChevronRightIcon } from "../../svg/chevron-custom.svg";
 import { ReactComponent as FullScreenIcon } from "../../svg/fullscreen-custom.svg";
+import SlideNumber from "../SlideNumber";
 
 export default {
   title: "Astonish",
@@ -62,6 +62,7 @@ SlideshowWithPreview.args = {
     <Preview key="15" />,
     <ArrowControls key="16" />,
     <FullScreen key="17" />,
+    <SlideNumber position="top-right" key="18" />,
   ],
 };
 

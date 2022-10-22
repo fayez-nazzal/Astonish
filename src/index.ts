@@ -1,3 +1,10 @@
+import {
+  FadeInTransition,
+  SlideToRightTransition,
+  SlideToLeftTransition,
+  SlideToTopTransition,
+  SlideToBottomTransition,
+} from "./components/Slide/index.const";
 // Export your components here using export `component` syntax
 /* Each component tree may look like the following
         - ExampleComponent/
@@ -8,13 +15,13 @@
         -- index.test.tsx or index.spec.tsx
 */
 
-import Astonish from "./components/Astonish";
+import Astonish from "./components/Astonish/index.astonish-container";
 import Slide from "./components/Slide";
 import Shared from "./components/Shared";
 import Preview from "./components/Preview";
 import FullScreen from "./components/FullScreen";
 import ArrowControls from "./components/ArrowControls";
-import { generateCustomTransition } from "./components/Slide/index.utils";
+import { createTransition } from "./components/Slide/index.utils";
 
 export {
   Astonish,
@@ -23,5 +30,10 @@ export {
   Preview,
   FullScreen,
   ArrowControls,
-  generateCustomTransition,
+  createTransition,
+  FadeInTransition,
+  SlideToRightTransition,
+  SlideToLeftTransition,
+  SlideToTopTransition,
+  SlideToBottomTransition,
 };

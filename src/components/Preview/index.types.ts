@@ -16,7 +16,6 @@ export type IRenderSlidePreview = (
 
 export interface IPreviewProps {
   _children?: any;
-  _childOfAstonish?: boolean;
   _goToSlide?: (slideIndex: number) => void;
   _currentSlide?: number;
   sx?: ThemeUIStyleObject;

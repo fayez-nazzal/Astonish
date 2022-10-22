@@ -8,30 +8,8 @@ import React from "react";
 import ArrowControls from ".";
 import Slide from "../Slide";
 import Astonish from "../Astonish";
-import { getWrongParentErrorMessage } from "../../utils/errors";
 
 describe("Testing ArrowControls Component", () => {
-  it("Throws error when not child of Astonish", () => {
-    console.error = () => {};
-
-    expect(() => render(<ArrowControls />)).toThrow(
-      getWrongParentErrorMessage("ArrowControls", "Astonish")
-    );
-  });
-
-  it("renders correctly when child of astonish", () => {
-    const { queryByTestId } = render(
-      <Astonish>
-        <ArrowControls />
-
-        <Slide>Slide 1</Slide>
-      </Astonish>
-    );
-
-    expect(queryByTestId("arrow-controls-left")).toBeInTheDocument();
-    expect(queryByTestId("arrow-controls-right")).toBeInTheDocument();
-  });
-
   it("goes next slide when arrow right is clicked", async () => {
     const { queryByTestId, queryByText } = render(
       <Astonish>

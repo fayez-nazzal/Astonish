@@ -1,4 +1,5 @@
 import { ThemeUIStyleObject } from "@theme-ui/core";
+import { ITransition } from "../Slide/index.types";
 
 export interface AstonishProps {
   children?: JSX.Element[] | JSX.Element;
@@ -7,6 +8,7 @@ export interface AstonishProps {
   innerSx?: ThemeUIStyleObject;
   loaderSx?: ThemeUIStyleObject;
   paneSx?: ThemeUIStyleObject;
+  defaultSlideTransition?: ITransition;
 }
 
 export interface IAstonishLoaderProps {
@@ -23,7 +25,9 @@ export interface IPaneProps {
   name: string;
   draggable: boolean;
   children: JSX.Element[] | JSX.Element;
-  vWidth: string; // width when in horizontal mode
-  hHeight: string; // height when in vertical mode
+  vWidth: string; // width when in vertical mode
+  hHeight: string; // height when in horizontal mode
+  defaultWidth?: string | string[]; // width when in horizontal mode
+  defaultHeight?: string | string[]; // height when in vertical mode
   sx?: ThemeUIStyleObject;
 }
