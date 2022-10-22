@@ -1,9 +1,9 @@
 import { ITransition } from "./index.types";
 import { createTransition } from "./index.utils";
 
-export const DEFAULT_TRANSITION_DURATION = 0.6;
+export const DEFAULT_TRANSITION_DURATION = 0.4;
 
-export const DEFAULT_TRANSITION_TYPE = "spring";
+export const DEFAULT_TRANSITION_TYPE = "tween";
 
 export const FadeInTransition = createTransition({
   type: DEFAULT_TRANSITION_TYPE,

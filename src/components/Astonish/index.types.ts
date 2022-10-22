@@ -6,7 +6,7 @@ export interface AstonishProps {
   infiniteControls?: boolean;
   sx?: ThemeUIStyleObject;
   innerSx?: ThemeUIStyleObject;
-  loaderSx?: ThemeUIStyleObject;
+  slideSx?: ThemeUIStyleObject;
   paneSx?: ThemeUIStyleObject;
   defaultSlideTransition?: ITransition;
 }

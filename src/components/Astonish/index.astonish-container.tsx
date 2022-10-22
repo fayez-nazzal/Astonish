@@ -23,7 +23,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
   infiniteControls,
   sx,
   innerSx,
-  loaderSx,
+  slideSx,
   paneSx,
   defaultSlideTransition = SLIDE_DEFAULT_TRANSITION,
 }) => {
@@ -107,6 +107,11 @@ const AstonishContainer: React.FC<AstonishProps> = ({
               _disableTransition: disableTransition,
               _disableInitialTransition: currentLoopedSlideIndex === 0,
               _defaultTransition: defaultSlideTransition,
+              sx: {
+                backgroundColor: "background",
+                ...slideSx,
+                ...child.props.sx,
+              },
               key: `astonish-preview-slide-${index}`,
             })}
           </AnimatePresence>
@@ -318,17 +323,25 @@ const AstonishContainer: React.FC<AstonishProps> = ({
         >
           {sharedComponents}
 
-          <div
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
-          >
-            {slides[currentSlide]}
-          </div>
+          {slides.map((slide, index) => {
+            return index < currentSlide - 1 ||
+              index > currentSlide ? undefined : (
+              <div
+                key={`slide-wrapper-${index}`}
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: index === currentSlide ? 100 : undefined,
+                  pointerEvents: index === currentSlide ? "auto" : "none",
+                }}
+              >
+                {slide}
+              </div>
+            );
+          })}
 
           <div className="astonish-controls">{controls}</div>
         </div>

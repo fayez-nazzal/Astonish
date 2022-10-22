@@ -38,13 +38,11 @@ describe("Test Astonish Component", () => {
     const { queryByText, getByTestId } = screen;
 
     await waitFor(() => expect(queryByText("Slide 1")).toBeInTheDocument());
-    expect(queryByText("Slide 2")).not.toBeInTheDocument();
 
     getByTestId("astonish").focus();
 
     fireEvent.keyDown(document.activeElement, { key: "ArrowRight" });
 
     expect(queryByText("Slide 2")).toBeInTheDocument();
-    await waitFor(() => expect(queryByText("Slide 1")).not.toBeInTheDocument());
   });
 });

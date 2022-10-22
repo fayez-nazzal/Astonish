@@ -22,6 +22,7 @@ const Slide = ({
       <motion.div
         {...(_defaultTransition ?? transition)}
         {...(!_disableInitialTransition ? {} : { initial: false })}
+        {...slideProps}
       >
         {children}
       </motion.div>

@@ -46,8 +46,13 @@ SlideshowWithPreview.args = {
         <div style={{ width: 400, height: 400, background: "orange" }}></div>
       </div>
     </Slide>,
-    <Slide key="2"> Slide 2</Slide>,
-    <Slide key="3">Slide 3</Slide>,
+    <Slide sx={{ background: "red" }} key="2">
+      {" "}
+      Slide 2
+    </Slide>,
+    <Slide sx={{ background: "blue" }} key="3">
+      Slide 3
+    </Slide>,
     <Slide key="4">Slide 4</Slide>,
     <Slide key="5">Slide 5</Slide>,
     <Slide key="6">Slide 6</Slide>,
