@@ -22,7 +22,7 @@ import Preview from "./components/Preview";
 import FullScreen from "./components/FullScreen";
 import ArrowControls from "./components/ArrowControls";
 import { createTransition } from "./components/Slide/index.utils";
-import SlideNumber from "../build/components/SlideNumber/index";
+import SlideNumber from "./components/SlideNumber/index";
 
 export {
   Astonish,

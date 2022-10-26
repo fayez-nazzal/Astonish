@@ -324,7 +324,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
           {sharedComponents}
 
           {slides.map((slide, index) => {
-            return index < currentSlide - 1 ||
+            return index < currentSlide - 2 ||
               index > currentSlide ? undefined : (
               <div
                 key={`slide-wrapper-${index}`}
