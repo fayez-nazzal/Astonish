@@ -1,6 +1,6 @@
 {
   "name": "astonish",
-  "version": "0.0.62",
+  "version": "0.0.66",
   "description": "The ReactJS library for creative presentations.",
   "license": "MIT",
   "main": "build/index.js",
@@ -23,7 +23,6 @@
     "stylelint:fix": "stylelint \"src/**/*.scss\" --fix",
     "lint": "npm run test && npm run prettier && npm run eslint && npm run stylelint"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@rollup/plugin-babel": "^5.3.1",
@@ -84,7 +83,8 @@
     "@theme-ui/core": "^0.14.6",
     "emotion": "^11.0.0",
     "framer-motion": "^6.4.2",
-    "html2canvas": "^1.4.1"
+    "html2canvas": "^1.4.1",
+    "user": "^0.0.0"
   },
   "pre-commit": [
     "lint"
