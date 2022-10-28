@@ -10,7 +10,7 @@ export const SlideNumber = ({ position, sx }: ISlideNumberProps) => {
     <div
       sx={{
         position: "absolute",
-        zIndex: 1000,
+        zIndex: 5,
         top: position.includes("top") ? 10 : "unset",
         bottom: position.includes("bottom") ? 10 : "unset",
         left:
@@ -21,7 +21,7 @@ export const SlideNumber = ({ position, sx }: ISlideNumberProps) => {
         width: 32,
         height: 32,
         borderRadius: "50%",
-        background: "primary",
+        background: "slide-number",
         color: "background",
         display: "flex",
         justifyContent: "center",

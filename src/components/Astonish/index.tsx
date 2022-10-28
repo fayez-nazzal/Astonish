@@ -8,7 +8,7 @@ import { AstonishProps } from "./index.types";
 
 const Astonsih = (props: AstonishProps) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={props.theme ?? theme}>
       <AstonishContextProvider>
         <PaneContextProvider>
           <AstonishContainer {...props} />

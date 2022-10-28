@@ -151,7 +151,7 @@ CustomizedSlideShow.args = {
 
             <span
               style={{
-                zIndex: 100,
+                zIndex: 5,
                 position: "absolute",
                 bottom: 0,
                 right: 0,

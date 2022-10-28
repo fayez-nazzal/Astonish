@@ -27,7 +27,7 @@ const Preview = ({
           "&::-webkit-scrollbar": {
             width: "4px",
             height: "4px",
-            zIndex: 100,
+            zIndex: 5,
           },
           "&::-webkit-scrollbar-thumb": {
             background: "primary",

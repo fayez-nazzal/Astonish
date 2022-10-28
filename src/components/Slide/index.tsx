@@ -12,7 +12,7 @@ const Slide = ({
   sx,
 }: ISlideProps) => {
   const slideProps = {
-    style: { zIndex: 60 },
+    style: { zIndex: 3 },
     sx: { ...sx },
     className: "full-slide",
   };

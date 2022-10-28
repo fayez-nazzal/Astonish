@@ -51,12 +51,13 @@ export const DropArea = ({ position }: IDropAreaProps) => {
   }, []);
 
   const isOverStyles = {
-    bg: "#44444425",
+    bg: "overlay",
     zIndex: 9999,
     [(position === "top" && "borderBottom") ||
     (position === "bottom" && "borderTop") ||
     (position === "left" && "borderRight") ||
-    (position === "right" && "borderLeft")]: "2px solid #44444488",
+    (position === "right" && "borderLeft")]: "2px solid",
+    borderColor: "overlay-border",
   };
 
   const dropAreaStyles = {

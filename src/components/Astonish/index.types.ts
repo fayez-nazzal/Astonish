@@ -1,4 +1,4 @@
-import { ThemeUIStyleObject } from "@theme-ui/core";
+import { ThemeUIStyleObject, Theme } from "@theme-ui/core";
 import { ITransition } from "../Slide/index.types";
 
 export interface AstonishProps {
@@ -9,6 +9,7 @@ export interface AstonishProps {
   slideSx?: ThemeUIStyleObject;
   paneSx?: ThemeUIStyleObject;
   defaultSlideTransition?: ITransition;
+  theme?: Theme;
 }
 
 export interface IAstonishLoaderProps {

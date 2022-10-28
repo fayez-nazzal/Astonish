@@ -96,6 +96,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
     const slides = [];
     const controls = [];
     const sharedComponents = [];
+    const newAstonsihChildren = [];
 
     React.Children.forEach(children, (child: JSX.Element, index) => {
       const childName = child.type.displayName || child.type;
@@ -216,10 +217,6 @@ const AstonishContainer: React.FC<AstonishProps> = ({
             key: `astonish-slide-number`,
           })
         );
-      } else if (childName === "Pane") {
-        getReactDeepNestedChildren(child).forEach((child) => {
-          child;
-        });
       }
     });
 
@@ -334,7 +331,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  zIndex: index === currentSlide ? 100 : undefined,
+                  zIndex: index === currentSlide ? 10 : undefined,
                   pointerEvents: index === currentSlide ? "auto" : "none",
                 }}
               >

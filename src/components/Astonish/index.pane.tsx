@@ -43,7 +43,7 @@ const Pane = ({
     <div
       sx={{
         position: "relative",
-        zIndex: 100,
+        zIndex: 5,
         display: "flex",
         flexDirection: _orientation === "horizontal" ? "row" : "column",
         overflow: "hidden",

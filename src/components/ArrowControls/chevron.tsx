@@ -1,4 +1,4 @@
-import React from "react";
+/** @jsxImportSource @theme-ui/core */
 import { IChevronProps } from "./index.types";
 
 const Chevron = ({ direction }: IChevronProps) => {
@@ -11,7 +11,9 @@ const Chevron = ({ direction }: IChevronProps) => {
       transform={`rotate(${direction !== "left" ? "180" : "0"})`}
     >
       <path
-        fill="#4b82b4"
+        sx={{
+          fill: "arrow-icon",
+        }}
         d="M2.9 8l8-8 2.2 2.1-5.9 5.9 5.9 5.9-2.2 2.1z"
       ></path>
     </svg>

@@ -1,4 +1,4 @@
-import React from "react";
+/** @jsxImportSource @theme-ui/core */
 
 const FUllScreenIcon = () => {
   return (
@@ -9,7 +9,9 @@ const FUllScreenIcon = () => {
       viewBox="0 0 512 512"
       width="28px"
       height="28px"
-      fill="#4b82b4"
+      sx={{
+        fill: "fullscreen-icon",
+      }}
     >
       <g>
         <g>
