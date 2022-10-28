@@ -13,14 +13,22 @@ Create presentations on the web using ReactJS and your creative developer mind ð
 * Control slides using your keyboard :)
 
 # Getting started
-To get started in the fastest way possible, run this command
-```nodejs
-	npx create-astonish-presentation --yarn --typescript
+To get started in the fastest way possible, use the cli tool `create-astonish-presentation`
+
+Create a starter presentation with `typescript` and `yarn`
+```
+    npx create-astonish-presentation my-presentation --typescript --yarn
 ```
 
-There is also a demo template available, you can use this command
-```nodejs
-	npx create-astonish-presentation --yarn --typescript --template demo
+Create a demo presentation with `typescript` and `yarn`
+```
+    npx create-astonish-presentation my-presentation --template demo --typescript --yarn
+```
+
+Create a javascript starter presentation with `javascript` and `npm`
+```
+    npx create-astonish-presentation my-presentation
+```
 ```
 
 # Usage
@@ -55,3 +63,6 @@ Visit our GitHub Wiki Page to see the components' docs.
 
 # Feature Requests
 Feel free to open an issue for any feature request!
+
+# Screenshot
+[Screenshot][astonish.webp]
