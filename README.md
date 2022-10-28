@@ -72,7 +72,7 @@ Create a javascript starter presentation with `javascript` and `npm`
 ```
 
 # API Docs
-Visit our GitHub Wiki Page to see the components' docs.
+Visit the [GitHub Wiki Page](https://github.com/fayez-nazzal/Astonish/wiki) to see components docs.
 
 # Screenshot
 ![Screenshot][screenshot]
