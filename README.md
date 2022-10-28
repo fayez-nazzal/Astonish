@@ -42,7 +42,6 @@ Create a javascript starter presentation with `javascript` and `npm`
 ```
     npx create-astonish-presentation my-presentation
 ```
-```
 
 # Usage
 * Wrap your presentation with the `Astonish` component
