@@ -40,10 +40,6 @@ describe("Testing Shared component", () => {
     getByTestId("astonish").focus();
     fireEvent.keyDown(document.activeElement, { key: "Space" });
 
-    await waitFor(() => {
-      expect(queryByText("Slide 1")).not.toBeInTheDocument();
-    });
-
     expect(queryByText("Shared 1")).toBeInTheDocument();
   });
 });

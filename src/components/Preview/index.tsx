@@ -2,83 +2,120 @@
 
 import React, { useCallback, useEffect, useRef } from "react";
 import { IPreviewProps, ISlidePreviewProps } from "./index.types";
+import Pane from "../Pane";
+import {
+  INITIAL_H_PREVIEW_WIDTH,
+  INITIAL_V_PREVIEW_HEIGHT,
+} from "./index.const";
 import "./index.styles.scss";
+import { AstonishContext } from "../../contexts/AstonishContext";
 
 const Preview = ({
-  _children,
-  _goToSlide,
-  _currentSlide,
+  name = "Preview",
+  defaultPosition = "left",
   sx,
+  paneSx,
+  draggable = false,
   renderSlidePreview,
-  initialPosition: position = "left",
 }: IPreviewProps) => {
+  const { slides, currentSlide, setCurrentSlide, setDisableTransition } =
+    React.useContext(AstonishContext);
+
+  const { panePositions } = React.useContext(AstonishContext);
+
+  const _id = "astonish-preview-pane";
+
+  const _currentPosition = panePositions[_id] ?? defaultPosition;
+
   const _orientation =
-    position === "left" || position === "right" ? "vertical" : "horizontal";
+    _currentPosition === "left" || _currentPosition === "right"
+      ? "vertical"
+      : "horizontal";
+
+  const goToSlide = (index: number) => {
+    setDisableTransition(true);
+    setCurrentSlide(index);
+  };
 
   return (
-    <div className="preview-wrapper" sx={{ bg: "preview-background" }}>
-      <div
-        className={`preview ${
-          _orientation === "horizontal" ? "horizontal" : "vertical"
-        }`}
-        sx={{
-          boxShadow: "preview-box-shadow",
-          borderColor: "primary",
-          "&::-webkit-scrollbar": {
-            width: "4px",
-            height: "4px",
-            zIndex: 100,
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "primary",
-            borderRadius: "8px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "transparent",
-          },
+    <Pane
+      draggable={draggable}
+      name={name}
+      defaultPosition={defaultPosition}
+      id={_id}
+      key="preview"
+      widthHorizontal="100%"
+      heightVertical="100%"
+      width={INITIAL_H_PREVIEW_WIDTH}
+      height={INITIAL_V_PREVIEW_HEIGHT}
+      sx={paneSx}
+    >
+      <div className="preview-wrapper" sx={{ bg: "preview-background" }}>
+        <div
+          className={`preview ${
+            _orientation === "horizontal" ? "horizontal" : "vertical"
+          }`}
+          sx={{
+            boxShadow: "preview-box-shadow",
+            borderColor: "primary",
+            "&::-webkit-scrollbar": {
+              width: "4px",
+              height: "4px",
+              zIndex: 5,
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "primary",
+              borderRadius: "8px",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "transparent",
+            },
 
-          ...sx,
-        }}
-      >
-        {React.Children.map(_children, (child: JSX.Element, index: number) => {
-          return (
-            <SlidePreview
-              {...child.props}
-              onClick={() => _goToSlide(index)}
-              active={_currentSlide === index}
-              index={index}
-              currentSlide={_currentSlide}
-              _position={position}
-              _renderSelf={
-                renderSlidePreview ??
-                (({ Wrapper, slide, index, active, onClick, slideSx }) => (
-                  <div
-                    className={`slide-preview ${
-                      active ? "slide-preview-active" : ""
-                    }`}
-                    onClick={onClick}
-                    sx={{
-                      position: "relative",
-                      width:
-                        position === "left" || position === "right"
-                          ? "100%"
-                          : 140,
-                      height:
-                        position === "left" || position === "right"
-                          ? 92
-                          : "100%",
-                      ...slideSx,
-                    }}
-                  >
-                    <Wrapper>{slide}</Wrapper>
-                  </div>
-                ))
-              }
-            />
-          );
-        })}
+            ...sx,
+          }}
+        >
+          {React.Children.map(slides, (child: JSX.Element, index: number) => {
+            return (
+              <SlidePreview
+                {...child.props}
+                onClick={() => goToSlide(index)}
+                active={currentSlide === index}
+                index={index}
+                currentSlide={currentSlide}
+                _position={_currentPosition}
+                _renderSelf={
+                  renderSlidePreview ??
+                  (({ Wrapper, slide, index, active, onClick, slideSx }) => (
+                    <div
+                      className={`slide-preview ${
+                        active ? "slide-preview-active" : ""
+                      }`}
+                      onClick={onClick}
+                      sx={{
+                        position: "relative",
+                        width:
+                          _currentPosition === "left" ||
+                          _currentPosition === "right"
+                            ? "100%"
+                            : 140,
+                        height:
+                          _currentPosition === "left" ||
+                          _currentPosition === "right"
+                            ? 92
+                            : "100%",
+                        ...slideSx,
+                      }}
+                    >
+                      <Wrapper>{slide}</Wrapper>
+                    </div>
+                  ))
+                }
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </Pane>
   );
 };
 

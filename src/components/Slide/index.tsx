@@ -12,7 +12,7 @@ const Slide = ({
   sx,
 }: ISlideProps) => {
   const slideProps = {
-    style: { zIndex: 60 },
+    style: { zIndex: 3 },
     sx: { ...sx },
     className: "full-slide",
   };
@@ -22,6 +22,7 @@ const Slide = ({
       <motion.div
         {...(_defaultTransition ?? transition)}
         {...(!_disableInitialTransition ? {} : { initial: false })}
+        {...slideProps}
       >
         {children}
       </motion.div>

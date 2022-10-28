@@ -22,7 +22,7 @@ export const createTransition = ({
   Object.keys(properties).forEach((key) => {
     finalTransition.initial[key] = properties[key].from;
     finalTransition.animate[key] = properties[key].to;
-    finalTransition.exit[key] = properties[key].to;
+    finalTransition.exit[key] = properties[key].from;
   });
 
   return finalTransition as ITransition;

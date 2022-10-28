@@ -12,10 +12,10 @@
   }
 
   .astonish-inner,
-  .content-left,
-  .content-right,
-  .content-top,
-  .content-bottom {
+  #content-left,
+  #content-right,
+  #content-top,
+  #content-bottom {
     position: relative;
   }
 
@@ -26,22 +26,22 @@
     height: 100%;
   }
 
-  .content-left {
+  #content-left {
     grid-column: 1 / 2;
     grid-row: 1 / 4;
   }
 
-  .content-right {
+  #content-right {
     grid-column: 3 / 4;
     grid-row: 1 / 4;
   }
 
-  .content-top {
+  #content-top {
     grid-column: 1 / 4;
     grid-row: 1 / 2;
   }
 
-  .content-bottom {
+  #content-bottom {
     grid-column: 1 / 4;
     grid-row: 3 / 4;
   }

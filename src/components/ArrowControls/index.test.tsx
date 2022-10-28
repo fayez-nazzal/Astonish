@@ -21,12 +21,9 @@ describe("Testing ArrowControls Component", () => {
       </Astonish>
     );
 
-    expect(queryByText("Slide 2")).not.toBeInTheDocument();
-
     fireEvent.click(queryByTestId("arrow-controls-right"));
 
     expect(queryByText("Slide 2")).toBeInTheDocument();
-    await waitFor(() => expect(queryByText("Slide 1")).not.toBeInTheDocument());
   });
 
   it("goes previous slide when arrow left is clicked", async () => {
@@ -47,6 +44,5 @@ describe("Testing ArrowControls Component", () => {
     fireEvent.click(queryByTestId("arrow-controls-left"));
 
     expect(queryByText("Slide 1")).toBeInTheDocument();
-    await waitFor(() => expect(queryByText("Slide 2")).not.toBeInTheDocument());
   });
 });

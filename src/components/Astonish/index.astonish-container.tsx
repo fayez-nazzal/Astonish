@@ -1,7 +1,6 @@
 /** @jsxImportSource @theme-ui/core */
 import React, { useEffect } from "react";
 import { AstonishProps } from "./index.types";
-import { getReactDeepNestedChildren } from "./index.utils";
 
 import "./index.styles.scss";
 import "../../global.scss";
@@ -9,22 +8,17 @@ import "../../global.scss";
 import { AnimatePresence } from "framer-motion";
 import { DndContext, DragEndEvent, DragOverlay } from "@dnd-kit/core";
 import { DropArea } from "./index.droparea";
-import Pane from "./index.pane";
-import usePrevious from "../../hooks/usePrevious";
-import {
-  INITIAL_H_PREVIEW_WIDTH,
-  INITIAL_V_PREVIEW_HEIGHT,
-} from "../Preview/index.const";
 import { SLIDE_DEFAULT_TRANSITION } from "../Slide/index.const";
 import { AstonishContext } from "../../contexts/AstonishContext";
+import { EPanePossiblePosition } from "../Pane/index.types";
+import { useState } from "react";
 
 const AstonishContainer: React.FC<AstonishProps> = ({
   children,
   infiniteControls,
   sx,
   innerSx,
-  loaderSx,
-  paneSx,
+  slideSx,
   defaultSlideTransition = SLIDE_DEFAULT_TRANSITION,
 }) => {
   const {
@@ -38,24 +32,16 @@ const AstonishContainer: React.FC<AstonishProps> = ({
     setControls,
     disableTransition,
     setDisableTransition,
-    leftPanes,
-    setLeftPanes,
-    rightPanes,
-    setRightPanes,
-    topPanes,
-    setTopPanes,
-    bottomPanes,
-    setBottomPanes,
-    previewDnDPosition,
-    setPreviewDnDPosition,
     activeDnDId,
     setActiveDnDId,
     numberOfSlides,
     setNumberOfSlides,
+    panePositions,
+    setPanePositions,
   } = React.useContext(AstonishContext);
+  const [panes, setPanes] = useState<JSX.Element[]>([]);
 
   const ref = React.useRef<HTMLDivElement>(null);
-  const previousPreviewDnDPosition = usePrevious(previewDnDPosition);
 
   useEffect(() => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit ( this is a workaround for the vh unit not working on mobile devices )
@@ -96,6 +82,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
     const slides = [];
     const controls = [];
     const sharedComponents = [];
+    const newPanes = [];
 
     React.Children.forEach(children, (child: JSX.Element, index) => {
       const childName = child.type.displayName || child.type;
@@ -107,6 +94,11 @@ const AstonishContainer: React.FC<AstonishProps> = ({
               _disableTransition: disableTransition,
               _disableInitialTransition: currentLoopedSlideIndex === 0,
               _defaultTransition: defaultSlideTransition,
+              sx: {
+                backgroundColor: "background",
+                ...slideSx,
+                ...child.props.sx,
+              },
               key: `astonish-preview-slide-${index}`,
             })}
           </AnimatePresence>
@@ -125,81 +117,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
             key: `astonish-arrow-controls`,
           })
         );
-      else if (childName === "Preview") {
-        const previewPosition =
-          previewDnDPosition ?? (child.props.initialPosition || "left");
-
-        const previewComponent = React.cloneElement(child, {
-          _children: slides,
-          _goToSlide,
-          _currentSlide: currentSlide,
-          key: "astonish-preview",
-          initialPosition: previewPosition,
-        });
-
-        setPreviewDnDPosition(previewPosition);
-
-        const pane =
-          previewPosition === "left"
-            ? leftPanes
-            : previewPosition === "right"
-            ? rightPanes
-            : previewPosition === "top"
-            ? topPanes
-            : bottomPanes;
-
-        const newPaneWithPreview = (
-          <Pane
-            draggable
-            key="preview"
-            name="Preview"
-            position={previewPosition}
-            defaultWidth="100%"
-            defaultHeight="100%"
-            vWidth={INITIAL_H_PREVIEW_WIDTH}
-            hHeight={INITIAL_V_PREVIEW_HEIGHT}
-            sx={paneSx}
-          >
-            {previewComponent}
-          </Pane>
-        );
-
-        if (previousPreviewDnDPosition === previewDnDPosition) {
-          const previewPaneIndex = pane.findIndex(
-            (p) => p.props.name === "Preview"
-          );
-
-          if (previewPaneIndex !== -1) {
-            pane[previewPaneIndex] = newPaneWithPreview;
-          }
-        } else {
-          if (!!previousPreviewDnDPosition) {
-            const previousPaneSetter = (
-              previousPreviewDnDPosition === "left"
-                ? setLeftPanes
-                : previousPreviewDnDPosition === "right"
-                ? setRightPanes
-                : previousPreviewDnDPosition === "top"
-                ? setTopPanes
-                : setBottomPanes
-            ) as any;
-
-            previousPaneSetter((previousPane: any) =>
-              previousPane.filter((child) => {
-                return child.props.name !== "Preview";
-              })
-            );
-          }
-
-          // add preview to pane
-          pane.push(newPaneWithPreview);
-
-          if (previewPosition === "left") setLeftPanes(pane);
-          else if (previewPosition === "right") setRightPanes(pane);
-          else if (previewPosition === "top") setTopPanes(pane);
-          else setBottomPanes(pane);
-        }
-      } else if (childName === "FullScreen") {
+      else if (childName === "FullScreen") {
         controls.push(
           React.cloneElement(child, {
             key: `astonish-fullscreen`,
@@ -211,10 +129,8 @@ const AstonishContainer: React.FC<AstonishProps> = ({
             key: `astonish-slide-number`,
           })
         );
-      } else if (childName === "Pane") {
-        getReactDeepNestedChildren(child).forEach((child) => {
-          child;
-        });
+      } else {
+        newPanes.push(child);
       }
     });
 
@@ -222,15 +138,11 @@ const AstonishContainer: React.FC<AstonishProps> = ({
     slides;
     setControls(controls);
     setSharedComponents(sharedComponents);
+    setPanes(newPanes);
 
     // autofocus astonish
     ref.current!.focus();
-  }, [children, currentSlide, numberOfSlides, previewDnDPosition]);
-
-  const _goToSlide = (slideIndex: number) => {
-    setDisableTransition(true);
-    setCurrentSlide(slideIndex);
-  };
+  }, [children, currentSlide, numberOfSlides]);
 
   const _onPrevious = () => {
     setDisableTransition(true);
@@ -282,9 +194,10 @@ const AstonishContainer: React.FC<AstonishProps> = ({
       /droppable-(.*)/
     )[1] as string;
 
-    if ((event.active.id as string).toLowerCase().includes("preview")) {
-      setPreviewDnDPosition(position);
-    }
+    setPanePositions({
+      ...panePositions,
+      [event.active.id]: position,
+    });
   };
 
   return (
@@ -300,15 +213,14 @@ const AstonishContainer: React.FC<AstonishProps> = ({
         ref={ref}
         sx={{ bg: "background", ...sx }}
       >
-        <DropArea position="right" />
-        <DropArea position="left" />
-        <DropArea position="top" />
-        <DropArea position="bottom" />
+        {Object.values(EPanePossiblePosition).map((position) => (
+          <React.Fragment key={`pane-area-${position}`}>
+            <DropArea position={position} />
+            <div id={`content-${position}`}></div>
+          </React.Fragment>
+        ))}
 
-        <div className="content-left">{leftPanes}</div>
-        <div className="content-right">{rightPanes}</div>
-        <div className="content-top">{topPanes}</div>
-        <div className="content-bottom">{bottomPanes}</div>
+        {panes}
 
         <div
           className="astonish-inner"
@@ -318,17 +230,25 @@ const AstonishContainer: React.FC<AstonishProps> = ({
         >
           {sharedComponents}
 
-          <div
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
-          >
-            {slides[currentSlide]}
-          </div>
+          {slides.map((slide, index) => {
+            return index < currentSlide - 2 ||
+              index > currentSlide ? undefined : (
+              <div
+                key={`slide-wrapper-${index}`}
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: index === currentSlide ? 10 : undefined,
+                  pointerEvents: index === currentSlide ? "auto" : "none",
+                }}
+              >
+                {slide}
+              </div>
+            );
+          })}
 
           <div className="astonish-controls">{controls}</div>
         </div>

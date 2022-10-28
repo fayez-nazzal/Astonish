@@ -9,6 +9,7 @@ import Preview from "../Preview";
 import { ReactComponent as ChevronRightIcon } from "../../svg/chevron-custom.svg";
 import { ReactComponent as FullScreenIcon } from "../../svg/fullscreen-custom.svg";
 import SlideNumber from "../SlideNumber";
+import Shared from "../Shared";
 
 export default {
   title: "Astonish",
@@ -26,6 +27,9 @@ export const SlideshowWithPreview = AstonishStory.bind({});
 
 SlideshowWithPreview.args = {
   children: [
+    <Shared key="shared-1" sx={{ background: "white", width: 200, height: 32 }}>
+      <div>Im shared!!!</div>
+    </Shared>,
     <Slide key="1">
       <div style={{ display: "flex" }}>
         <div style={{ width: 400, height: 400, background: "red" }}>
@@ -46,8 +50,13 @@ SlideshowWithPreview.args = {
         <div style={{ width: 400, height: 400, background: "orange" }}></div>
       </div>
     </Slide>,
-    <Slide key="2"> Slide 2</Slide>,
-    <Slide key="3">Slide 3</Slide>,
+    <Slide sx={{ background: "red" }} key="2">
+      {" "}
+      Slide 2
+    </Slide>,
+    <Slide sx={{ background: "blue" }} key="3">
+      Slide 3
+    </Slide>,
     <Slide key="4">Slide 4</Slide>,
     <Slide key="5">Slide 5</Slide>,
     <Slide key="6">Slide 6</Slide>,
@@ -146,7 +155,7 @@ CustomizedSlideShow.args = {
 
             <span
               style={{
-                zIndex: 100,
+                zIndex: 5,
                 position: "absolute",
                 bottom: 0,
                 right: 0,
