@@ -65,4 +65,4 @@ Visit our GitHub Wiki Page to see the components' docs.
 Feel free to open an issue for any feature request!
 
 # Screenshot
-[Screenshot][astonish.webp]
+![Screenshot][astonish.webp]
