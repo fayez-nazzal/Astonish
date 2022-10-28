@@ -1,4 +1,15 @@
-#  Astonish
+<!-- markdownlint-configure-file {
+  "MD013": {
+    "code_blocks": false,
+    "tables": false
+  },
+  "MD033": false,
+  "MD041": false
+} -->
+
+<div align="center">
+
+# Astonish
 
 <img src="https://i.imgur.com/b5KKqA6.png" align="right"
      alt="Astonish Logo" width="340" height="340" style="margin-left: 16px;">
@@ -11,6 +22,8 @@ Create presentations on the web using ReactJS and your creative developer mind ð
 * Built in controls for your presentation, `ArrowControls`, `FullScreen`, also fully customizable ^^
 * Share the same component on all of your slides using the `Shared` component.
 * Control slides using your keyboard :)
+
+<br />
 
 # Getting started
 To get started in the fastest way possible, use the cli tool `create-astonish-presentation`
@@ -61,8 +74,12 @@ Create a javascript starter presentation with `javascript` and `npm`
 # API Docs
 Visit our GitHub Wiki Page to see the components' docs.
 
+# Screenshot
+![Screenshot][screenshot]
+     
 # Feature Requests
 Feel free to open an issue for any feature request!
 
-# Screenshot
-![Screenshot][astonish.webp]
+</div>
+
+[screenshot]: astonish.webp
