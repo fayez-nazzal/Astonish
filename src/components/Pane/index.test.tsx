@@ -1,21 +1,22 @@
 import { render } from "@testing-library/react";
-import Pane from "./index.pane";
+import Pane from ".";
 
 const sleep = async (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 describe("Testing Pane element", () => {
-  const vWidth = "200px";
-  const hHeight = "200px";
+  const widthVertical = "200px";
+  const heightHorizontal = "200px";
 
   it("renders correctly (left)", () => {
     const { getByTestId } = render(
       <Pane
+        id="test-pane"
         name="test-pane"
-        position="left"
-        vWidth={vWidth}
-        hHeight={hHeight}
+        defaultPosition="left"
+        width={widthVertical}
+        height={heightHorizontal}
         draggable
       >
         <div>Pane</div>
@@ -27,7 +28,7 @@ describe("Testing Pane element", () => {
     expect(renderedPane).toBeInTheDocument();
 
     expect(renderedPane).toHaveStyle(`
-        width: ${vWidth};
+        width: ${widthVertical};
         height: 100%;
     `);
   });
@@ -35,10 +36,11 @@ describe("Testing Pane element", () => {
   it("renders correctly (right)", () => {
     const { getByTestId } = render(
       <Pane
+        id="test-pane"
         name="test-pane"
-        position="right"
-        vWidth={vWidth}
-        hHeight={hHeight}
+        defaultPosition="right"
+        width={widthVertical}
+        height={heightHorizontal}
         draggable={false}
       >
         <div>Pane</div>
@@ -50,7 +52,7 @@ describe("Testing Pane element", () => {
     expect(renderedPane).toBeInTheDocument();
 
     expect(renderedPane).toHaveStyle(`
-        width: ${vWidth};
+        width: ${widthVertical};
         height: 100%;
     `);
   });
@@ -58,10 +60,11 @@ describe("Testing Pane element", () => {
   it("renders correctly (top)", () => {
     const { getByTestId } = render(
       <Pane
+        id="test-pane"
         name="test-pane"
-        position="top"
-        vWidth={vWidth}
-        hHeight={hHeight}
+        defaultPosition="top"
+        width={widthVertical}
+        height={heightHorizontal}
         draggable
       >
         <div>Pane</div>
@@ -74,17 +77,18 @@ describe("Testing Pane element", () => {
 
     expect(renderedPane).toHaveStyle(`
         width: 100%;
-        height: ${hHeight};
+        height: ${heightHorizontal};
     `);
   });
 
   it("renders correctly (bottom)", () => {
     const { getByTestId } = render(
       <Pane
+        id="test-pane"
         name="test-pane"
-        position="bottom"
-        vWidth={vWidth}
-        hHeight={hHeight}
+        defaultPosition="bottom"
+        width={widthVertical}
+        height={heightHorizontal}
         draggable
       >
         <div>Pane</div>
@@ -97,17 +101,18 @@ describe("Testing Pane element", () => {
 
     expect(renderedPane).toHaveStyle(`
         width: 100%;
-        height: ${hHeight};
+        height: ${heightHorizontal};
     `);
   });
 
   it("has drag handle (draggable)", () => {
     const { getByTestId } = render(
       <Pane
+        id="test-pane"
         name="test-pane"
-        position="right"
-        vWidth={vWidth}
-        hHeight={hHeight}
+        defaultPosition="right"
+        width={widthVertical}
+        height={heightHorizontal}
         draggable
       >
         <div>Pane</div>
@@ -122,10 +127,11 @@ describe("Testing Pane element", () => {
   it("No drag handle (undraggable))", () => {
     const { queryByTestId } = render(
       <Pane
+        id="test-pane"
         name="test-pane"
-        position="right"
-        vWidth={vWidth}
-        hHeight={hHeight}
+        defaultPosition="right"
+        width={widthVertical}
+        height={heightHorizontal}
         draggable={false}
       >
         <div>Pane</div>

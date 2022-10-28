@@ -3,14 +3,17 @@ import { ISlideNumberProps } from "./index.types";
 import React from "react";
 import { AstonishContext } from "../../contexts/AstonishContext";
 
-export const SlideNumber = ({ position, sx }: ISlideNumberProps) => {
+export const SlideNumber = ({
+  position = "top-right",
+  sx,
+}: ISlideNumberProps) => {
   const { currentSlide } = React.useContext(AstonishContext);
 
   return (
     <div
       sx={{
         position: "absolute",
-        zIndex: 5,
+        zIndex: 15,
         top: position.includes("top") ? 10 : "unset",
         bottom: position.includes("bottom") ? 10 : "unset",
         left:

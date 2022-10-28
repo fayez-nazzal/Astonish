@@ -9,6 +9,7 @@ import Preview from "../Preview";
 import { ReactComponent as ChevronRightIcon } from "../../svg/chevron-custom.svg";
 import { ReactComponent as FullScreenIcon } from "../../svg/fullscreen-custom.svg";
 import SlideNumber from "../SlideNumber";
+import Shared from "../Shared";
 
 export default {
   title: "Astonish",
@@ -26,6 +27,9 @@ export const SlideshowWithPreview = AstonishStory.bind({});
 
 SlideshowWithPreview.args = {
   children: [
+    <Shared key="shared-1" sx={{ background: "white", width: 200, height: 32 }}>
+      <div>Im shared!!!</div>
+    </Shared>,
     <Slide key="1">
       <div style={{ display: "flex" }}>
         <div style={{ width: 400, height: 400, background: "red" }}>

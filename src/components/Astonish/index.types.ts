@@ -3,13 +3,13 @@ import { ITransition } from "../Slide/index.types";
 
 export interface AstonishProps {
   children?: JSX.Element[] | JSX.Element;
-  infiniteControls?: boolean;
+  theme?: Theme;
   sx?: ThemeUIStyleObject;
   innerSx?: ThemeUIStyleObject;
   slideSx?: ThemeUIStyleObject;
   paneSx?: ThemeUIStyleObject;
+  infiniteControls?: boolean;
   defaultSlideTransition?: ITransition;
-  theme?: Theme;
 }
 
 export interface IAstonishLoaderProps {
@@ -21,14 +21,3 @@ export interface IDropAreaProps {
   position: "left" | "right" | "top" | "bottom";
 }
 
-export interface IPaneProps {
-  position: "left" | "right" | "top" | "bottom";
-  name: string;
-  draggable: boolean;
-  children: JSX.Element[] | JSX.Element;
-  vWidth: string; // width when in vertical mode
-  hHeight: string; // height when in horizontal mode
-  defaultWidth?: string | string[]; // width when in horizontal mode
-  defaultHeight?: string | string[]; // height when in vertical mode
-  sx?: ThemeUIStyleObject;
-}

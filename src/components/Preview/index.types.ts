@@ -1,5 +1,14 @@
 import { ThemeUIStyleObject } from "@theme-ui/core";
 
+export interface IPreviewProps {
+  name?: string;
+  defaultPosition?: "left" | "right" | "top" | "bottom";
+  draggable?: boolean;
+  renderSlidePreview?: IRenderSlidePreview;
+  sx?: ThemeUIStyleObject;
+  paneSx?: ThemeUIStyleObject;
+}
+
 export interface IRenderSlidePreviewProps {
   index?: number;
   active?: boolean;
@@ -13,16 +22,6 @@ export interface IRenderSlidePreviewProps {
 export type IRenderSlidePreview = (
   props: IRenderSlidePreviewProps
 ) => JSX.Element;
-
-export interface IPreviewProps {
-  _children?: any;
-  _goToSlide?: (slideIndex: number) => void;
-  _currentSlide?: number;
-  sx?: ThemeUIStyleObject;
-  slideSx?: ThemeUIStyleObject;
-  renderSlidePreview?: IRenderSlidePreview;
-  initialPosition?: "left" | "right" | "top" | "bottom";
-}
 
 export interface ISlidePreviewProps {
   index: number;
