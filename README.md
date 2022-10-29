@@ -50,7 +50,28 @@ Create a javascript starter presentation with `javascript` and `npm`
 * If you want to add a component shared between all other slides, use `Shared` component
 
 ```JSX
-    <Astonish>
+import {
+  ArrowControls,
+  Astonish,
+  FullScreen,
+  Preview,
+  Shared,
+  Slide,
+  SlideNumber,
+} from "astonish";
+
+function Presentation() {
+  return (
+    <Astonish
+      slideSx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "28px",
+        fontFamily: "Arial, Helvetica, Ubuntu, sans-serif",
+      }}
+    >
         <Slide>
             First Slide!
         </Slide>
@@ -59,7 +80,7 @@ Create a javascript starter presentation with `javascript` and `npm`
             Astonish is cool 😎
         </Slide>
 
-        <Shared sx={{ fontSize: "12px", color: "slategray" }}>
+        <Shared sx={{ fontSize: "24px", color: "slategray", margin: 2 }}>
             I will be visible in all slides
         </Shared>
         
@@ -68,6 +89,11 @@ Create a javascript starter presentation with `javascript` and `npm`
         <ArrowControls />
         <FullScreen />
     </Astonish>
+  );
+}
+
+export default Presentation;
+
 ```
 
 # API Docs
