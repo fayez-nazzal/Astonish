@@ -118,7 +118,7 @@ CustomizedSlideShow.args = {
     <Slide key="14">Slide 14</Slide>,
     <Preview
       key="15"
-      initialPosition="right"
+      defaultPosition="right"
       sx={{ backgroundColor: "#34352b", color: "white", fontWeight: "bold" }}
       renderSlidePreview={({
         Wrapper,
