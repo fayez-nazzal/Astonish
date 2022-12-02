@@ -9,7 +9,7 @@
 
 <div align="left">
 
-# Astonish: The React library for creating presentations
+# Astonish: The React presentations library 🎉
 
 <img src="https://i.imgur.com/b5KKqA6.png" align="right"
      alt="Astonish Logo" width="340" height="340" style="margin-left: 16px;">
@@ -20,10 +20,9 @@ Create presentations using ReactJS and your creative developer mind.
 * Built-in **theme** support 💅🏼
 * The full power of the web inside your presentation 💪
 * Built-in `Preview` component 🖌️
-* Built-in `ArrowControls` component for your presentation 🎮
-* Built-in `FullScreen` component with focus ⛶
-* Use the same component inside all of your slides using the `Shared` component 🌌
-* Pre-built keyboard arrow keys support for navigation ⌨
+* Built-in `ArrowControls` 🎮
+* Built-in `FullScreen` with focus ⛶
+* Pre-built arrow keys support ⌨
 
 <br />
 
