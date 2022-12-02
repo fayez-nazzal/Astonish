@@ -1,5 +1,5 @@
 /** @jsxImportSource @theme-ui/core */
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AstonishProps } from "./index.types";
 
 import "./index.styles.scss";
@@ -9,9 +9,8 @@ import { AnimatePresence } from "framer-motion";
 import { DndContext, DragEndEvent, DragOverlay } from "@dnd-kit/core";
 import { DropArea } from "./index.droparea";
 import { SLIDE_DEFAULT_TRANSITION } from "../Slide/index.const";
-import { AstonishContext } from "../../contexts/AstonishContext";
+import { useAstonish } from "../../hooks/useAstonish";
 import { EPanePossiblePosition } from "../Pane/index.types";
-import { useState } from "react";
 
 const AstonishContainer: React.FC<AstonishProps> = ({
   children,
@@ -38,7 +37,7 @@ const AstonishContainer: React.FC<AstonishProps> = ({
     setNumberOfSlides,
     panePositions,
     setPanePositions,
-  } = React.useContext(AstonishContext);
+  } = useAstonish();
   const [panes, setPanes] = useState<JSX.Element[]>([]);
 
   const ref = React.useRef<HTMLDivElement>(null);

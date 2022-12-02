@@ -8,7 +8,8 @@ import {
   INITIAL_V_PREVIEW_HEIGHT,
 } from "./index.const";
 import "./index.styles.scss";
-import { AstonishContext } from "../../contexts/AstonishContext";
+
+import { useAstonish } from "../../hooks/useAstonish";
 
 const Preview = ({
   name = "Preview",
@@ -19,9 +20,9 @@ const Preview = ({
   renderSlidePreview,
 }: IPreviewProps) => {
   const { slides, currentSlide, setCurrentSlide, setDisableTransition } =
-    React.useContext(AstonishContext);
+    useAstonish();
 
-  const { panePositions } = React.useContext(AstonishContext);
+  const { panePositions } = useAstonish();
 
   const _id = "astonish-preview-pane";
 

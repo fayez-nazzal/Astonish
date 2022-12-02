@@ -5,8 +5,8 @@ import { useDraggable } from "@dnd-kit/core";
 import { ReactComponent as DragHandle } from "../../svg/drag-handle.svg";
 import { IPaneProps } from "./index.types";
 import { PaneContext } from "../../contexts/PaneContext";
-import { AstonishContext } from "../../contexts/AstonishContext/index";
 import { Portal } from "../Portal";
+import { useAstonish } from "../../hooks/useAstonish";
 
 const Pane = ({
   defaultPosition = "left",
@@ -28,7 +28,7 @@ const Pane = ({
   const { setDraggingPaneWidth, setDraggingPaneHeight } =
     React.useContext(PaneContext);
 
-  const { panePositions, setPanePositions } = React.useContext(AstonishContext);
+  const { panePositions, setPanePositions } = useAstonish();
 
   useEffect(() => {
     setPanePositions({

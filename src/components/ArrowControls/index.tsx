@@ -3,9 +3,10 @@ import React from "react";
 import SVGButton from "../../ui/SVGButton";
 import Chevron from "./chevron";
 import { IArrowControlsProps } from "./index.types";
-import { AstonishContext } from "../../contexts/AstonishContext";
+
 
 import "./index.styles.scss";
+import { useAstonish } from "../../hooks/useAstonish";
 
 const ArrowControls = ({
   iconLeft = <Chevron direction="left" />,
@@ -19,7 +20,7 @@ const ArrowControls = ({
     setCurrentSlide,
     setDisableTransition,
     numberOfSlides,
-  } = React.useContext(AstonishContext);
+  } = useAstonish();
 
   const onPrevious = () => {
     setDisableTransition(true);
