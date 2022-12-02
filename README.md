@@ -21,8 +21,9 @@ Create presentations using ReactJS and your creative developer mind.
 * The full power of the web inside your presentation 💪
 * Built-in `Preview` component 🖌️
 * Built-in `ArrowControls` 🎮
-* Built-in `FullScreen` with focus ⛶
+* Built-in `FullScreen` with Focus ⛶
 * Pre-built arrow keys support ⌨
+* Everything is Optional and Tree Shakable 🌴
 
 <br />
 
