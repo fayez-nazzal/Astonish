@@ -15,14 +15,14 @@
      alt="Astonish Logo" width="340" height="340" style="margin-left: 16px;">
 
 Create presentations using ReactJS and your creative developer mind.
-* User friendly & easy to use 🍰
+* User friendly, easy to use 🍰
 * Fully customizable 🦋 
 * Built-in **theme** support 💅🏼
 * The full power of the web inside your presentation 💪
 * Built-in `Preview` component 🖌️
 * Built-in `ArrowControls` component for your presentation 🎮
 * Built-in `FullScreen` component with focus ⛶
-* Use the same component on all of your slides using the `Shared` component 🌌
+* Use the same component inside all of your slides using the `Shared` component 🌌
 * Pre-built keyboard arrow keys support for navigation ⌨
 
 <br />
