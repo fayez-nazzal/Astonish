@@ -5,8 +5,8 @@ import { useDraggable } from "@dnd-kit/core";
 import { ReactComponent as DragHandle } from "../../svg/drag-handle.svg";
 import { IPaneProps } from "./index.types";
 import { PaneContext } from "../../contexts/PaneContext";
-import { Portal } from "react-portal";
 import { AstonishContext } from "../../contexts/AstonishContext/index";
+import { Portal } from "../Portal";
 
 const Pane = ({
   defaultPosition = "left",

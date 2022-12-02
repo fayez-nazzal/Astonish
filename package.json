@@ -54,7 +54,6 @@
     "jest": "^27.5.1",
     "node-sass": "^7.0.1",
     "postcss": "^8.4.8",
-    "pre-commit": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^2.69.2",
@@ -83,10 +82,6 @@
     "@theme-ui/core": "^0.14.6",
     "@types/react-dom": "^18.0.8",
     "emotion": "^11.0.0",
-    "framer-motion": "^6.4.2",
-    "react-portal": "^4.2.2"
-  },
-  "pre-commit": [
-    "lint"
-  ]
+    "framer-motion": "^6.4.2"
+  }
 }
