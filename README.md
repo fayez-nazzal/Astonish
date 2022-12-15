@@ -39,11 +39,6 @@ Create a starter presentation with `typescript` and `yarn`
     npx create-astonish-presentation my-presentation --typescript --yarn
 ```
 
-Create a demo presentation
-```
-    npx create-astonish-presentation my-presentation --template demo
-```
-
 ## Usage
 * Wrap your presentation with the `Astonish` component
 * Wrap each Slide with the `Slide` component, ** pay attention that the Slide component must be directly under `Astonish` **
